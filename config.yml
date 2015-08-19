@@ -1,0 +1,13 @@
+options:
+    host: xale.vm
+    scheme: http
+
+
+BaseTests:
+    maxValidations: 20
+    startUrl: http://xale.vm/
+    rules:
+        -
+
+
+

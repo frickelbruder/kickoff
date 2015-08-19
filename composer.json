@@ -1,0 +1,30 @@
+{
+  "name": "frickelbruder/KickOff",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "require": {
+    "symfony/yaml": "~2",
+    "symfony/console": "~2",
+    "symfony/dom-crawler": "~2",
+    "symfony/dependency-injection": "~2",
+    "egeloen/http-adapter": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "frickelbruder\\KickOff\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "frickelbruder\\KickOff\\Tests\\": "test/"
+    }
+  },
+  "authors": [
+    {
+      "name": "frickelbruder"
+    }
+  ],
+  "bin": [
+    "bin/KickOff.php"
+  ]
+}
