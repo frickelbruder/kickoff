@@ -17,8 +17,7 @@ class HttpHeaderHasFarFutureExpiresHeader extends HttpRuleBase {
     public function validate() {
         try {
             $expiresHeader = $this->findHeader( 'Expires' );
-
-            return strtotime( $expiresHeader ) > time() + $this->thresholdInSeconds;
+            return strtotime( $expiresHeader ) >= time() + $this->thresholdInSeconds;
 
         } catch( HeaderNotFoundException $e ) {
         }
