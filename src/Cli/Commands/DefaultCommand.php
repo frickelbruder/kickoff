@@ -64,7 +64,7 @@ class DefaultCommand extends Command {
         $this->buildConfiguration($input->getArgument('configfile'));
 
         foreach($this->configuration->getSections() as $sectionName => $section) {
-            $this->handleSection($section, $output);
+            $this->handleSection($section);
         }
         $this->logger->finish();
 
@@ -75,7 +75,7 @@ class DefaultCommand extends Command {
         $this->configuration->buildFromFile($configFile);
     }
 
-    protected function handleSection(Section $section, OutputInterface $output) {
+    protected function handleSection(Section $section) {
         $url = $section->getTargetUrl();
         $page = $this->fetchPage($url);
         $rules = $section->getRules();
