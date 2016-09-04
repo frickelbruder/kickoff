@@ -4,7 +4,7 @@ use Frickelbruder\KickOff\Cli\Commands\DefaultCommand;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Log\Listener\ConsoleOutputListener;
 
-require __DIR__.'/../vendor/autoload.php';
+require './../vendor/autoload.php';
 
 $config = new Configuration();
 $requester = new \Frickelbruder\KickOff\Http\HttpRequester();
