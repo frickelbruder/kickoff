@@ -1,29 +1,13 @@
 defaults:
     target:
-        host: www.mamacommunity.de
+        host: www.example.host
         scheme: http://
 
 Sections:
     main:
         config:
             scheme: https://
-            host: www.leybold.com
+            host: www.example2.host
         rules:
             - HttpHeaderXSSProtection
             - HttpHeaderExposePHP
-
-
-Rules:
-    HttpHeaderXSSProtection:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
-        calls:
-            - ['setHeaderToSearchFor', ["X-XSS-Protection"]]
-
-    HttpHeaderExposePHP:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
-        calls:
-            - ['setHeaderToSearchFor', ["X-Powered-By"]]
-
-
-
-

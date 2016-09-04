@@ -4,6 +4,7 @@ namespace Frickelbruder\KickOff\Cli\Commands;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Configuration\Section;
 use Frickelbruder\KickOff\Http\HttpRequester;
+use Frickelbruder\KickOff\Log\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,10 +22,16 @@ class DefaultCommand extends Command {
      */
     protected $httpRequester = null;
 
-    public function __construct($name = null, $httpRequester = null, $configuration = null) {
+    /**
+     * @var Logger
+     */
+    protected $logger = null;
+
+    public function __construct($name = null, $httpRequester = null, $configuration = null, $logger = null) {
         parent::__construct( $name );
         $this->configuration = $configuration;
         $this->httpRequester = $httpRequester;
+        $this->logger = $logger;
     }
 
     /**
@@ -50,22 +57,22 @@ class DefaultCommand extends Command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln("Kickoff Test");
+        $output->writeln("");
         $this->buildConfiguration($input->getArgument('configfile'));
 
         foreach($this->configuration->getSections() as $sectionName => $section) {
 
-            $result = $this->handleSection($sectionName, $section);
-            $output->writeln($result);
-
+            $this->handleSection($section, $output);
         }
-
+        $this->logger->finish();
     }
 
     protected function buildConfiguration($configFile) {
         $this->configuration->buildFromFile($configFile);
     }
 
-    protected function handleSection($sectionname, Section $section) {
+    protected function handleSection(Section $section, OutputInterface $output) {
         $url = $section->getTargetUrl();
         $page = $this->fetchPage($url);
         $rules = $section->getRules();
@@ -73,7 +80,7 @@ class DefaultCommand extends Command {
         foreach($rules as $rule) {
             $rule->setItemToValidate($page);
             $result = $rule->validate();
-            echo $sectionname . ':' . ((int) $result);
+            $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule->getName(), $result);
         }
     }
 

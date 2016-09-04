@@ -32,6 +32,8 @@ class Configuration {
     }
 
     private function build(Array $config) {
+        $config = $this->mergeUserConfigWithDefaults($config);
+
         $this->defaultTargetUrl = new TargetUrl();
 
         if( isset( $config['defaults']['target'] )) {
@@ -96,6 +98,18 @@ class Configuration {
             }
             $this->rules[$name] = $class;
         }
+
+    }
+
+    private function mergeUserConfigWithDefaults($config) {
+        $defaultRulesConfigArray = Yaml::parse(file_get_contents(__DIR__ . '/../config/Rules.yml'));
+
+        $defaultRules = $defaultRulesConfigArray['Rules'];
+        $configRules = !empty($config['Rules']) ? $config['Rules'] : array();
+
+        $config['Rules'] = array_merge($defaultRules,$configRules );
+
+        return $config;
 
     }
 
