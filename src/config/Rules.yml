@@ -3,7 +3,7 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
             - ['setName', ["HttpHeaderXSSProtection"]]
-            - ['setHeaderToSearchFor', ["X1-XSS-Protection"]]
+            - ['setHeaderToSearchFor', ["X-XSS-Protection"]]
 
     HttpHeaderExposePHP:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
