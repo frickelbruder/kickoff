@@ -1,23 +1,14 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-use Frickelbruder\KickOff\Http\HttpResponse;
+use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderNotPresent extends RuleBase  {
+class HttpHeaderNotPresent extends HttpRuleBase {
 
-    /**
-     * @var HttpResponse
-     */
-    protected $item;
-
-    /**
+     /**
      * @var string
      */
     protected $headerToSearchFor = '';
-
-    public function setItemToValidate(HttpResponse $item) {
-        $this->item = $item;
-    }
 
     /**
      *
@@ -28,12 +19,10 @@ class HttpHeaderNotPresent extends RuleBase  {
         if(empty($this->headerToSearchFor)) {
             throw new \Exception();
         }
-        $headers = $this->item->getHeaders();
-        foreach($headers as $key => $value) {
-            if(strtolower($key) == $this->headerToSearchFor) {
-                return false;
-            }
-        }
+        try {
+            $this->findHeader($this->headerToSearchFor);
+            return false;
+        } catch(HeaderNotFoundException $e) {}
         return true;
     }
 
@@ -45,7 +34,7 @@ class HttpHeaderNotPresent extends RuleBase  {
     }
 
     public function getErrorMessage() {
-        return '%URL% has the "' . $this->headerToSearchFor . '" HTTP-header present, which it shouldn\'t. (Rule "' . $this->getName(). '", "%SECTION%").';
+        return '%URL% has the "' . $this->headerToSearchFor . '" HTTP-header present, which shouldn\'t. (Rule "' . $this->getName(). '", "%SECTION%").';
     }
 
 

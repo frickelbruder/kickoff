@@ -5,7 +5,7 @@ use Frickelbruder\KickOff\Http\HttpResponse;
 
 interface Rule {
 
-    public function setItemToValidate(HttpResponse $item);
+    public function setHttpResponse(HttpResponse $httpResponse);
 
     public function validate();
 

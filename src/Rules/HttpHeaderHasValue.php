@@ -1,14 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-use Frickelbruder\KickOff\Http\HttpResponse;
+use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderHasValue extends RuleBase {
+class HttpHeaderHasValue extends HttpRuleBase {
 
-    /**
-     * @var HttpResponse
-     */
-    protected $item;
 
     /**
      * @var string
@@ -20,26 +16,21 @@ class HttpHeaderHasValue extends RuleBase {
     protected $exactMatch = true;
 
 
-    public function setItemToValidate(HttpResponse $item) {
-        $this->item = $item;
-    }
-
     public function validate() {
-        if(empty($this->headerToSearchFor)) {
-            throw new \Exception();
-        }
-        $headers = $this->item->getHeaders();
-        foreach($headers as $key => $value) {
-            if(strtolower($key) == $this->headerToSearchFor) {
-                if($this->exactMatch == true && $value == $this->value) {
-                    return true;
-                }
-                if($this->exactMatch == false && (stripos($this->value, $value) !== false || stripos($value, $this->value) !== false)) {
-                    return true;
-                }
-                return false;
+        try {
+            if( empty( $this->headerToSearchFor ) ) {
+                throw new \Exception();
             }
-        }
+            $value = $this->findHeader($this->headerToSearchFor);
+            if($this->exactMatch == true && $value == $this->value) {
+                return true;
+            }
+            if($this->exactMatch == false && (stripos($this->value, $value) !== false || stripos($value, $this->value) !== false)) {
+                return true;
+            }
+        } catch(HeaderNotFoundException $e) {}
+        catch(\Exception $e) {}
+
         return false;
     }
 
@@ -53,5 +44,13 @@ class HttpHeaderHasValue extends RuleBase {
     public function getErrorMessage() {
         return '%URL% does not have value "' . $this->value. '" for the "' . $this->headerToSearchFor . '" HTTP-header. (Rule "' . $this->getName(). '", "%SECTION%").';
     }
+
+    /**
+     * @param boolean $exactMatch
+     */
+    public function setExactMatch($exactMatch) {
+        $this->exactMatch = $exactMatch;
+    }
+
 
 }

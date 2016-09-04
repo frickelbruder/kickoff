@@ -81,7 +81,7 @@ class DefaultCommand extends Command {
         $rules = $section->getRules();
 
         foreach($rules as $rule) {
-            $rule->setItemToValidate($page);
+            $rule->setHttpResponse($page);
             $result = $rule->validate();
             if(!$result) {
                 $this->errorCount++;

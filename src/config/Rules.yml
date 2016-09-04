@@ -10,3 +10,17 @@ Rules:
         calls:
             - ['setName', ["HttpHeaderExposePHP"]]
             - ['setHeaderToSearchFor', ["X-Powered-By"]]
+
+    HttpHeaderHasFarFutureExpiresHeader:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasFarFutureExpiresHeader
+
+    HttpHeaderResourceFound:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
+        calls:
+            - ["setValue", ["200"]]
+
+    HttpHeaderResourceIsMissing:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
+        calls:
+            - ["setValue", ["400"]]
+
