@@ -107,7 +107,7 @@ class Configuration {
         $defaultRules = $defaultRulesConfigArray['Rules'];
         $configRules = !empty($config['Rules']) ? $config['Rules'] : array();
 
-        $config['Rules'] = array_merge($defaultRules,$configRules );
+        $config['Rules'] = array_merge($defaultRules, $configRules);
 
         return $config;
 

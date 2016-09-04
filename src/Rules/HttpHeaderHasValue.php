@@ -50,5 +50,8 @@ class HttpHeaderHasValue extends RuleBase {
         $this->headerToSearchFor = strtolower($headerToSearchFor);
     }
 
+    public function getErrorMessage() {
+        return '%URL% does not have value "' . $this->value. '" for the "' . $this->headerToSearchFor . '" HTTP-header. (Rule "' . $this->getName(). '", "%SECTION%").';
+    }
 
 }

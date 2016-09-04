@@ -39,5 +39,9 @@ class HttpHeaderPresent extends RuleBase  {
         $this->headerToSearchFor = strtolower($headerToSearchFor);
     }
 
+    public function getErrorMessage() {
+        return '%URL% does not have the "' . $this->headerToSearchFor . '" HTTP-header. (Rule "' . $this->getName(). '", "%SECTION%").';
+    }
+
 
 }

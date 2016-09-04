@@ -2,12 +2,13 @@
 namespace Frickelbruder\KickOff\Log;
 
 use Frickelbruder\KickOff\Log\Listener\Listener;
+use Frickelbruder\KickOff\Rules\Rule;
 
 
 class Logger {
 
     /**
-     * @var Listener
+     * @var Listener[]
      */
     private $listeners = array();
 
@@ -21,30 +22,31 @@ class Logger {
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param string $ruleName
+     * @param Rule $rule
+     *
      */
-    public function logSuccess($sectionName, $targetUrl, $ruleName) {
-        $this->log($sectionName, $targetUrl, $ruleName, true);
+    public function logSuccess($sectionName, $targetUrl, Rule $rule) {
+        $this->log($sectionName, $targetUrl, $rule, true);
     }
 
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param string $ruleName
+     * @param Rule $rule
      */
-    public function logFail($sectionName, $targetUrl, $ruleName) {
-        $this->log($sectionName, $targetUrl, $ruleName, false);
+    public function logFail($sectionName, $targetUrl, Rule $rule) {
+        $this->log($sectionName, $targetUrl, $rule, false);
     }
 
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param string $ruleName
+     * @param Rule $rule
      * @param Boolean $success
      */
-    public function log($sectionName, $targetUrl, $ruleName, $success) {
+    public function log($sectionName, $targetUrl, Rule $rule, $success) {
         foreach($this->listeners as $listener) {
-            $listener->log($sectionName, $targetUrl, $ruleName, $success);
+            $listener->log($sectionName, $targetUrl, $rule, $success);
         }
     }
 

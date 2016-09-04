@@ -44,6 +44,9 @@ class HttpHeaderNotPresent extends RuleBase  {
         $this->headerToSearchFor = strtolower($headerToSearchFor);
     }
 
+    public function getErrorMessage() {
+        return '%URL% has the "' . $this->headerToSearchFor . '" HTTP-header present, which it shouldn\'t. (Rule "' . $this->getName(). '", "%SECTION%").';
+    }
 
 
 

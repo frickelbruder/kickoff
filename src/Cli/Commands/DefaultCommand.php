@@ -80,7 +80,7 @@ class DefaultCommand extends Command {
         foreach($rules as $rule) {
             $rule->setItemToValidate($page);
             $result = $rule->validate();
-            $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule->getName(), $result);
+            $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule, $result);
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
+use Frickelbruder\KickOff\Rules\Rule;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ConsoleOutputListener implements Listener {
@@ -19,10 +20,10 @@ class ConsoleOutputListener implements Listener {
     }
 
 
-    public function log($sectionName, $targetUrl, $ruleName, $success) {
+    public function log($sectionName, $targetUrl, Rule $rule, $success) {
         $output = '.';
         if(!$success) {
-            $this->messages[] = 'The Rule "' . $ruleName . '" in section "' . $sectionName . '" did not yield the expected result.';
+            $this->messages[] = str_replace(array('%URL%', '%SECTION%'), array($targetUrl, $sectionName), $rule->getErrorMessage());
             $output = '<error>F</error>';
             $this->counter['errors']++;
         } else {
@@ -36,13 +37,13 @@ class ConsoleOutputListener implements Listener {
         foreach($this->messages as $message) {
             $this->consoleOutput->writeln($message);
         }
-
+        $this->consoleOutput->writeln("");
 
         $totalTests = $this->counter['success'] + $this->counter['errors'];
         if($this->counter['errors'] == 0) {
             $this->consoleOutput->writeln("Ok ($totalTests Tests without errors)");
         } else {
-            $this->consoleOutput->writeln("");
+
             $this->consoleOutput->writeln("Fail ($totalTests Tests " . $this->counter['success'] . ' passed, ' . $this->counter['errors'] . ' failed)');
         }
     }
