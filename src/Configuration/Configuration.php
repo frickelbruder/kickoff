@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Fred
- * Date: 17.08.2015
- * Time: 00:24
- */
-
-namespace frickelbruder\KickOff\Configuration;
+namespace Frickelbruder\KickOff\Configuration;
 
 
 use Symfony\Component\Yaml\Yaml;
@@ -18,11 +11,15 @@ class Configuration {
      */
     private $sections = array();
 
-    private $port = '80';
-    private $host = '';
-    private $scheme = 'http';
+    /**
+     * @var TargetUrl
+     */
+    private $defaultTargetUrl = null;
 
-    private $map = array('host' => 'host', 'port' => 'port', 'scheme' => 'scheme');
+    /**
+     * @var array
+     */
+    private $rules = array();
 
     public function buildFromFile($filename) {
         $configArray = Yaml::parse(file_get_contents($filename));
@@ -35,20 +32,71 @@ class Configuration {
     }
 
     private function build(Array $config) {
-        if(isset($config['options'])) {
-            $config = $this->mapBasicValues($config['options']);
+        $this->defaultTargetUrl = new TargetUrl();
+
+        if( isset( $config['defaults']['target'] )) {
+            $this->buildDefaultTarget($config['defaults']['target']);
+        }
+        if(isset($config['Rules'])) {
+            $this->generateRules($config['Rules']);
+        }
+        foreach($config['Sections'] as $name => $sectionConfig) {
+            $section = new Section($name);
+            $sectionTargetUrl = $this->getSectionTargetUrl($sectionConfig);
+            $section->setTargetUrlItem($sectionTargetUrl);
+            $section->setRules($this->getRulesForSection($sectionConfig));
+            $this->sections[$name] = $section;
         }
     }
 
-    private function mapBasicValues(Array $config) {
-        $resultConfig = $config;
-        foreach($this->map as $configKey=>$classProperty) {
-            if(isset($config[$configKey])) {
-                $this->$classProperty = $config[$configKey];
-                unset($resultConfig[$configKey]);
+    private function getRulesForSection($config) {
+        if(empty($config['rules'])) {
+            return array();
+        }
+        $result = array();
+        foreach($config['rules'] as $name) {
+            $result[$name] = $this->rules[$name];
+        }
+        return $result;
+    }
+
+    private function getSectionTargetUrl($config){
+        $target = clone $this->defaultTargetUrl;
+
+        if(empty($config['config'])) {
+            return $target;
+        }
+        foreach(array('host', 'port', 'uri', 'scheme') as $key) {
+            if( array_key_exists( $key, $config['config'] ) ) {
+                $target->$key = $config['config'][ $key ];
             }
         }
-        return $resultConfig;
+        return $target;
+    }
+
+    private function buildDefaultTarget($config) {
+        foreach(array('host', 'port', 'uri', 'scheme') as $key) {
+            if( array_key_exists( $key, $config ) ) {
+                $this->defaultTargetUrl->$key = $config[ $key ];
+            }
+        }
+    }
+
+    private function generateRules($config) {
+
+        foreach($config as $name => $values) {
+            $className = $values['class'];
+            $class = new $className();
+            if(isset($values['calls']) && is_array($values['calls'])) {
+                foreach($values['calls'] as $calls) {
+                    $method = $calls[0];
+                    $params = $calls[1];
+                    call_user_func_array(array($class, $method), $params);
+                }
+            }
+            $this->rules[$name] = $class;
+        }
+
     }
 
 }

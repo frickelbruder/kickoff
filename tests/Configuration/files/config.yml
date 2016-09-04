@@ -1,15 +1,18 @@
 defaults:
     target:
-        host: www.mamacommunity.de
-        scheme: http://
+        host: test.host
+        scheme: https://
 
 Sections:
     main:
-        config:
-            scheme: https://
-            host: www.leybold.com
         rules:
             - HttpHeaderXSSProtection
+            - HttpHeaderExposePHP
+    second:
+        config:
+            host: test2.host
+            port: 8080
+        rules:
             - HttpHeaderExposePHP
 
 
@@ -23,7 +26,3 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
         calls:
             - ['setHeaderToSearchFor', ["X-Powered-By"]]
-
-
-
-
