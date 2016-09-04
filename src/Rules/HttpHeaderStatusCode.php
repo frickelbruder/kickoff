@@ -5,7 +5,7 @@ use Frickelbruder\KickOff\Http\HttpResponse;
 
 class HttpHeaderStatusCode extends HttpRuleBase {
 
-    protected $name="HttpHeaderStatusCode";
+    public $name = "HttpHeaderStatusCode";
 
     /**
      * @var HttpResponse
@@ -23,7 +23,7 @@ class HttpHeaderStatusCode extends HttpRuleBase {
     }
 
     public function getErrorMessage() {
-        return '%URL% does not have HTTP status "' . $this->value. '". (Rule "' . $this->getName(). '", "%SECTION%").';
+        return '%URL% does not have HTTP status "' . $this->value . '". (Rule "' . $this->getName() . '", "%SECTION%").';
     }
 
     /**

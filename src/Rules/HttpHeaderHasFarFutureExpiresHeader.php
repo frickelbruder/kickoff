@@ -5,7 +5,8 @@ use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
 class HttpHeaderHasFarFutureExpiresHeader extends HttpRuleBase {
 
-    protected $name='Far future "Expires" header';
+    public $name = 'Far future "Expires" header';
+
     /**
      * Defaults to 7 days (7*24*60*60)
      *
@@ -15,16 +16,18 @@ class HttpHeaderHasFarFutureExpiresHeader extends HttpRuleBase {
 
     public function validate() {
         try {
-            $expiresHeader = $this->findHeader('Expires');
-            return strtotime($expiresHeader) > time() + $this->thresholdInSeconds;
+            $expiresHeader = $this->findHeader( 'Expires' );
 
-        } catch(HeaderNotFoundException $e) {}
+            return strtotime( $expiresHeader ) > time() + $this->thresholdInSeconds;
+
+        } catch( HeaderNotFoundException $e ) {
+        }
 
         return false;
     }
 
     public function getErrorMessage() {
-        return '%URL% does not have any or to short "Expires" HTTP header information. (Rule "' . $this->getName(). '", "%SECTION%").';
+        return '%URL% does not have any or to short "Expires" HTTP header information. (Rule "' . $this->getName() . '", "%SECTION%").';
     }
 
     /**
