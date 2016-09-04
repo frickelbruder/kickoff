@@ -7,19 +7,11 @@ class HttpHeaderStatusCode extends HttpRuleBase {
 
     public $name = "HttpHeaderStatusCode";
 
-    /**
-     * @var HttpResponse
-     */
-    protected $item;
-
     protected $value = 200;
 
-    public function setItemToValidate(HttpResponse $item) {
-        $this->item = $item;
-    }
 
     public function validate() {
-        return $this->item->getStatus() == $this->value;
+        return $this->httpResponse->getStatus() == $this->value;
     }
 
     public function getErrorMessage() {
