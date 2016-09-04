@@ -27,6 +27,8 @@ class DefaultCommand extends Command {
      */
     protected $logger = null;
 
+    private $errorCount = 0;
+
     public function __construct($name = null, $httpRequester = null, $configuration = null, $logger = null) {
         parent::__construct( $name );
         $this->configuration = $configuration;
@@ -62,10 +64,11 @@ class DefaultCommand extends Command {
         $this->buildConfiguration($input->getArgument('configfile'));
 
         foreach($this->configuration->getSections() as $sectionName => $section) {
-
             $this->handleSection($section, $output);
         }
         $this->logger->finish();
+
+        return $this->errorCount;
     }
 
     protected function buildConfiguration($configFile) {
@@ -80,6 +83,9 @@ class DefaultCommand extends Command {
         foreach($rules as $rule) {
             $rule->setItemToValidate($page);
             $result = $rule->validate();
+            if(!$result) {
+                $this->errorCount++;
+            }
             $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule, $result);
         }
     }
