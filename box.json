@@ -9,7 +9,7 @@
     "README.md"
   ],
   "git-version": "package_version",
-  "main": "bin/kickoff.php",
+  "main": "bin/KickOff.php",
   "output": "kickoff.phar",
   "stub": true
 }
