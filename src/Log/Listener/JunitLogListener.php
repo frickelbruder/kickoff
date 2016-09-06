@@ -5,7 +5,7 @@ use Frickelbruder\KickOff\Rules\Rule;
 
 class JunitLogListener implements Listener {
 
-    private $logFileName = 'kickoff.xml';
+    public $logFileName = 'kickoff.xml';
 
     private $logs = array();
 
@@ -22,7 +22,7 @@ class JunitLogListener implements Listener {
 
     public function finish() {
 
-        $document               = new \SimpleXMLElement('<testsuites/>');
+        $document = new \SimpleXMLElement('<testsuites/>');
 
         foreach($this->logs as $section => $sectionData) {
             $testsuite = $document->addChild( 'testsuite' );

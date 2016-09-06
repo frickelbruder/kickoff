@@ -37,10 +37,6 @@ class TitleTagLength extends RuleBase {
         }
     }
 
-    public function getErrorMessage() {
-        return $this->errorMessage;
-    }
-
     public function setMinLength($min) {
         $this->requiredLength['min'] = $min;
     }

@@ -8,6 +8,7 @@ use Frickelbruder\KickOff\Log\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DefaultCommand extends Command {
@@ -43,17 +44,20 @@ class DefaultCommand extends Command {
         $this->httpRequester = $httpRequester;
     }
 
-
-
     protected function configure()
     {
         $this
             ->setName('run')
             ->setDescription('Runs your kickoff')
             ->addArgument(
-                'configfile',
+                'config-file',
                 InputArgument::REQUIRED,
                 'the config file to use'
+            )->addOption(
+                'junit-file',
+                'j',
+                InputOption::VALUE_OPTIONAL,
+                'path to a junit compatible log file'
             );
     }
 
@@ -61,7 +65,9 @@ class DefaultCommand extends Command {
     {
         $output->writeln("Kickoff Test");
         $output->writeln("");
-        $this->buildConfiguration($input->getArgument('configfile'));
+
+        $this->handleJunitOption( $input->getOption('junit-file') );
+        $this->buildConfiguration($input->getArgument('config-file'));
 
         foreach($this->configuration->getSections() as $sectionName => $section) {
             $this->handleSection($section);
@@ -92,6 +98,18 @@ class DefaultCommand extends Command {
 
     protected function fetchPage($url) {
         return $this->httpRequester->request($url);
+    }
+
+    /**
+     * @param string
+     */
+    protected function handleJunitOption($option) {
+        if( empty( $option ) ) {
+            $this->logger->removeListener( 'junit' );
+        } else {
+            $listener = $this->logger->getListener( 'junit' );
+            $listener->logFileName = $option;
+        }
     }
 
 }

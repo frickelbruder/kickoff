@@ -1,0 +1,50 @@
+defaults:
+    target:
+        host: www.somehost.com
+
+Sections:
+    website:
+        rules:
+            - HttpHeaderXSSProtection
+            - HttpHeaderExposePHP
+            - HttpHeaderResourceFound
+            - TitleTagLength
+            - MetaDescriptionLength
+
+    robots.txt:
+        config:
+            uri: robots.txt
+        rules:
+            - HttpHeaderResourceFound
+
+    favicon.ico:
+        config:
+            uri: favicon.ico
+        rules:
+            - HttpHeaderResourceFound
+
+    images:
+        config:
+            host: cdn.somehost.com
+            uri: pics/someimage.png
+        rules:
+            - HttpHeaderResourceFound
+            - HttpHeaderHasFarFutureExpiresHeader
+
+    javascript:
+        config:
+            host: cdn.somehost.com
+            uri: js/main.js
+        rules:
+            - HttpHeaderResourceFound
+            - HttpHeaderHasFarFutureExpiresHeader
+
+    styles:
+        config:
+            host: cdn.somehost.com
+            uri: css/style.css
+        rules:
+            - HttpHeaderResourceFound
+            - HttpHeaderHasFarFutureExpiresHeader
+            - HttpHeaderResourceIsGzipped
+

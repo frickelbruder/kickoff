@@ -36,10 +36,6 @@ class MetaDescriptionLength extends RuleBase {
         return false;
     }
 
-    public function getErrorMessage() {
-        return $this->errorMessage;
-    }
-
     public function setMinLength($min) {
         $this->requiredLength['min'] = $min;
     }

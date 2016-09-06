@@ -1,13 +1,10 @@
 defaults:
     target:
-        host: www.example.host
+        host: www.mamacommunity.de
         scheme: http://
 
 Sections:
     main:
-        config:
-            scheme: https://
-            host: www.example2.host
         rules:
             - HttpHeaderXSSProtection
             - HttpHeaderExposePHP
