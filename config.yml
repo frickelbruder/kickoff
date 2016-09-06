@@ -1,6 +1,6 @@
 defaults:
     target:
-        host: www.mamacommunity.de
+        host: www.somehost.com
         scheme: http://
 
 Sections:
