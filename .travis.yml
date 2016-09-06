@@ -19,5 +19,3 @@ deploy:
   provider: releases
   file: kickoff.phar
   skip_cleanup: true
-  on:
-    tags: true
