@@ -1,0 +1,23 @@
+language: php
+php:
+- 7.0
+- 5.6
+- 5.5
+- 5.4
+before_install:
+- travis_retry composer self-update
+install:
+- travis_retry composer install --no-interaction
+script: phpunit
+before_deploy:
+- echo "phar.readonly = Off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- curl -LSs https://box-project.github.io/box2/installer.php | php
+- php box.phar build
+deploy:
+  api_key:
+    secure: Y+3G5iSuo2oI1NlF8fcF/Kc8JC5JdPq9hp2ukiYIJevTvJO6Q8p/MZMr3EDSLtW16uU4mt4qarJ7XAImQ4nRyCt52qo9iT+WslFcMhCxTN0gLsNsS94BGxQ39KzSrB19kz4fYoXMpRP3kvM+aStJeFjtWLFXygOWexZPGvWZPpVJI03uNxGu0qM1Gv84qsSWTFiPD2EucGeF/nCNbEUweENyf5bY1WroS2FVHBeB/iC1Li4BTyfgvXgOMK3PCKaEO3RbzR6hoBUUsr6p1Jo8nmlbfDthTBuEbUvXaWrX9ciC6G+3s5Sbt1+yHrkvk7YkkB3291VWYhmOmjEQdpfQ7KR9VxqHFIeKadbBLJBKvlhdgoWCNecnsgvQNnso45CzzI9a9IKBAVnnG0RbwUUOTtmdWnrFMTVqSMAgkS3Sq1eBbhMlUcBV9KqDTDdxjzaSJPjGRmXGjJD2sMNX2rqnRHNjK7gXB2/iWlO3uExGpzHBNmo3XQ45n4FLNwbSEeyYHOm8kc0cz2hdtDUQfNNNS9LteHTkqv685e5ZhRi+ntgMgWlQYRNAd+RShmcpWotQ5uFCloDZTOkdxxKIkzDQr/9yZEYaeqDWa1nj/XPXFLDdDvY1bapXBZopJjWEaIlq9j2aDrmEOiiRSHMGzsQQ3Hhyi1FoWndTTBVzvA7Hnng=
+  provider: releases
+  file: kickoff.phar
+  skip_cleanup: true
+  on:
+    tags: true
