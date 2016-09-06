@@ -2,9 +2,9 @@
 namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderHasValue extends HttpRuleBase {
-
+class HttpHeaderHasValue extends RuleBase {
 
     /**
      * @var string
@@ -19,7 +19,7 @@ class HttpHeaderHasValue extends HttpRuleBase {
     public function validate() {
         try {
             if( empty( $this->headerToSearchFor ) ) {
-                throw new \Exception();
+                throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
             }
             $value = $this->findHeader($this->headerToSearchFor);
             if($this->exactMatch == true && $value == $this->value) {
@@ -28,8 +28,9 @@ class HttpHeaderHasValue extends HttpRuleBase {
             if($this->exactMatch == false && (stripos($this->value, $value) !== false || stripos($value, $this->value) !== false)) {
                 return true;
             }
-        } catch(HeaderNotFoundException $e) {}
-        catch(\Exception $e) {}
+        } catch(HeaderNotFoundException $e) {
+            $this->errorMessage = $e->getMessage();
+        }
 
         return false;
     }
@@ -42,7 +43,7 @@ class HttpHeaderHasValue extends HttpRuleBase {
     }
 
     public function getErrorMessage() {
-        return '%URL% does not have value "' . $this->value. '" for the "' . $this->headerToSearchFor . '" HTTP-header. (Rule "' . $this->getName(). '", "%SECTION%").';
+        return 'The "' . $this->headerToSearchFor . '" HTTP-header does not have value "' . $this->value. '".';
     }
 
     /**
@@ -51,6 +52,15 @@ class HttpHeaderHasValue extends HttpRuleBase {
     public function setExactMatch($exactMatch) {
         $this->exactMatch = $exactMatch;
     }
+
+    /**
+     * @param string $value
+     */
+    public function setValue($value) {
+        $this->value = $value;
+    }
+
+
 
 
 }

@@ -20,21 +20,37 @@ class HttpRequester {
      */
     public function request(TargetUrl $targetUrl) {
         $url = $targetUrl->getUrl();
-        if(empty($this->cache[$url])) {
-            $this->cache[ $url ] = $this->call( $url );
+        $cacheKey = $url . $targetUrl->method . json_encode($targetUrl->getHeaders());
+        if(empty($this->cache[$cacheKey])) {
+            $this->cache[ $cacheKey ] = $this->call( $targetUrl );
         }
-        return $this->cache[ $url ];
+        return $this->cache[ $cacheKey ];
     }
 
-    private function call($url) {
+    private function call(TargetUrl $targetUrl) {
         $client = $this->getClient();
-        $httpResponseFromWebsite = $client->get($url);
+        $httpResponseFromWebsite = $client->request($targetUrl->method, $targetUrl->getUrl(), array('headers' => $this->getHeaders($targetUrl)));
+        $headers = $httpResponseFromWebsite->getHeaders();
+        foreach($headers as $name => $value) {
+            if($name == 'x-encoded-content-encoding') {
+                $headers['Content-Encoding'] = $value;
+            }
+        }
         $response = new HttpResponse();
-        $response->setHeaders($httpResponseFromWebsite->getHeaders());
+        $response->setHeaders($headers);
         $response->setBody($httpResponseFromWebsite->getBody());
         $response->setStatus($httpResponseFromWebsite->getStatusCode());
 
         return $response;
+    }
+
+    private function getHeaders(TargetUrl $targetUrl) {
+        $defaults = array('Accept-Encoding' => 'gzip');
+        $headers = $targetUrl->getHeaders();
+
+        $mergedHeaders = $defaults + $headers;
+
+        return array_filter($mergedHeaders);
     }
 
     private function getClient() {

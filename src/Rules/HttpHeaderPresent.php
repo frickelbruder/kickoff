@@ -1,9 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-use Frickelbruder\KickOff\Http\HttpResponse;
+use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderPresent extends RuleBase  {
+class HttpHeaderPresent extends RuleBase   {
 
     /**
      * @var string
@@ -12,13 +13,13 @@ class HttpHeaderPresent extends RuleBase  {
 
     public function validate() {
         if(empty($this->headerToSearchFor)) {
-            throw new \Exception();
+            throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
         }
-        $headers = $this->httpResponse->getHeaders();
-        foreach($headers as $key => $value) {
-            if(strtolower($key) == $this->headerToSearchFor) {
-                return true;
-            }
+        try {
+            $this->findHeader($this->headerToSearchFor);
+            return true;
+        } catch(HeaderNotFoundException $e) {
+            $this->errorMessage = $e->getMessage();
         }
         return false;
     }
@@ -29,10 +30,5 @@ class HttpHeaderPresent extends RuleBase  {
     public function setHeaderToSearchFor($headerToSearchFor) {
         $this->headerToSearchFor = strtolower($headerToSearchFor);
     }
-
-    public function getErrorMessage() {
-        return '%URL% does not have the "' . $this->headerToSearchFor . '" HTTP-header. (Rule "' . $this->getName(). '", "%SECTION%").';
-    }
-
 
 }

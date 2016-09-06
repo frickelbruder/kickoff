@@ -1,7 +1,6 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
-
 use Symfony\Component\Yaml\Yaml;
 
 class Configuration {
@@ -68,7 +67,7 @@ class Configuration {
         if(empty($config['config'])) {
             return $target;
         }
-        foreach(array('host', 'port', 'uri', 'scheme') as $key) {
+        foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
             if( array_key_exists( $key, $config['config'] ) ) {
                 $target->$key = $config['config'][ $key ];
             }
@@ -77,7 +76,7 @@ class Configuration {
     }
 
     private function buildDefaultTarget($config) {
-        foreach(array('host', 'port', 'uri', 'scheme') as $key) {
+        foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
             if( array_key_exists( $key, $config ) ) {
                 $this->defaultTargetUrl->$key = $config[ $key ];
             }

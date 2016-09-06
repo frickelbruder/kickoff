@@ -1,21 +1,22 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-use Frickelbruder\KickOff\Http\HttpResponse;
 
-class HttpHeaderStatusCode extends HttpRuleBase {
+class HttpHeaderStatusCode extends RuleBase {
 
     public $name = "HttpHeaderStatusCode";
 
+    protected $errorMessage = 'The resources HTTP status code was unexpected.';
+
     protected $value = 200;
 
-
     public function validate() {
-        return $this->httpResponse->getStatus() == $this->value;
-    }
-
-    public function getErrorMessage() {
-        return '%URL% does not have HTTP status "' . $this->value . '". (Rule "' . $this->getName() . '", "%SECTION%").';
+        $resultCode = $this->httpResponse->getStatus();
+        if($resultCode != $this->value) {
+            $this->errorMessage = 'The resources HTTP status code is "' . $resultCode . '" not "' . $this->value . '".';
+            return false;
+        }
+        return true;
     }
 
     /**

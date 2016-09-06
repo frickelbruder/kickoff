@@ -2,14 +2,14 @@ Rules:
     HttpHeaderXSSProtection:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ['setName', ["HttpHeaderXSSProtection"]]
-            - ['setHeaderToSearchFor', ["X-XSS-Protection"]]
+            - ["setName", ["HttpHeaderXSSProtection"]]
+            - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
 
     HttpHeaderExposePHP:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
         calls:
-            - ['setName', ["HttpHeaderExposePHP"]]
-            - ['setHeaderToSearchFor', ["X-Powered-By"]]
+            - ["setName", ["HttpHeaderExposePHP"]]
+            - ["setHeaderToSearchFor", ["X-Powered-By"]]
 
     HttpHeaderHasFarFutureExpiresHeader:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasFarFutureExpiresHeader
@@ -23,4 +23,17 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
         calls:
             - ["setValue", ["400"]]
+
+    HttpHeaderResourceIsGzipped:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderResourceIsGzipped"]]
+            - ["setHeaderToSearchFor", ["Content-Encoding"]]
+            - ["setValue", ["gzip"]]
+
+    TitleTagLength:
+        class: \Frickelbruder\KickOff\Rules\TitleTagLength
+
+    MetaDescriptionLength:
+        class: \Frickelbruder\KickOff\Rules\MetaDescriptionLength
 

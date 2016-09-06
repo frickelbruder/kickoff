@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderHasFarFutureExpiresHeader extends HttpRuleBase {
+class HttpHeaderHasFarFutureExpiresHeader extends RuleBase {
 
     public $name = 'Far future "Expires" header';
 
@@ -17,16 +17,17 @@ class HttpHeaderHasFarFutureExpiresHeader extends HttpRuleBase {
     public function validate() {
         try {
             $expiresHeader = $this->findHeader( 'Expires' );
-            return strtotime( $expiresHeader ) >= time() + $this->thresholdInSeconds;
+            $result = strtotime( $expiresHeader ) >= time() + $this->thresholdInSeconds;
+            if(!$result) {
+                $this->errorMessage = 'The HTTP "Expires" header is not set to a far enough value';
+            }
+            return $result;
 
         } catch( HeaderNotFoundException $e ) {
+            $this->errorMessage = $e->getMessage();
         }
 
         return false;
-    }
-
-    public function getErrorMessage() {
-        return '%URL% does not have any or to short "Expires" HTTP header information. (Rule "' . $this->getName() . '", "%SECTION%").';
     }
 
     /**

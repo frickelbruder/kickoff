@@ -2,8 +2,9 @@
 namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderNotPresent extends HttpRuleBase {
+class HttpHeaderNotPresent extends RuleBase {
 
      /**
      * @var string
@@ -13,11 +14,11 @@ class HttpHeaderNotPresent extends HttpRuleBase {
     /**
      *
      * @return bool
-     * @throws \Exception
+     * @throws InsufficientConfigurationException
      */
     public function validate() {
         if(empty($this->headerToSearchFor)) {
-            throw new \Exception();
+            throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
         }
         try {
             $this->findHeader($this->headerToSearchFor);
@@ -34,7 +35,7 @@ class HttpHeaderNotPresent extends HttpRuleBase {
     }
 
     public function getErrorMessage() {
-        return '%URL% has the "' . $this->headerToSearchFor . '" HTTP-header present, which shouldn\'t. (Rule "' . $this->getName(). '", "%SECTION%").';
+        return 'The "' . $this->headerToSearchFor . '" HTTP-header was found, but shouldn\'t be there.';
     }
 
 
