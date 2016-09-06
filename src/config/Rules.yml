@@ -31,6 +31,36 @@ Rules:
             - ["setHeaderToSearchFor", ["Content-Encoding"]]
             - ["setValue", ["gzip"]]
 
+    HttpHeaderContentTypeNoSniffing:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderContentTypeNoSniffing"]]
+            - ["setHeaderToSearchFor", ["X-Content-Type-Options"]]
+            - ["setValue", ["nosniff"]]
+
+    HttpHeaderFrameOptionsSameOrigin:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderFrameOptionsSameOrigin"]]
+            - ["setHeaderToSearchFor", ["X-Frame-Options"]]
+            - ["setValue", ["SAMEORIGIN"]]
+
+    HttpHeaderCookieWithHttpOnlyFlag:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setHeaderToSearchFor", ["Set-Cookie"]]
+            - ["setExactMatch", [false]]
+            - ["setValue", ["; HttpOnly"]]
+
+    HttpHeaderCookieWithHttpOnlyFlag:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setHeaderToSearchFor", ["Set-Cookie"]]
+            - ["setExactMatch", [false]]
+            - ["setValue", ["; HttpOnly"]]
+
     TitleTagLength:
         class: \Frickelbruder\KickOff\Rules\TitleTagLength
 

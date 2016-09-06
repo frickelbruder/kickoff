@@ -5,8 +5,6 @@ defaults:
 Sections:
     website:
         rules:
-            - HttpHeaderXSSProtection
-            - HttpHeaderExposePHP
             - HttpHeaderResourceFound
             - TitleTagLength
             - MetaDescriptionLength

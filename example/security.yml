@@ -1,0 +1,15 @@
+defaults:
+    target:
+        host: www.somehost.com
+
+Sections:
+    website:
+        rules:
+            - HttpHeaderXSSProtection
+            - HttpHeaderExposePHP
+            - HttpHeaderContentTypeNoSniffing
+            - HttpHeaderCookieWithHttpOnlyFlag
+
+
+
+
