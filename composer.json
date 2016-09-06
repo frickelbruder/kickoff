@@ -1,8 +1,9 @@
 {
   "name": "frickelbruder/kickoff",
   "minimum-stability": "stable",
-  "license": "MIT",
+  "license": "",
   "require": {
+    "php": ">=5.5.0",
     "symfony/yaml": "~2",
     "symfony/console": "~2",
     "symfony/dom-crawler": "~2",
