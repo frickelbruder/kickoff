@@ -19,5 +19,5 @@ deploy:
   file: 'kickoff.phar'
   skip_cleanup: true
   on:
-    repo: frickelbruder/kickoff
+    tags: true
 

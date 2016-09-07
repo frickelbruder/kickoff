@@ -15,7 +15,7 @@ class MetaDescriptionLength extends RuleBase {
             $xml = $this->getResponseBodyAsXml( $body );
 
             $metaDescriptionValue = $xml->xpath('/html/head/meta[@name="description"]/ @content');
-            if(!is_array($metaDescriptionValue)) {
+            if(!is_array($metaDescriptionValue) || empty($metaDescriptionValue)) {
                 $this->errorMessage = 'No meta description found';
                 return false;
             }
