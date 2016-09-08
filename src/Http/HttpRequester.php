@@ -3,6 +3,7 @@ namespace Frickelbruder\KickOff\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use GuzzleHttp\TransferStats;
+use GuzzleHttp\Client;
 
 
 class HttpRequester {
@@ -12,6 +13,9 @@ class HttpRequester {
      */
     private $cache;
 
+    /**
+     * @var Client
+     */
     private $client = null;
 
     /**
@@ -34,12 +38,7 @@ class HttpRequester {
         $client = $this->getClient();
         $httpResponseFromWebsite = $client->request( $targetUrl->method,
             $targetUrl->getUrl(),
-            array(
-                'headers' => $this->getRequestHeaders( $targetUrl ),
-                'on_stats' => function(TransferStats $stats) use ($response) {
-                        $response->setTransferTime($stats->getTransferTime());
-                    }
-                )
+            $this->getOptionsArray( $targetUrl, $response )
         );
 
         $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
@@ -60,14 +59,14 @@ class HttpRequester {
     }
 
     /**
-     * @return \GuzzleHttp\Client
+     * @return Client
      */
     private function getClient() {
         if( !empty( $this->client ) ) {
             return $this->client;
         }
 
-        return new \GuzzleHttp\Client();
+        return new Client();
     }
 
     /**
@@ -103,6 +102,21 @@ class HttpRequester {
             }
         }
         return $headers;
+    }
+
+    /**
+     * @param TargetUrl $targetUrl
+     * @param HttpResponse $response
+     *
+     * @return array
+     */
+    private function getOptionsArray(TargetUrl $targetUrl, HttpResponse $response) {
+        return array(
+            'headers' => $this->getRequestHeaders( $targetUrl ),
+            'on_stats' => function(TransferStats $stats) use ($response) {
+                $response->setTransferTime( $stats->getTransferTime() );
+            }
+        );
     }
 
 
