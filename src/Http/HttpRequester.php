@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
+use GuzzleHttp\TransferStats;
 
 
 class HttpRequester {
@@ -19,44 +20,53 @@ class HttpRequester {
      * @return HttpResponse
      */
     public function request(TargetUrl $targetUrl) {
-        $url = $targetUrl->getUrl();
-        $cacheKey = $url . $targetUrl->method . json_encode($targetUrl->getHeaders());
-        if(empty($this->cache[$cacheKey])) {
+        $cacheKey = $this->buildCacheKey( $targetUrl );
+        if( empty( $this->cache[ $cacheKey ] ) ) {
             $this->cache[ $cacheKey ] = $this->call( $targetUrl );
         }
+
         return $this->cache[ $cacheKey ];
     }
 
     private function call(TargetUrl $targetUrl) {
-        $client = $this->getClient();
-        $httpResponseFromWebsite = $client->request($targetUrl->method, $targetUrl->getUrl(), array('headers' => $this->getHeaders($targetUrl)));
-        $headers = $httpResponseFromWebsite->getHeaders();
-        foreach($headers as $name => $value) {
-            if($name == 'x-encoded-content-encoding') {
-                $headers['Content-Encoding'] = $value;
-            }
-        }
         $response = new HttpResponse();
-        $response->setHeaders($headers);
-        $response->setBody($httpResponseFromWebsite->getBody());
-        $response->setStatus($httpResponseFromWebsite->getStatusCode());
+
+        $client = $this->getClient();
+        $httpResponseFromWebsite = $client->request( $targetUrl->method,
+            $targetUrl->getUrl(),
+            array(
+                'headers' => $this->getRequestHeaders( $targetUrl ),
+                'on_stats' => function(TransferStats $stats) use ($response) {
+                        $response->setTransferTime($stats->getTransferTime());
+                    }
+                )
+        );
+
+        $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
+        $response->setHeaders( $headers );
+        $response->setBody( $httpResponseFromWebsite->getBody() );
+        $response->setStatus( $httpResponseFromWebsite->getStatusCode() );
 
         return $response;
     }
 
-    private function getHeaders(TargetUrl $targetUrl) {
-        $defaults = array('Accept-Encoding' => 'gzip');
+    private function getRequestHeaders(TargetUrl $targetUrl) {
+        $defaults = array( 'Accept-Encoding' => 'gzip' );
         $headers = $targetUrl->getHeaders();
 
         $mergedHeaders = $defaults + $headers;
 
-        return array_filter($mergedHeaders);
+        return array_filter( $mergedHeaders );
     }
 
+    /**
+     * @return \GuzzleHttp\Client
+     */
     private function getClient() {
-        if(!empty($this->client)) {
+        if( !empty( $this->client ) ) {
             return $this->client;
         }
+
         return new \GuzzleHttp\Client();
     }
 
@@ -67,6 +77,33 @@ class HttpRequester {
         $this->client = $client;
     }
 
+    /**
+     * @param TargetUrl $targetUrl
+     *
+     * @return string
+     */
+    protected function buildCacheKey(TargetUrl $targetUrl) {
+        $url = $targetUrl->getUrl();
+        $method = $targetUrl->method;
+        $headers = $targetUrl->getHeaders();
+        $cacheKey = $url . $method . json_encode( $headers );
+
+        return $cacheKey;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return array
+     */
+    private function prepareResponseHeaders(array $headers) {
+        foreach( $headers as $name => $value ) {
+            if( $name == 'x-encoded-content-encoding' ) {
+                $headers['Content-Encoding'] = $value;
+            }
+        }
+        return $headers;
+    }
 
 
 }

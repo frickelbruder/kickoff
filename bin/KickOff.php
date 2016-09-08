@@ -6,7 +6,8 @@ use Frickelbruder\KickOff\Log\Listener\ConsoleOutputListener;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$config = new Configuration();
+$yaml = new \Frickelbruder\KickOff\Yaml\Yaml();
+$config = new Configuration($yaml);
 $requester = new \Frickelbruder\KickOff\Http\HttpRequester();
 $logger = new \Frickelbruder\KickOff\Log\Logger();
 $coListener = new ConsoleOutputListener();

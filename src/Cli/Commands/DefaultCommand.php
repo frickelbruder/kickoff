@@ -78,7 +78,7 @@ class DefaultCommand extends Command {
     }
 
     protected function buildConfiguration($configFile) {
-        $this->configuration->buildFromFile($configFile);
+        $this->configuration->build($configFile);
     }
 
     protected function handleSection(Section $section) {

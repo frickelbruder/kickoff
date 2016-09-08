@@ -2,13 +2,24 @@
 namespace Frickelbruder\Kickoff\Tests\Configuration;
 
 use Frickelbruder\KickOff\Configuration\Configuration;
+use Frickelbruder\KickOff\Yaml\Yaml;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function setUp() {
+        $this->configuration = new Configuration( new Yaml());
+        $this->configuration->build(__DIR__ . '/files/config.yml');
+    }
+
     public function testBase() {
-        $configuration = new Configuration();
-        $configuration->buildFromFile(__DIR__ . '/files/config.yml');
-        $sections = $configuration->getSections();
+
+
+        $sections = $this->configuration->getSections();
 
         $this->assertCount(2, $sections);
         $this->assertArrayHasKey('main', $sections);
@@ -17,9 +28,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testBaseSectionTargetUrlOverride() {
-        $configuration = new Configuration();
-        $configuration->buildFromFile(__DIR__ . '/files/config.yml');
-        $sections = $configuration->getSections();
+        $sections = $this->configuration->getSections();
 
         $mainSection = $sections['main'];
         $targetURL = $mainSection->getTargetUrl();
@@ -37,9 +46,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testBaseSectionRules() {
-        $configuration = new Configuration();
-        $configuration->buildFromFile(__DIR__ . '/files/config.yml');
-        $sections = $configuration->getSections();
+        $sections = $this->configuration->getSections();
 
         $mainSection = $sections['main'];
         $rules = $mainSection->getRules();

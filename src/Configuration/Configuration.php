@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
-use Symfony\Component\Yaml\Yaml;
+use Frickelbruder\KickOff\Yaml\Yaml;
 
 class Configuration {
 
@@ -20,65 +20,68 @@ class Configuration {
      */
     private $rules = array();
 
-    public function buildFromFile($filename) {
-        $configArray = Yaml::parse(file_get_contents($filename));
+    /**
+     * @var Yaml
+     */
+    private $yaml = null;
 
-        $this->build($configArray);
+    public function __construct(Yaml $yaml) {
+        $this->yaml = $yaml;
+        $this->defaultTargetUrl = new TargetUrl();
     }
 
     public function getSections() {
         return $this->sections;
     }
 
-    private function build(Array $config) {
-        $config = $this->mergeUserConfigWithDefaults($config);
-
-        $this->defaultTargetUrl = new TargetUrl();
-
-        if( isset( $config['defaults']['target'] )) {
-            $this->buildDefaultTarget($config['defaults']['target']);
-        }
-        if(isset($config['Rules'])) {
-            $this->generateRules($config['Rules']);
-        }
-        foreach($config['Sections'] as $name => $sectionConfig) {
-            $section = new Section($name);
-            $sectionTargetUrl = $this->getSectionTargetUrl($sectionConfig);
-            $section->setTargetUrlItem($sectionTargetUrl);
-            $section->setRules($this->getRulesForSection($sectionConfig));
-            $this->sections[$name] = $section;
-        }
+    public function build($filename) {
+        $config = $this->buildConfig($filename);
+        $this->prepareConfiguredItems( $config );
+        $this->buildSections( $config );
     }
 
-    private function getRulesForSection($config) {
-        if(empty($config['rules'])) {
-            return array();
-        }
-        $result = array();
-        foreach($config['rules'] as $name) {
-            $result[$name] = $this->rules[$name];
-        }
-        return $result;
+    private function buildConfig($filename) {
+        $config = $this->yaml->fromFile($filename);
+        $defaultRulesConfig = $this->yaml->fromFile(__DIR__ . '/../config/Rules.yml');
+        $config = $this->mergeUserConfigWithDefaults($config, $defaultRulesConfig);
+        return $config;
     }
 
-    private function getSectionTargetUrl($config){
-        $target = clone $this->defaultTargetUrl;
+    /**
+     * @param array $config
+     * @param array $defaultRulesConfig
+     *
+     * @return mixed
+     */
+    private function mergeUserConfigWithDefaults(array $config, array $defaultRulesConfig) {
+        $defaultRules = $defaultRulesConfig['Rules'];
+        $configRules = !empty($config['Rules']) ? $config['Rules'] : array();
 
-        if(empty($config['config'])) {
-            return $target;
+        $config['Rules'] = array_merge($defaultRules, $configRules);
+
+        return $config;
+    }
+
+    /**
+     * @param $config
+     */
+    protected function prepareConfiguredItems($config) {
+        if( isset( $config['defaults']['target'] ) ) {
+            $this->buildDefaultTarget( $config['defaults']['target'] );
         }
-        foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
-            if( array_key_exists( $key, $config['config'] ) ) {
-                $target->$key = $config['config'][ $key ];
-            }
+        if( isset( $config['Rules'] ) ) {
+            $this->generateRules( $config['Rules'] );
         }
-        return $target;
     }
 
     private function buildDefaultTarget($config) {
+        $this->enrichTarget( $this->defaultTargetUrl, $config );
+    }
+
+    private function enrichTarget(TargetUrl $targetUrl, $config) {
         foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
             if( array_key_exists( $key, $config ) ) {
-                $this->defaultTargetUrl->$key = $config[ $key ];
+                $targetUrl->$key = $config[ $key ];
             }
         }
     }
@@ -100,16 +103,37 @@ class Configuration {
 
     }
 
-    private function mergeUserConfigWithDefaults($config) {
-        $defaultRulesConfigArray = Yaml::parse(file_get_contents(__DIR__ . '/../config/Rules.yml'));
-
-        $defaultRules = $defaultRulesConfigArray['Rules'];
-        $configRules = !empty($config['Rules']) ? $config['Rules'] : array();
-
-        $config['Rules'] = array_merge($defaultRules, $configRules);
-
-        return $config;
-
+    /**
+     * @param $config
+     */
+    protected function buildSections($config) {
+        foreach( $config['Sections'] as $name => $sectionConfig ) {
+            $section = new Section( $name );
+            $sectionTargetUrl = $this->getSectionTargetUrl( $sectionConfig );
+            $section->setTargetUrlItem( $sectionTargetUrl );
+            $section->setRules( $this->getRulesForSection( $sectionConfig ) );
+            $this->sections[ $name ] = $section;
+        }
     }
+
+    private function getRulesForSection($config) {
+        if(empty($config['rules'])) {
+            return array();
+        }
+        $result = array();
+        foreach($config['rules'] as $name) {
+            $result[$name] = $this->rules[$name];
+        }
+        return $result;
+    }
+
+    private function getSectionTargetUrl($config){
+        $target = clone $this->defaultTargetUrl;
+        if(!empty($config['config'])) {
+            $this->enrichTarget($target, $config['config']);
+        }
+        return $target;
+    }
+
 
 }

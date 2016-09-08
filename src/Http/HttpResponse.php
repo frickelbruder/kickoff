@@ -3,11 +3,25 @@ namespace Frickelbruder\KickOff\Http;
 
 class HttpResponse {
 
+    /**
+     * @var array
+     */
     private $headers = array();
 
+    /**
+     * @var string
+     */
     private $body = '';
 
-    private $status = '';
+    /**
+     * @var string
+     */
+    private $status = 100;
+
+    /**
+     * @var float
+     */
+    private $transferTime = 0.0;
 
     /**
      * @return array
@@ -51,6 +65,18 @@ class HttpResponse {
         $this->status = $status;
     }
 
+    /**
+     * @return float
+     */
+    public function getTransferTime() {
+        return $this->transferTime;
+    }
 
+    /**
+     * @param float $transferTime
+     */
+    public function setTransferTime($transferTime) {
+        $this->transferTime = $transferTime;
+    }
 
 }
