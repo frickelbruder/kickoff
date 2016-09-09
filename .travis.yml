@@ -20,4 +20,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+    php: 5.5
 
