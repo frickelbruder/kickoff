@@ -1,4 +1,4 @@
-# KickOff ![As always: Travis is green](https://travis-ci.org/frickelbruder/kickoff.svg?branch=master)
+# KickOff [![Build Status](https://travis-ci.org/frickelbruder/kickoff.svg?branch=master)](https://travis-ci.org/frickelbruder/kickoff)
 
 ## Why Kickoff
 You launch projects on a regular basis and have certain SEO, performance and security requirements which your websites should meet.
@@ -36,8 +36,8 @@ For an easy start, just edit one of the provided files in example and change you
 ```
 This generates a Junit compatible log file, which you can inject into your CD workflow as for example phpunit.
 
-Get detailed information at [frickelbruder.github.io/kickoff](http://frickelbruder.github.io/kickoff/).
-
 ## Issues and Bugs
 If you find any issues, I'd be happy, if you file an issue on the [issue board](https://github.com/frickelbruder/kickoff/issues/new).
 
+## More Infos
+Get detailed information at [frickelbruder.github.io/kickoff](http://frickelbruder.github.io/kickoff/).
