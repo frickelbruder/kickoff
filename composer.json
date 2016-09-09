@@ -6,8 +6,6 @@
     "php": ">=5.5.0",
     "symfony/yaml": "~2",
     "symfony/console": "~2",
-    "symfony/dom-crawler": "~2",
-    "symfony/dependency-injection": "~2",
     "guzzlehttp/guzzle": "~6"
   },
   "require-dev": {

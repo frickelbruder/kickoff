@@ -121,7 +121,7 @@ class Configuration {
                     $rule['configuration'][] = array('set', $variableBlock);
                 }
             }
-            $rule = $mainConfig['Rules'][$name];
+            $rule = $mainConfig['Rules'][$plainName];
             $result[$plainName] = $rule;
         }
 

@@ -8,6 +8,8 @@ Sections:
             - HttpHeaderResourceFound
             - TitleTagLength
             - MetaDescriptionLength
+            - HttpRequestTime:
+                - ["maxTransferTime", 1500]
 
     robots.txt:
         config:

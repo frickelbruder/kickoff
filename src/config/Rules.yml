@@ -18,6 +18,9 @@ Rules:
             - ["setName", ["HttpHeaderExposePHP"]]
             - ["setHeaderToSearchFor", ["X-Powered-By"]]
 
+    HttpRequestTime:
+        class: \Frickelbruder\KickOff\Rules\HttpRequestTime
+
     HttpHeaderHasFarFutureExpiresHeader:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasFarFutureExpiresHeader
 
