@@ -66,7 +66,7 @@ Rules:
     HttpHeaderCookieWithHttpSecureFlag:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setName", ["HttpHeaderCookieWithHttpSecureFlag"]]
             - ["setHeaderToSearchFor", ["Set-Cookie"]]
             - ["setExactMatch", [false]]
             - ["setValue", ["; Secure"]]
@@ -75,24 +75,16 @@ Rules:
     HttpHeaderHSTSPresent:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setName", ["HttpHeaderHSTSPresent"]]
             - ["setHeaderToSearchFor", ["Strict-Transport-Security"]]
 
     HttpHeaderHSTSWithSubdomains:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setName", ["HttpHeaderHSTSWithSubdomains"]]
             - ["setHeaderToSearchFor", ["Strict-Transport-Security"]]
             - ["setExactMatch", [false]]
             - ["setValue", ["; includeSubDomains"]]
-
-    HttpHeaderCookieWithHttpOnlyFlag:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
-        calls:
-            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
-            - ["setHeaderToSearchFor", ["Set-Cookie"]]
-            - ["setExactMatch", [false]]
-            - ["setValue", ["; HttpOnly"]]
 
     TitleTagLength:
         class: \Frickelbruder\KickOff\Rules\TitleTagLength
