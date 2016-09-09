@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderHasFarFutureExpiresHeader extends RuleBase {
+class HttpHeaderHasFarFutureExpiresHeader extends ConfigurableRuleBase {
 
     public $name = 'Far future "Expires" header';
 
@@ -12,7 +12,9 @@ class HttpHeaderHasFarFutureExpiresHeader extends RuleBase {
      *
      * @var integer
      */
-    private $thresholdInSeconds = 604800;
+    protected $thresholdInSeconds = 604800;
+
+    protected $configurableField = array('thresholdInSeconds');
 
     public function validate() {
         try {

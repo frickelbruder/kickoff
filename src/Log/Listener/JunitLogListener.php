@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
-use Frickelbruder\KickOff\Rules\Rule;
+use Frickelbruder\KickOff\Rules\RuleInterface;
 
 class JunitLogListener implements Listener {
 
@@ -9,7 +9,7 @@ class JunitLogListener implements Listener {
 
     private $logs = array();
 
-    public function log($sectionName, $targetUrl, Rule $rule, $success) {
+    public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         $ruleName = $rule->getName();
         if(!isset($this->logs[$sectionName])) {
             $this->logs[$sectionName] = array();

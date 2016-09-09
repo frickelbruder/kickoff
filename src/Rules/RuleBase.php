@@ -4,7 +4,7 @@ namespace Frickelbruder\KickOff\Rules;
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-abstract class RuleBase implements Rule {
+abstract class RuleBase implements RuleInterface {
 
     public $name = '';
 
@@ -13,7 +13,7 @@ abstract class RuleBase implements Rule {
      */
     protected $httpResponse = null;
 
-    protected $errorMessage = 'The Rule "%RULE%" in section "%SECTION%" did not yield the expected result.';
+    protected $errorMessage = 'This Rule did not yield the expected result.';
 
     public function __construct() {
         if(empty($this->name)) {

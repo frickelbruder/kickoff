@@ -1,6 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
+use Frickelbruder\KickOff\Rules\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
 
 class Configuration {
@@ -69,9 +70,6 @@ class Configuration {
         if( isset( $config['defaults']['target'] ) ) {
             $this->buildDefaultTarget( $config['defaults']['target'] );
         }
-        if( isset( $config['Rules'] ) ) {
-            $this->generateRules( $config['Rules'] );
-        }
     }
 
     private function buildDefaultTarget($config) {
@@ -86,21 +84,15 @@ class Configuration {
         }
     }
 
+    /**
+     * @param $config
+     *
+     * @return RuleInterface[]
+     */
     private function generateRules($config) {
-
-        foreach($config as $name => $values) {
-            $className = $values['class'];
-            $class = new $className();
-            if(isset($values['calls']) && is_array($values['calls'])) {
-                foreach($values['calls'] as $calls) {
-                    $method = $calls[0];
-                    $params = $calls[1];
-                    call_user_func_array(array($class, $method), $params);
-                }
-            }
-            $this->rules[$name] = $class;
-        }
-
+        $ruleBuilder = new RuleBuilder();
+        $this->rules = $ruleBuilder->buildRules($config);
+        return $this->rules;
     }
 
     /**
@@ -111,20 +103,29 @@ class Configuration {
             $section = new Section( $name );
             $sectionTargetUrl = $this->getSectionTargetUrl( $sectionConfig );
             $section->setTargetUrlItem( $sectionTargetUrl );
-            $section->setRules( $this->getRulesForSection( $sectionConfig ) );
+            $section->setRules( $this->getRulesForSection( $sectionConfig, $config ) );
             $this->sections[ $name ] = $section;
         }
     }
 
-    private function getRulesForSection($config) {
-        if(empty($config['rules'])) {
+    private function getRulesForSection($sectionConfig, $mainConfig) {
+        if(empty($sectionConfig['rules'])) {
             return array();
         }
         $result = array();
-        foreach($config['rules'] as $name) {
-            $result[$name] = $this->rules[$name];
+        foreach( $sectionConfig['rules'] as $name) {
+            $plainName = $name;
+            if(is_array($name)) {
+                list($plainName, $configData) = each($name);
+                foreach($configData as $variableBlock) {
+                    $rule['configuration'][] = array('set', $variableBlock);
+                }
+            }
+            $rule = $mainConfig['Rules'][$name];
+            $result[$plainName] = $rule;
         }
-        return $result;
+
+        return $this->generateRules($result);
     }
 
     private function getSectionTargetUrl($config){

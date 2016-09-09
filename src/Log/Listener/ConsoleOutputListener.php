@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
-use Frickelbruder\KickOff\Rules\Rule;
+use Frickelbruder\KickOff\Rules\RuleInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ConsoleOutputListener implements Listener {
@@ -20,7 +20,7 @@ class ConsoleOutputListener implements Listener {
     }
 
 
-    public function log($sectionName, $targetUrl, Rule $rule, $success) {
+    public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         $output = '.';
         if(!$success) {
             $this->messages[] =  $rule->getErrorMessage() . '(' . $sectionName. ':' . $rule->getName() . ')';

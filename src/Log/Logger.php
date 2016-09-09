@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Log;
 
 use Frickelbruder\KickOff\Log\Exceptions\ListenerNotFoundException;
 use Frickelbruder\KickOff\Log\Listener\Listener;
-use Frickelbruder\KickOff\Rules\Rule;
+use Frickelbruder\KickOff\Rules\RuleInterface;
 
 
 class Logger {
@@ -44,29 +44,29 @@ class Logger {
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param Rule $rule
+     * @param RuleInterface $rule
      *
      */
-    public function logSuccess($sectionName, $targetUrl, Rule $rule) {
+    public function logSuccess($sectionName, $targetUrl, RuleInterface $rule) {
         $this->log($sectionName, $targetUrl, $rule, true);
     }
 
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param Rule $rule
+     * @param RuleInterface $rule
      */
-    public function logFail($sectionName, $targetUrl, Rule $rule) {
+    public function logFail($sectionName, $targetUrl, RuleInterface $rule) {
         $this->log($sectionName, $targetUrl, $rule, false);
     }
 
     /**
      * @param string $sectionName
      * @param string $targetUrl
-     * @param Rule $rule
+     * @param RuleInterface $rule
      * @param Boolean $success
      */
-    public function log($sectionName, $targetUrl, Rule $rule, $success) {
+    public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         foreach($this->listeners as $listener) {
             $listener->log($sectionName, $targetUrl, $rule, $success);
         }

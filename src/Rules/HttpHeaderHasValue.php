@@ -4,7 +4,7 @@ namespace Frickelbruder\KickOff\Rules;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderHasValue extends RuleBase {
+class HttpHeaderHasValue extends ConfigurableRuleBase {
 
     /**
      * @var string
@@ -14,6 +14,8 @@ class HttpHeaderHasValue extends RuleBase {
     protected $value = '';
 
     protected $exactMatch = true;
+
+    protected $configurableField = array("value");
 
 
     public function validate() {

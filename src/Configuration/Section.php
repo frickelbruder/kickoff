@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
-use Frickelbruder\KickOff\Rules\Rule;
+use Frickelbruder\KickOff\Rules\RuleInterface;
 
 class Section {
 
@@ -11,7 +11,7 @@ class Section {
     protected $name = '';
 
     /**
-     * @var Rule[]
+     * @var RuleInterface[]
      */
     protected $rules = array();
 
@@ -25,7 +25,7 @@ class Section {
     }
 
     /**
-     * @param Rule[] $rules
+     * @param RuleInterface[] $rules
      */
     public function setRules($rules) {
         $this->rules = $rules;
@@ -43,7 +43,7 @@ class Section {
     }
 
     /**
-     * @return Rule[]
+     * @return RuleInterface[]
      */
     public function getRules() {
         return $this->rules;

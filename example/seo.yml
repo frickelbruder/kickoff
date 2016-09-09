@@ -27,7 +27,8 @@ Sections:
             uri: pics/someimage.png
         rules:
             - HttpHeaderResourceFound
-            - HttpHeaderHasFarFutureExpiresHeader
+            - HttpHeaderHasFarFutureExpiresHeader:
+                - ["thresholdInSeconds", 604800]
 
     javascript:
         config:

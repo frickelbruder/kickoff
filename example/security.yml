@@ -1,15 +1,17 @@
 defaults:
     target:
         host: www.somehost.com
+        scheme: https://
 
 Sections:
     website:
         rules:
-            - HttpHeaderXSSProtection
+            - HttpHeaderXSSProtectionSecure
             - HttpHeaderExposePHP
             - HttpHeaderContentTypeNoSniffing
             - HttpHeaderCookieWithHttpOnlyFlag
-
-
+            - HttpHeaderHSTSPresent
+            - HttpHeaderHSTSWithSubdomains
+            - HttpHeaderCookieWithHttpSecureFlag
 
 
