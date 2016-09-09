@@ -2,16 +2,24 @@
 
 ##Installation
 
-###Phar
-Simply donwload the latest release at https://github.com/frickelbruder/kickoff/releases
-
 ###Composer
 ```
 php composer.phar require "frickelbruder/kickoff":"dev-master"
 ```
 
-##Usage
+###Phar
+For a simple quick you can download a precompiled phar-archive. 
+Simply download the latest release at https://github.com/frickelbruder/kickoff/releases
+
+##Simple usage
 ```
-./bin/KickOff.php -j build/logs/kickoff.log example/security.yml
+./bin/KickOff.php example/security.yml
 ```
+For an easy start, just edit one of the provided files in example and change your host where appropriate.
+
+## Integration into CD
+```
+./bin/KickOff.php -j build/logs/kickoff.xml example/security.yml
+```
+This generates a Junit compatible log file, which you can inject into your CD workflow as for example phpunit.
 
