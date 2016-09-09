@@ -51,13 +51,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $mainSection = $sections['main'];
         $rules = $mainSection->getRules();
 
-        $this->assertCount(2, $rules);
+        $this->assertCount(3, $rules);
 
         $this->assertArrayHasKey('HttpHeaderXSSProtection', $rules);
         $this->assertArrayHasKey('HttpHeaderExposePHP', $rules);
+        $this->assertArrayHasKey('HttpRequestTime', $rules);
 
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderPresent', $rules['HttpHeaderXSSProtection']);
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposePHP']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpRequestTime', $rules['HttpRequestTime']);
 
         $secondSection = $sections['second'];
         $rules = $secondSection->getRules();
@@ -67,6 +69,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $this->assertArrayHasKey('HttpHeaderExposePHP', $rules);
 
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposePHP']);
+    }
+
+    public function testConfigurationOfRule() {
+        $sections = $this->configuration->getSections();
+
+        $mainSection = $sections['main'];
+        $rules = $mainSection->getRules();
+
+        $configuredRule = $rules['HttpRequestTime'];
+        $configuredRule->maxTransferTime = 22500;
     }
 
 }

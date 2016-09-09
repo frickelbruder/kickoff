@@ -8,6 +8,8 @@ Sections:
         rules:
             - HttpHeaderXSSProtection
             - HttpHeaderExposePHP
+            - HttpRequestTime:
+                - ["maxTransferTime", 22500]
     second:
         config:
             host: test2.host
