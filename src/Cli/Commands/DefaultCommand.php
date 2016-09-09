@@ -4,6 +4,7 @@ namespace Frickelbruder\KickOff\Cli\Commands;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Configuration\Section;
 use Frickelbruder\KickOff\Http\HttpRequester;
+use Frickelbruder\KickOff\Log\Listener\JunitLogListener;
 use Frickelbruder\KickOff\Log\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -104,11 +105,12 @@ class DefaultCommand extends Command {
      * @param string
      */
     protected function handleJunitOption($option) {
-        if( empty( $option ) ) {
-            $this->logger->removeListener( 'junit' );
-        } else {
-            $listener = $this->logger->getListener( 'junit' );
-            $listener->logFileName = $option;
+        if( !empty( $option ) ) {
+
+            $junitLogListener = new JunitLogListener();
+            $junitLogListener->logFileName = $option;
+            $this->logger->addListener( 'junit', $junitLogListener );
+
         }
     }
 
