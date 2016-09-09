@@ -10,7 +10,7 @@ Rules:
         calls:
             - ["setName", ["HttpHeaderXSSProtection"]]
             - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
-            - ["setValue", ["1; block"]]
+            - ["setValue", ["1; mode=block"]]
 
     HttpHeaderExposePHP:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
