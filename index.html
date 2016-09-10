@@ -13,8 +13,6 @@
     <section class="page-header">
       <h1 class="project-name">Kickoff</h1>
       <h2 class="project-tagline">Keep your websites requirements</h2>
-      <a href="https://github.com/frickelbruder/kickoff/releases" class="btn">Download .phar file</a>
-      <a href="http://frickelbruder.github.io/kickoff/docu.html" class="btn">Documentation</a>
       <a href="https://github.com/frickelbruder/kickoff" class="btn">View on GitHub</a>
       <a href="https://github.com/frickelbruder/kickoff/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/frickelbruder/kickoff/tarball/master" class="btn">Download .tar.gz</a>
@@ -24,7 +22,19 @@
       <h3>
 <a id="why-kickoff" class="anchor" href="#why-kickoff" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why Kickoff.</h3>
 
-<p>As a webdeveloper, it is not easy to always think about all the aspects of a webpage. There are issues like security, seo, performance and other individual requirements to your website, which are vital to a good seo ranking or a good user experience. To make sure, these requirements are always met, you best test during your CD cycle, that nothing broke at your live site. A missing X-XSS-Protection header or a wrong HTTP-Response can be fatal for your users or your seo rankings.
+<p>As a webdeveloper, it is not easy to always think about all the aspects of a webpage. There are issues like security, seo, performance and other individual requirements to your website, which are vital to a good seo ranking or a good user experience. Those tests could:</p>
+
+<ul>
+<li>Provide an X-XSS-Protection header.</li>
+<li>Deliver an HTML document in less than 1 second.</li>
+<li>Your redirects should use a 301 header</li>
+<li>Your cookie should be accessible via HttpOnly</li>
+<li>Your title tag should only be 70 characters long</li>
+<li>[...]</li>
+</ul>
+
+<p>To make sure, these requirements are always met, you best test during your CD cycle, that nothing broke at your live site. 
+A missing X-XSS-Protection header or a wrong HTTP-Response can be fatal for your users or your seo rankings.
 Entrance kickoff.</p>
 
 <h3>
