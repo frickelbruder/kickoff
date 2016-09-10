@@ -24,6 +24,17 @@
     <h3>
         <a id="format" class="anchor" href="#format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>kickoff.yml - Format</h3>
 
+    <p><strong>Table of contents</strong></p>
+    <ul>
+        <li><a href="#defaults">defaults</a></li>
+        <li><a href="#sections">Sections</a>
+            <ul>
+                <li><a href="#config">config</a></li>
+                <li><a href="#section-rules">rules</a></li>
+            </ul></li>
+        <li><a href="#rules">Rules</a></li>
+    </ul>
+
     <p>As usually, you learn best form an example:</p>
     <pre><code>defaults:
     target:
@@ -98,9 +109,9 @@ Sections:
     <p>Typical section names might be: website, image, stylesheets, javascripts, robots.txt, favicon.ico. As you can see, you can run tests against a basic website or any of the embedded resources seperatly.</p>
     <h4><a id="sections-configure" class="anchor" href="#sections-configure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sections, how to configure?</h4>
     <p>After the name of the section, you can define 2 different blocks. The first block is the config block.</p>
-    <h5>The config block</h5>
+    <h5><a id="config" class="anchor" href="#config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The config block</h5>
     <p>This block is used to configure the exact uri of the resource, you wish to test. If you already have setup your default target nicely, most likely only the uri needs to be set. But as mentioned before, you can override any of the default targets elements.</p>
-    <h5>The rules block</h5>
+    <h5><a id="section-rules" class="anchor" href="#section-rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The rules block</h5>
     <p>This is finally the location, where you add and configure the rules for the specific resource. For most current tests it will be sufficient to add the names of the rule. <a href="rules.html">A list of rules can be found here</a>.</p>
     <p>If you are not happy with the default configuration of a rule: Some rules provide the possibilty to be reconfigured in your configuration. The reconfigurable variables can be set as a simple "key, value" pair. There can be multiple "key, value"-pairs per rule. See more at the <a href="configuring-rules.html">Configuring Rules</a> section.</p>
     <h4>
