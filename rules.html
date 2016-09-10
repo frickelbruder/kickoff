@@ -46,17 +46,21 @@
             <h3>HttpHeaderHSTSWithSubdomains</h3>
             <p>Tests, whether the "Strict-Transport-Security" HTTP header is present and has the "includeSubDomains" flag set. <a href="https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet" target="_blank">More Infos about HSTS.</a></p>
 
-            <h2>Seo and performance Rules</h2>
+            <h2>Performance rules</h2>
             <h3>HttpRequestTime</h3>
             <p>Tests, whether the website was downloaded in less than a sepcified amount of seconds.</p>
             <h3>HttpHeaderHasFarFutureExpiresHeader</h3>
             <p>Tests, whether the website or resource sends a far future "Expires" header.</p>
+            <h3>HttpHeaderResourceIsGzipped</h3>
+            <p>Tests, whether the website or resource sends gzip encoded content.</p>
+            <h3>HttpHeaderNotModifiedOnIfModifiedSince</h3>
+            <p>Tests, whether the website or resource sends responds with a 304 header to an "If-Modified-Since" http request.</p>
+
+            <h2>Seo Rules</h2>
             <h3>HttpHeaderResourceFound</h3>
             <p>Tests, whether the website or resource sends a 200 status code.</p>
             <h3>HttpHeaderResourceIsMissing</h3>
             <p>Tests, whether the website or resource, which is missing sends a 404 status code.</p>
-            <h3>HttpHeaderResourceIsGzipped</h3>
-            <p>Tests, whether the website or resource sends gzip encoded content.</p>
             <h3>TitleTagLength</h3>
             <p>Tests, whether the title tag length is in specified boundaries.</p>
             <h3>MetaDescriptionLength</h3>
