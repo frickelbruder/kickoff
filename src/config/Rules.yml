@@ -32,7 +32,7 @@ Rules:
     HttpHeaderResourceIsMissing:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
         calls:
-            - ["setValue", ["400"]]
+            - ["setValue", ["404"]]
 
     HttpHeaderResourceIsGzipped:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
