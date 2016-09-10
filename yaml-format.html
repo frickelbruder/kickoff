@@ -21,9 +21,92 @@
 </section>
 
 <section class="main-content">
-            <h3>
-                <a id="format" class="anchor" href="#format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>kickoff.yml - Format</h3>
+    <h3>
+        <a id="format" class="anchor" href="#format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>kickoff.yml - Format</h3>
 
+    <p>As usually, you learn best form an example:</p>
+    <pre><code>defaults:
+    target:
+        port: 8080
+        host: www.somehost.com
+        scheme: http://
+        uri: en/home
+
+Sections:
+    defaultwebsite:
+        rules:
+            - HttpHeaderExposePHP
+            - HttpHeaderXSSProtectionSecure
+    images:
+        config:
+            uri: pics/image.png
+        rules:
+            - HttpHeaderHasFarFutureExpiresHeader:
+                - ["thresholdInSeconds", 604800]</code></pre>
+    <p><small>More complex examples can be found in the example folder in the sources.</small></p>
+
+    <h4>
+        <a id="defaults" class="anchor" href="#defaults" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>defaults
+    </h4>
+    <p>The defaults blog consists of the following options:    </p>
+    <pre><code>target:
+        port: 8080
+        host: www.somehost.com
+        scheme: http://
+        uri: en/home
+        headers:
+            - ["Accept-Encoding", "gzip"]</code></pre>
+    <p>Currently only the target element can be preconfigured for all sections.<br>
+        Obviously, you configure the wevsite, you want to test. Any configuration element you use here, will be used as default for any of the sections urls unless you overwrite them. For more information see the Sections paragraph.
+    </p>
+    <p>
+        The possible options are:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>config</th>
+                <th>description</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>scheme</td>
+            <td>The default is http://. If you want to test your application using a differen scheme (such as https://), you can add this here.</td>
+        </tr>
+        <tr>
+            <td>host</td>
+            <td>The exact domain name, that you want to check.</td>
+        </tr>
+        <tr>
+            <td>port</td>
+            <td>This is the port of your website. If you do not need to explicitly append the port to the url because the website is delivered on a non standard port according to the protocoll, you do not need to add this configuration element.</td>
+        </tr>
+        <tr>
+            <td>uri</td>
+            <td>The uri of the resource you want to check. Most likely you will leave this blank in the default configuration but will pass a specific resources url in the section config block.</td>
+        </tr>
+        <tr>
+            <td>headers</td>
+            <td>Sometimes you need specific headers to test specific handling of a resource, e.g. a redirect to a websites mobile version when a certain user agent is set. You can add you desired headers here.</td>
+        </tr>
+    </table>
+
+    <h4>
+        <a id="sections" class="anchor" href="#sections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sections, what is it?
+    </h4>
+    <p>This is the main configuration block. Here you configure certain sections of your site. A section groups a typical resource type, where you wish to run your tests against. The name is completley free choosable, as long as you take care about the yaml format.</p>
+    <p>Typical section names might be: website, image, stylesheets, javascripts, robots.txt, favicon.ico. As you can see, you can run tests against a basic website or any of the embedded resources seperatly.</p>
+    <h4><a id="sections-configure" class="anchor" href="#sections-configure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sections, how to configure?</h4>
+    <p>After the name of the section, you can define 2 different blocks. The first block is the config block.</p>
+    <h5>The config block</h5>
+    <p>This block is used to configure the exact uri of the resource, you wish to test. If you already have setup your default target nicely, most likely only the uri needs to be set. But as mentioned before, you can override any of the default targets elements.</p>
+    <h5>The rules block</h5>
+    <p>This is finally the location, where you add and configure the rules for the specific resource. For most current tests it will be sufficient to add the names of the rule. <a href="rules.html">A list of rules can be found here</a>.</p>
+    <p>If you are not happy with the default configuration of a rule: Some rules provide the possibilty to be reconfigured in your configuration. The reconfigurable variables can be set as a simple "key, value" pair. There can be multiple "key, value"-pairs per rule. See more at the <a href="configuring-rules.html">Configuring Rules</a> section.</p>
+    <h4>
+        <a id="rules" class="anchor" href="#rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rules
+    </h4>
+    <p>Besides using and configuring existing rules, you can add custom rules and add those rules to the sections rule block. Read more about creating your own rules in the <a href="custom-rules.html">Custom Rules</a> section.</p>
 
     <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/frickelbruder/kickoff">Kickoff</a> is maintained by <a href="https://github.com/frickelbruder">frickelbruder</a>.</span>
