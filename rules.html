@@ -28,23 +28,39 @@
 
             <h2>Security Rules</h2>
             <h3>HttpHeaderXSSProtectionPresent</h3>
+            <p>Tests, whether the X-XSS-Protection HTTP header is present.</p>
             <h3>HttpHeaderXSSProtectionSecure</h3>
+            <p>Tests, whether the X-XSS-Protection HTTP header is present and has value "1; mode=block".</p>
             <h3>HttpHeaderExposePHP</h3>
+            <p>Tests, whether the X-Powered-By HTTP header is present.</p>
             <h3>HttpHeaderContentTypeNoSniffing</h3>
+            <p>Tests, whether the X-Content-Type-Options HTTP header is present and has value "nosniff".</p>
             <h3>HttpHeaderFrameOptionsSameOrigin</h3>
+            <p>Tests, whether the X-Frame-Options HTTP header is present and has value "SAMEORIGIN".</p>
             <h3>HttpHeaderCookieWithHttpOnlyFlag</h3>
+            <p>Tests, whether the Session cookie has the flag "httpOnly" set.</p>
             <h3>HttpHeaderCookieWithHttpSecureFlag</h3>
+            <p>Tests, whether the Session cookie has the flag "Secure" set.</p>
             <h3>HttpHeaderHSTSPresent</h3>
+            <p>Tests, whether the "Strict-Transport-Security" HTTP header is present. <a href="https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet" target="_blank">More Infos about HSTS.</a></p>
             <h3>HttpHeaderHSTSWithSubdomains</h3>
+            <p>Tests, whether the "Strict-Transport-Security" HTTP header is present and has the "includeSubDomains" flag set. <a href="https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet" target="_blank">More Infos about HSTS.</a></p>
 
             <h2>Seo and performance Rules</h2>
             <h3>HttpRequestTime</h3>
+            <p>Tests, whether the website was downloaded in less than a sepcified amount of seconds.</p>
             <h3>HttpHeaderHasFarFutureExpiresHeader</h3>
+            <p>Tests, whether the website or resource sends a far future "Expires" header.</p>
             <h3>HttpHeaderResourceFound</h3>
+            <p>Tests, whether the website or resource sends a 200 status code.</p>
             <h3>HttpHeaderResourceIsMissing</h3>
+            <p>Tests, whether the website or resource, which is missing sends a 404 status code.</p>
             <h3>HttpHeaderResourceIsGzipped</h3>
+            <p>Tests, whether the website or resource sends gzip encoded content.</p>
             <h3>TitleTagLength</h3>
+            <p>Tests, whether the title tag length is in specified boundaries.</p>
             <h3>MetaDescriptionLength</h3>
+            <p>Tests, whether the meta description length is in specified boundaries.</p>
 
             <footer class="site-footer">
                 <span class="site-footer-owner"><a href="https://github.com/frickelbruder/kickoff">Kickoff</a> is maintained by <a href="https://github.com/frickelbruder">frickelbruder</a>.</span>
