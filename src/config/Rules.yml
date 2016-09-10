@@ -29,6 +29,9 @@ Rules:
         calls:
             - ["setValue", ["200"]]
 
+    HttpHeaderNotModifiedOnIfModifiedSince:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderRespondsToIfModifiedSince
+
     HttpHeaderResourceIsMissing:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
         calls:

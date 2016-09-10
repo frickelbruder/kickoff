@@ -1,6 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
+use Frickelbruder\KickOff\Rules\RequiresHeaderInterface;
 use Frickelbruder\KickOff\Rules\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
 
@@ -76,10 +77,18 @@ class Configuration {
         $this->enrichTarget( $this->defaultTargetUrl, $config );
     }
 
-    private function enrichTarget(TargetUrl $targetUrl, $config) {
+    private function enrichTarget(TargetUrl $targetUrl, $config, $rules = array()) {
         foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
             if( array_key_exists( $key, $config ) ) {
                 $targetUrl->$key = $config[ $key ];
+            }
+        }
+        foreach($rules as $rule) {
+            if($rule instanceof RequiresHeaderInterface) {
+                $headers = $targetUrl->getHeaders();
+                foreach($headers as $header) {
+                    $targetUrl->addHeader($header[0], $header[1]);
+                }
             }
         }
     }
@@ -91,8 +100,7 @@ class Configuration {
      */
     private function generateRules($config) {
         $ruleBuilder = new RuleBuilder();
-        $this->rules = $ruleBuilder->buildRules($config);
-        return $this->rules;
+        return $ruleBuilder->buildRules($config);
     }
 
     /**
@@ -100,10 +108,11 @@ class Configuration {
      */
     protected function buildSections($config) {
         foreach( $config['Sections'] as $name => $sectionConfig ) {
+            $sectionRules = $this->getRulesForSection( $sectionConfig, $config );
             $section = new Section( $name );
-            $sectionTargetUrl = $this->getSectionTargetUrl( $sectionConfig );
+            $sectionTargetUrl = $this->getSectionTargetUrl( $sectionConfig, $sectionRules );
             $section->setTargetUrlItem( $sectionTargetUrl );
-            $section->setRules( $this->getRulesForSection( $sectionConfig, $config ) );
+            $section->setRules( $sectionRules );
             $this->sections[ $name ] = $section;
         }
     }
@@ -128,10 +137,10 @@ class Configuration {
         return $this->generateRules($result);
     }
 
-    private function getSectionTargetUrl($config){
+    private function getSectionTargetUrl($config, $rules){
         $target = clone $this->defaultTargetUrl;
         if(!empty($config['config'])) {
-            $this->enrichTarget($target, $config['config']);
+            $this->enrichTarget($target, $config['config'], $rules);
         }
         return $target;
     }
