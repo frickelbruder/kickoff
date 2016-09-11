@@ -44,11 +44,7 @@ Rules:
             - ["setValue", ["404"]]
 
     HttpHeaderResourceIsGzipped:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
-        calls:
-            - ["setName", ["HttpHeaderResourceIsGzipped"]]
-            - ["setHeaderToSearchFor", ["Content-Encoding"]]
-            - ["setValue", ["gzip"]]
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderResourceIsGzipped
 
     HttpHeaderContentTypeNoSniffing:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue

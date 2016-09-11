@@ -1,0 +1,29 @@
+<?php
+namespace Frickelbruder\KickOff\Rules;
+
+use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+
+class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInterface {
+
+    public $name = 'HttpHeaderResourceIsGzipped';
+
+    public function getRequiredHeaders() {
+        return array(array('Accept-Encoding', 'gzip, deflate'));
+    }
+
+    public function validate() {
+        try {
+            $contentEncoding = $this->findHeader( 'Content-Encoding' );
+            if( $contentEncoding != 'gzip' ) {
+                $this->errorMessage = 'The "Content-Encoding" HTTP header was found but had an unexpected value';
+                return false;
+            }
+            return true;
+        } catch(HeaderNotFoundException $e) {
+            $this->errorMessage = 'The "Content-Encoding" HTTP header was not found.';
+        }
+        return false;
+    }
+
+
+}

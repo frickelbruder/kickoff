@@ -49,15 +49,6 @@ class HttpRequester {
         return $response;
     }
 
-    private function getRequestHeaders(TargetUrl $targetUrl) {
-        $defaults = array( 'Accept-Encoding' => 'gzip' );
-        $headers = $targetUrl->getHeaders();
-
-        $mergedHeaders = $defaults + $headers;
-
-        return array_filter( $mergedHeaders );
-    }
-
     /**
      * @return Client
      */
@@ -112,7 +103,7 @@ class HttpRequester {
      */
     private function getOptionsArray(TargetUrl $targetUrl, HttpResponse $response) {
         return array(
-            'headers' => $this->getRequestHeaders( $targetUrl ),
+            'headers' => $targetUrl->getHeaders(),
             'on_stats' => function(TransferStats $stats) use ($response) {
                 $response->setTransferTime( $stats->getTransferTime() );
             }
