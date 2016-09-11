@@ -101,3 +101,5 @@ Rules:
     MetaDescriptionLength:
         class: \Frickelbruder\KickOff\Rules\MetaDescriptionLength
 
+    OGPropertyPresent:
+        class: \Frickelbruder\KickOff\Rules\OgPropertyPresent
