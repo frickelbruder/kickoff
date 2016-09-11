@@ -12,7 +12,7 @@ class HttpHeaderHasFarFutureExpiresHeaderTest extends \PHPUnit_Framework_TestCas
         $response->setHeaders(array('Expires' => gmdate('D, d M Y H:i:s \G\M\T', time() + $threshold)));
 
         $rule = new HttpHeaderHasFarFutureExpiresHeader();
-        $rule->setThresholdInSeconds($threshold);
+        $rule->set('threshold', $threshold);
         $rule->setHttpResponse($response);
 
 
@@ -26,7 +26,7 @@ class HttpHeaderHasFarFutureExpiresHeaderTest extends \PHPUnit_Framework_TestCas
         $response->setHeaders(array('Expires' => gmdate('D, d M Y H:i:s \G\M\T', time())));
 
         $rule = new HttpHeaderHasFarFutureExpiresHeader();
-        $rule->setThresholdInSeconds($threshold);
+        $rule->set('threshold', $threshold);
         $rule->setHttpResponse($response);
 
 
@@ -40,7 +40,7 @@ class HttpHeaderHasFarFutureExpiresHeaderTest extends \PHPUnit_Framework_TestCas
         $response->setHeaders(array('Expiring' => 'anytime'));
 
         $rule = new HttpHeaderHasFarFutureExpiresHeader();
-        $rule->setThresholdInSeconds($threshold);
+        $rule->set('threshold', $threshold);
         $rule->setHttpResponse($response);
 
 

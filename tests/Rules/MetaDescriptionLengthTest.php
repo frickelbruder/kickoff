@@ -13,8 +13,8 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
 
         $rule = new MetaDescriptionLength();
         $rule->setHttpResponse($response);
-        $rule->setMinLength(10);
-        $rule->setMaxLength(300);
+        $rule->set('minlength', 10);
+        $rule->set('maxlength', 300);
 
         $result = $rule->validate();
         $this->assertTrue($result);
@@ -25,7 +25,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="Short"></head></html>');
 
         $rule = new MetaDescriptionLength();
-        $rule->setMinLength(100);
+        $rule->set('minlength', 100);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -37,7 +37,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="REALY LONG"></head></html>');
 
         $rule = new MetaDescriptionLength();
-        $rule->setMaxLength(3);
+        $rule->set('maxlength', 3);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -60,7 +60,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="123456"><meta name="description" content="123"></head></html>');
 
         $rule = new MetaDescriptionLength();
-        $rule->setMinLength(6);
+        $rule->set('minlength', 6);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -72,8 +72,8 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="äöü"></head></html>');
 
         $rule = new MetaDescriptionLength();
-        $rule->setMinLength(2);
-        $rule->setMaxLength(3);
+        $rule->set('minlength', 2);
+        $rule->set('maxlength', 3);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();

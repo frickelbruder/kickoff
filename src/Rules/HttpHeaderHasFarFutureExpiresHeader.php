@@ -12,14 +12,14 @@ class HttpHeaderHasFarFutureExpiresHeader extends ConfigurableRuleBase {
      *
      * @var integer
      */
-    protected $thresholdInSeconds = 604800;
+    protected $threshold = 604800;
 
-    protected $configurableField = array('thresholdInSeconds');
+    protected $configurableField = array('threshold');
 
     public function validate() {
         try {
             $expiresHeader = $this->findHeader( 'Expires' );
-            $result = strtotime( $expiresHeader ) >= time() + $this->thresholdInSeconds;
+            $result = strtotime( $expiresHeader ) >= time() + $this->threshold;
             if(!$result) {
                 $this->errorMessage = 'The HTTP "Expires" header is not set to a far enough value';
             }
@@ -32,11 +32,5 @@ class HttpHeaderHasFarFutureExpiresHeader extends ConfigurableRuleBase {
         return false;
     }
 
-    /**
-     * @param int $thresholdInSeconds
-     */
-    public function setThresholdInSeconds($thresholdInSeconds) {
-        $this->thresholdInSeconds = $thresholdInSeconds;
-    }
 
 }

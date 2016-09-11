@@ -22,7 +22,7 @@ class TitleTagLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><title>Short</title></head></html>');
 
         $rule = new TitleTagLength();
-        $rule->setMinLength(100);
+        $rule->set('minlength', 100);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -34,7 +34,7 @@ class TitleTagLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><title>REALY LONG</title></head></html>');
 
         $rule = new TitleTagLength();
-        $rule->setMaxLength(3);
+        $rule->set('maxlength', 3);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -57,7 +57,7 @@ class TitleTagLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><title>123456</title><title>123</title></head></html>');
 
         $rule = new TitleTagLength();
-        $rule->setMinLength(6);
+        $rule->set('minlength', 6);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -69,8 +69,8 @@ class TitleTagLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><title>öäü</title></head></html>');
 
         $rule = new TitleTagLength();
-        $rule->setMinLength(2);
-        $rule->setMaxLength(3);
+        $rule->set('minlength', 2);
+        $rule->set('maxlength', 3);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();

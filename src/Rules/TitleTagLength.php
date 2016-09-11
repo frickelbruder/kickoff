@@ -1,11 +1,15 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-class TitleTagLength extends RuleBase {
+class TitleTagLength extends ConfigurableRuleBase  {
 
     public $name = 'TitleTagLength';
 
-    private $requiredLength = array('min' => 10, 'max' => 70);
+    protected $minlength = 10;
+
+    protected $maxlength = 80;
+
+    protected $configurableField = array('minlength', 'maxlength');
 
     protected $errorMessage = 'The title tag on this page does not have the required length.';
 
@@ -22,11 +26,11 @@ class TitleTagLength extends RuleBase {
             }
             ($length = mb_strlen( $titleTagValue, 'UTF-8' ));
 
-            if($length < $this->requiredLength['min']) {
+            if($length < $this->minlength) {
                 $this->errorMessage = 'The title tag is too short.';
                 return false;
             }
-            if( $length > $this->requiredLength['max']) {
+            if( $length > $this->maxlength) {
                 $this->errorMessage = 'The title tag is too long.';
                 return false;
             }
@@ -37,11 +41,4 @@ class TitleTagLength extends RuleBase {
         }
     }
 
-    public function setMinLength($min) {
-        $this->requiredLength['min'] = $min;
-    }
-
-    public function setMaxLength($max) {
-        $this->requiredLength['max'] = $max;
-    }
 }
