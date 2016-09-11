@@ -24,6 +24,12 @@ Rules:
     HttpHeaderHasFarFutureExpiresHeader:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasFarFutureExpiresHeader
 
+    HttpHeaderHasEtag:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
+        calls:
+            - ["setName", ["HttpHeaderHasEtag"]]
+            - ["setHeaderToSearchFor", ["ETag"]]
+
     HttpHeaderResourceFound:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
         calls:
