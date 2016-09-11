@@ -12,10 +12,10 @@ Rules:
             - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
             - ["setValue", ["1; mode=block"]]
 
-    HttpHeaderExposePHP:
+    HttpHeaderExposeLanguage:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
         calls:
-            - ["setName", ["HttpHeaderExposePHP"]]
+            - ["setName", ["HttpHeaderExposeLanguage"]]
             - ["setHeaderToSearchFor", ["X-Powered-By"]]
 
     HttpRequestTime:

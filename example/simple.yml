@@ -4,7 +4,7 @@ defaults:
         scheme: http://
 
 Sections:
-    main:
+    website:
         rules:
             - HttpHeaderXSSProtection
-            - HttpHeaderExposePHP
+            - HttpHeaderExposeLanguage

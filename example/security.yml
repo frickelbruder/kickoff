@@ -7,7 +7,7 @@ Sections:
     website:
         rules:
             - HttpHeaderXSSProtectionSecure
-            - HttpHeaderExposePHP
+            - HttpHeaderExposeLanguage
             - HttpHeaderContentTypeNoSniffing
             - HttpHeaderCookieWithHttpOnlyFlag
             - HttpHeaderHSTSPresent
