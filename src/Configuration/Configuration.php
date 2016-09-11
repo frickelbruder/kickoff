@@ -18,11 +18,6 @@ class Configuration {
     private $defaultTargetUrl = null;
 
     /**
-     * @var array
-     */
-    private $rules = array();
-
-    /**
      * @var Yaml
      */
     private $yaml = null;
@@ -37,15 +32,15 @@ class Configuration {
     }
 
     public function build($filename) {
-        $config = $this->buildConfig($filename);
+        $config = $this->buildConfig( $filename );
         $this->prepareConfiguredItems( $config );
         $this->buildSections( $config );
     }
 
     private function buildConfig($filename) {
-        $config = $this->yaml->fromFile($filename);
-        $defaultRulesConfig = $this->yaml->fromFile(__DIR__ . '/../config/Rules.yml');
-        $config = $this->mergeUserConfigWithDefaults($config, $defaultRulesConfig);
+        $config = $this->yaml->fromFile( $filename );
+        $defaultRulesConfig = $this->yaml->fromFile( __DIR__ . '/../config/Rules.yml' );
+        $config = $this->mergeUserConfigWithDefaults( $config, $defaultRulesConfig );
         return $config;
     }
 
@@ -57,9 +52,9 @@ class Configuration {
      */
     private function mergeUserConfigWithDefaults(array $config, array $defaultRulesConfig) {
         $defaultRules = $defaultRulesConfig['Rules'];
-        $configRules = !empty($config['Rules']) ? $config['Rules'] : array();
+        $configRules = !empty( $config['Rules'] ) ? $config['Rules'] : array();
 
-        $config['Rules'] = array_merge($defaultRules, $configRules);
+        $config['Rules'] = array_merge( $defaultRules, $configRules );
 
         return $config;
     }
@@ -77,18 +72,15 @@ class Configuration {
         $this->enrichTarget( $this->defaultTargetUrl, $config );
     }
 
-    private function enrichTarget(TargetUrl $targetUrl, $config, $rules = array()) {
-        foreach(array('host', 'port', 'uri', 'scheme', 'headers') as $key) {
+    private function enrichTarget(TargetUrl $targetUrl, $config) {
+        foreach( array( 'host', 'port', 'uri', 'scheme' ) as $key ) {
             if( array_key_exists( $key, $config ) ) {
                 $targetUrl->$key = $config[ $key ];
             }
         }
-        foreach($rules as $rule) {
-            if($rule instanceof RequiresHeaderInterface) {
-                $headers = $targetUrl->getHeaders();
-                foreach($headers as $header) {
-                    $targetUrl->addHeader($header[0], $header[1]);
-                }
+        if(isset($config['headers'])) {
+            foreach($config['headers'] as $header) {
+                $targetUrl->addHeader($header[0], $header[1]);
             }
         }
     }
@@ -100,7 +92,7 @@ class Configuration {
      */
     private function generateRules($config) {
         $ruleBuilder = new RuleBuilder();
-        return $ruleBuilder->buildRules($config);
+        return $ruleBuilder->buildRules( $config );
     }
 
     /**
@@ -118,31 +110,61 @@ class Configuration {
     }
 
     private function getRulesForSection($sectionConfig, $mainConfig) {
-        if(empty($sectionConfig['rules'])) {
+        if( empty( $sectionConfig['rules'] ) ) {
             return array();
         }
         $result = array();
-        foreach( $sectionConfig['rules'] as $name) {
+        foreach( $sectionConfig['rules'] as $name ) {
             $plainName = $name;
-            if(is_array($name)) {
-                list($plainName, $configData) = each($name);
-                foreach($configData as $variableBlock) {
-                    $rule['configuration'][] = array('set', $variableBlock);
+            if( is_array( $name ) ) {
+                list( $plainName, $configData ) = each( $name );
+                foreach( $configData as $variableBlock ) {
+                    $rule['configuration'][] = array( 'set', $variableBlock );
                 }
             }
-            $rule = $mainConfig['Rules'][$plainName];
-            $result[$plainName] = $rule;
+            $rule = $mainConfig['Rules'][ $plainName ];
+            $result[ $plainName ] = $rule;
         }
 
-        return $this->generateRules($result);
+        return $this->generateRules( $result );
     }
 
-    private function getSectionTargetUrl($config, $rules){
+    private function getSectionTargetUrl($config, $rules) {
         $target = clone $this->defaultTargetUrl;
-        if(!empty($config['config'])) {
-            $this->enrichTarget($target, $config['config'], $rules);
+
+        $config = $this->addRuleRequirementsToConfig( $config, $rules );
+
+        if( !empty( $config['config'] ) ) {
+            $this->enrichTarget( $target, $config['config'] );
         }
+
         return $target;
+    }
+
+    /**
+     * @param array $config
+     * @param array $rules
+     *
+     * @return array
+     */
+    private function addRuleRequirementsToConfig($config, array $rules) {
+        foreach( $rules as $rule ) {
+            if( !( $rule instanceof RequiresHeaderInterface ) ) {
+                continue;
+            }
+            $headers = $rule->getRequiredHeaders();
+            foreach( $headers as $header ) {
+                if( empty( $config['config'] ) ) {
+                    $config['config'] = array();
+                }
+                if( empty( $config['config']['headers'] ) ) {
+                    $config['config']['headers'] = array();
+                }
+                $config['config']['headers'][] = $header;
+            }
+        }
+
+        return $config;
     }
 
 

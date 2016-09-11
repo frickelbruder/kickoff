@@ -2,12 +2,14 @@ defaults:
     target:
         host: test.host
         scheme: https://
+        headers:
+            - ["a","b"]
 
 Sections:
     main:
         rules:
             - HttpHeaderXSSProtection
-            - HttpHeaderExposePHP
+            - HttpHeaderResourceIsGzipped
             - HttpRequestTime:
                 - ["maxTransferTime", 22500]
     second:
@@ -15,7 +17,7 @@ Sections:
             host: test2.host
             port: 8080
         rules:
-            - HttpHeaderExposePHP
+            - HttpHeaderExposeLanguage
 
 
 Rules:
@@ -23,8 +25,3 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
             - ['setHeaderToSearchFor', ["X-XSS-Protection"]]
-
-    HttpHeaderExposePHP:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
-        calls:
-            - ['setHeaderToSearchFor', ["X-Powered-By"]]

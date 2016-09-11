@@ -54,11 +54,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(3, $rules);
 
         $this->assertArrayHasKey('HttpHeaderXSSProtection', $rules);
-        $this->assertArrayHasKey('HttpHeaderExposePHP', $rules);
+        $this->assertArrayHasKey('HttpHeaderResourceIsGzipped', $rules);
         $this->assertArrayHasKey('HttpRequestTime', $rules);
 
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderPresent', $rules['HttpHeaderXSSProtection']);
-        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposePHP']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderResourceIsGzipped', $rules['HttpHeaderResourceIsGzipped']);
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpRequestTime', $rules['HttpRequestTime']);
 
         $secondSection = $sections['second'];
@@ -66,9 +66,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertCount(1, $rules, 'Not matching rules count');
 
-        $this->assertArrayHasKey('HttpHeaderExposePHP', $rules);
+        $this->assertArrayHasKey('HttpHeaderExposeLanguage', $rules);
 
-        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposePHP']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposeLanguage']);
     }
 
     public function testConfigurationOfRule() {
@@ -79,6 +79,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         $configuredRule = $rules['HttpRequestTime'];
         $configuredRule->maxTransferTime = 22500;
+    }
+
+    public function testConfigurationTargetUrlHasAddedHeaders() {
+        $sections = $this->configuration->getSections();
+
+        $mainSection = $sections['main'];
+        $targetUrl = $mainSection->getTargetUrl();
+
+        $this->assertArrayHasKey('a', $targetUrl->headers);
+        $this->assertArrayHasKey('Accept-Encoding', $targetUrl->headers);
     }
 
 }
