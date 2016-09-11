@@ -14,6 +14,7 @@ class HttpRequesterTest extends \PHPUnit_Framework_TestCase {
     public function testRequest() {
         $targetUrl = new TargetUrl();
         $targetUrl->host='test.host';
+        $targetUrl->addHeader('User-Agent', 'none');
 
         $responses = array();
         $responses[] = new Response( 200, [ 'X-Test' => 'Bar' ], 'test123' );
@@ -67,6 +68,7 @@ class HttpRequesterTest extends \PHPUnit_Framework_TestCase {
 
         $targetUrl = new TargetUrl();
         $targetUrl->host='test.host';
+        $targetUrl->addHeader('User-Agent', 'none');
 
         $requester = new HttpRequester();
         $requester->setClient($client);
@@ -76,10 +78,9 @@ class HttpRequesterTest extends \PHPUnit_Framework_TestCase {
 
         $firstRequest = $historyContainer[0]['request'];
         /* @var $firstRequest \GuzzleHttp\Psr7\Request */
-        $value = $firstRequest->getHeader('Accept-Encoding');
+        $value = $firstRequest->getHeaders();
 
-        $this->assertCount(1, $value);
-        $this->assertEquals($value[0], 'gzip');
+        $this->assertCount(2, $value); //User-Agent and host
     }
 
     public function testRequestSendCustomHeader() {

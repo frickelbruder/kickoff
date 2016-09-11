@@ -2,7 +2,6 @@
 namespace Frickelbruder\Kickoff\Tests\Rules;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
-use Frickelbruder\KickOff\Rules\HttpHeaderStatusCode;
 use Frickelbruder\KickOff\Rules\HttpRequestTime;
 
 class HttRequestTimeTest extends \PHPUnit_Framework_TestCase {

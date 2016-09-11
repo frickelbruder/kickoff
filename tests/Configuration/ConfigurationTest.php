@@ -87,6 +87,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $mainSection = $sections['main'];
         $targetUrl = $mainSection->getTargetUrl();
 
+        $rules = $mainSection->getRules();
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\RequiresHeaderInterface', $rules['HttpHeaderResourceIsGzipped']);
+
         $this->assertArrayHasKey('a', $targetUrl->headers);
         $this->assertArrayHasKey('Accept-Encoding', $targetUrl->headers);
     }
