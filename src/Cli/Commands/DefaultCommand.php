@@ -93,6 +93,7 @@ class DefaultCommand extends Command {
             if(!$result) {
                 $this->errorCount++;
             }
+
             $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule, $result);
         }
     }
