@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client;
 
@@ -36,11 +37,18 @@ class HttpRequester {
         $response = new HttpResponse();
 
         $client = $this->getClient();
-        $httpResponseFromWebsite = $client->request( $targetUrl->method,
-            $targetUrl->getUrl(),
-            $this->getOptionsArray( $targetUrl, $response )
-        );
-
+        try {
+            $httpResponseFromWebsite = $client->request( $targetUrl->method,
+                $targetUrl->getUrl(),
+                $this->getOptionsArray( $targetUrl, $response )
+            );
+            $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
+            $response->setHeaders( $headers );
+            $response->setBody( $httpResponseFromWebsite->getBody() );
+            $response->setStatus( $httpResponseFromWebsite->getStatusCode() );
+        } catch(ClientException $e) {
+            $httpResponseFromWebsite = $e->getResponse();
+        }
         $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
         $response->setHeaders( $headers );
         $response->setBody( $httpResponseFromWebsite->getBody() );

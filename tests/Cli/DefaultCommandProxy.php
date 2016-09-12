@@ -5,13 +5,13 @@ use Frickelbruder\KickOff\Cli\Commands\DefaultCommand;
 
 class DefaultCommandProxy extends DefaultCommand {
 
-    public function executeProxy($path) {
+    public function executeProxy($path, $sectionName) {
 
         $this->buildConfiguration($path);
 
-        foreach($this->configuration->getSections() as $sectionName => $section) {
-            $this->handleSection($section);
-        }
+        $sections = $this->configuration->getSections();
+
+        $this->handleSection($sections[$sectionName]);
 
         return $this->errorCount;
     }

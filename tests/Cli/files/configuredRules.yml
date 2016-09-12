@@ -4,18 +4,39 @@ defaults:
         scheme: https://
 
 Sections:
-    main:
+    HttpHeaderXSSProtectionPresent:
         rules:
             - HttpHeaderXSSProtectionPresent
+    HttpHeaderXSSProtectionSecure:
+        rules:
             - HttpHeaderXSSProtectionSecure
+    HttpHeaderExposeLanguage:
+        rules:
             - HttpHeaderExposeLanguage
-            - HttpHeaderHasFarFutureExpiresHeader
+    HttpHeaderHasEtag:
+        rules:
             - HttpHeaderHasEtag
+    HttpHeaderResourceFound:
+        rules:
             - HttpHeaderResourceFound
+    HttpHeaderResourceIsMissing:
+        rules:
             - HttpHeaderResourceIsMissing
+    HttpHeaderContentTypeNoSniffing:
+        rules:
             - HttpHeaderContentTypeNoSniffing
+    HttpHeaderFrameOptionsSameOrigin:
+        rules:
             - HttpHeaderFrameOptionsSameOrigin
+    HttpHeaderCookieWithHttpOnlyFlag:
+        rules:
             - HttpHeaderCookieWithHttpOnlyFlag
+    HttpHeaderCookieWithHttpSecureFlag:
+        rules:
             - HttpHeaderCookieWithHttpSecureFlag
+    HttpHeaderHSTSPresent:
+        rules:
             - HttpHeaderHSTSPresent
+    HttpHeaderHSTSWithSubdomains:
+        rules:
             - HttpHeaderHSTSWithSubdomains
