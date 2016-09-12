@@ -27,6 +27,6 @@
     }
   ],
   "bin": [
-    "bin/KickOff.php"
+    "bin/kickoff.php"
   ]
 }

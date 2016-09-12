@@ -17,7 +17,7 @@ Kickoff can be integrated into your standard delivery process (such as with jenk
 
 ###Composer
 ```
-php composer.phar require "frickelbruder/kickoff":"dev-master"
+php composer.phar require frickelbruder/kickoff:dev-master
 ```
 
 ###Phar
@@ -26,13 +26,13 @@ Simply download the latest release at https://github.com/frickelbruder/kickoff/r
 
 ##Simple usage
 ```
-./bin/KickOff.php example/security.yml
+./bin/kickoff.php example/security.yml
 ```
 For an easy start, just edit one of the provided files in example and change your host where appropriate.
 
 ## Integration into CD
 ```
-./bin/KickOff.php -j build/logs/kickoff.xml example/security.yml
+./bin/kickoff.php -j build/logs/kickoff.xml example/security.yml
 ```
 This generates a Junit compatible log file, which you can inject into your CD workflow as for example phpunit.
 
