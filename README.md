@@ -29,6 +29,9 @@ Simply download the latest release at https://github.com/frickelbruder/kickoff/r
 ./bin/kickoff.php example/security.yml
 ```
 For an easy start, just edit one of the provided files in example and change your host where appropriate.
+This is, how your tests could look like on the console:
+
+![Example output on console of seo or security tests](https://frickelbruder.github.io/kickoff/images/example-output.png)
 
 ## Integration into CD
 ```
