@@ -1,5 +1,5 @@
 <?php
-namespace Frickelbruder\Kickoff\Tests\Configuration;
+namespace Frickelbruder\KickOff\Tests\Configuration;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 

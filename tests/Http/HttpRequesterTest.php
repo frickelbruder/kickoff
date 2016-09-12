@@ -1,5 +1,5 @@
 <?php
-namespace Frickelbruder\Kickoff\Tests\Http;
+namespace Frickelbruder\KickOff\Tests\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use Frickelbruder\KickOff\Http\HttpRequester;

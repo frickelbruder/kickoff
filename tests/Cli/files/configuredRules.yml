@@ -1,0 +1,21 @@
+defaults:
+    target:
+        host: test.host
+        scheme: https://
+
+Sections:
+    main:
+        rules:
+            - HttpHeaderXSSProtectionPresent
+            - HttpHeaderXSSProtectionSecure
+            - HttpHeaderExposeLanguage
+            - HttpHeaderHasFarFutureExpiresHeader
+            - HttpHeaderHasEtag
+            - HttpHeaderResourceFound
+            - HttpHeaderResourceIsMissing
+            - HttpHeaderContentTypeNoSniffing
+            - HttpHeaderFrameOptionsSameOrigin
+            - HttpHeaderCookieWithHttpOnlyFlag
+            - HttpHeaderCookieWithHttpSecureFlag
+            - HttpHeaderHSTSPresent
+            - HttpHeaderHSTSWithSubdomains

@@ -1,5 +1,5 @@
 <?php
-namespace Frickelbruder\Kickoff\Tests\Rules;
+namespace Frickelbruder\KickOff\Tests\Rules;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\TitleTagLength;

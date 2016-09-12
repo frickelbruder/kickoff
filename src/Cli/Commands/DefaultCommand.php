@@ -29,9 +29,9 @@ class DefaultCommand extends Command {
      */
     protected $logger = null;
 
-    private $errorCount = 0;
+    protected $errorCount = 0;
 
-    public function __construct($name = null, $httpRequester = null, $configuration = null, $logger = null) {
+    public function __construct($name = null, $httpRequester, $configuration, $logger) {
         parent::__construct( $name );
         $this->configuration = $configuration;
         $this->httpRequester = $httpRequester;
