@@ -18,7 +18,7 @@ Sections:
             port: 8080
         rules:
             - HttpHeaderExposeLanguage
-
+            - HttpRequestTime
 
 Rules:
     HttpHeaderXSSProtection:

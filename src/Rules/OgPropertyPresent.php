@@ -16,26 +16,35 @@ class OgPropertyPresent extends ConfigurableRuleBase  {
             $body = $this->httpResponse->getBody();
             $xml = $this->getResponseBodyAsXml( $body );
 
-            foreach( $this->requiredProperties as $propertyName ) {
-                $propertyItemValue = $xml->xpath( '/html/head/meta[@property="og:' . $propertyName . '"]/ @content' );
-                if( !is_array( $propertyItemValue ) || empty( $propertyItemValue ) ) {
-                    $this->errorMessage = 'The open graph property "' . $propertyName . '" was not found on the site.';
+            return $this->checkRequiredProperties( $xml );
 
-                    return false;
-                }
-                $length = mb_strlen( $propertyItemValue[0]['content'], 'UTF-8' );
-
-                if( $length == 0 ) {
-                    $this->errorMessage = 'The open graph property "' . $propertyName . '" was found but is empty.';
-
-                    return false;
-                }
-            }
-
-            return true;
         } catch(\Exception $e) {
             $this->errorMessage = $e->getMessage();
         }
         return false;
+    }
+
+    /**
+     * @param \SimpleXMLElement $body
+     *
+     * @return bool
+     */
+    private function checkRequiredProperties($body) {
+        foreach( $this->requiredProperties as $propertyName ) {
+            $propertyItemValue = $body->xpath( '/html/head/meta[@property="og:' . $propertyName . '"]/ @content' );
+            if( !is_array( $propertyItemValue ) || empty( $propertyItemValue ) ) {
+                $this->errorMessage = 'The open graph property "' . $propertyName . '" was not found on the site.';
+
+                return false;
+            }
+            $length = mb_strlen( $propertyItemValue[0]['content'], 'UTF-8' );
+
+            if( $length == 0 ) {
+                $this->errorMessage = 'The open graph property "' . $propertyName . '" was found but is empty.';
+
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -60,13 +60,17 @@ abstract class RuleBase implements RuleInterface {
         $headers = $this->httpResponse->getHeaders();
         foreach($headers as $key => $header) {
             if(strtolower($key) == $loweredHeaderName) {
-                if($normalize && is_array($header) ) {
-                    return implode("\n", $header);
-                }
-                return $header;
+                return $this->getNormalizedHeaderItem($header, $normalize);
             }
         }
         throw new HeaderNotFoundException('The HTTP header "' . $headerName. '" is missing.');
+    }
+
+    private function getNormalizedHeaderItem($header, $normalize = true) {
+        if($normalize && is_array($header) ) {
+            return implode("\n", $header);
+        }
+        return $header;
     }
 
 

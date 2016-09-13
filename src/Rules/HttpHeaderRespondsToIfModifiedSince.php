@@ -14,10 +14,10 @@ class HttpHeaderRespondsToIfModifiedSince extends RuleBase implements RequiresHe
             return false;
         }
         if($status != 304) {
-            $this->errorMessage = "The resource responded with an unexpected status code '" . $status . "' 'If-Modified-Since' was set.";
+            $this->errorMessage = "The resource responded with an unexpected status code '" . $status . "' to 'If-Modified-Since'.";
             return false;
         }
-        return $status == 304;
+        return true;
     }
 
 

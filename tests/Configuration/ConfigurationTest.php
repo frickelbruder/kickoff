@@ -64,11 +64,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $secondSection = $sections['second'];
         $rules = $secondSection->getRules();
 
-        $this->assertCount(1, $rules, 'Not matching rules count');
+        $this->assertCount(2, $rules, 'Not matching rules count');
 
         $this->assertArrayHasKey('HttpHeaderExposeLanguage', $rules);
+        $this->assertArrayHasKey('HttpRequestTime', $rules);
 
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposeLanguage']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpRequestTime', $rules['HttpRequestTime']);
     }
 
     public function testConfigurationOfRule() {
@@ -78,7 +80,23 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $rules = $mainSection->getRules();
 
         $configuredRule = $rules['HttpRequestTime'];
-        $configuredRule->maxTransferTime = 22500;
+        $this->assertEquals(22500, $configuredRule->maxTransferTime);
+    }
+
+    public function testConfigurationOfRuleDoesNotAffectSameRuleInOtherSection() {
+        $sections = $this->configuration->getSections();
+
+        $mainSection = $sections['main'];
+        $rules = $mainSection->getRules();
+
+        $configuredRule = $rules['HttpRequestTime'];
+        $this->assertEquals(22500, $configuredRule->maxTransferTime);
+
+        $secondSection = $sections['second'];
+        $rules = $secondSection->getRules();
+
+        $configuredRule = $rules['HttpRequestTime'];
+        $this->assertEquals(1000, $configuredRule->maxTransferTime);
     }
 
     public function testConfigurationTargetUrlHasAddedHeaders() {
@@ -93,5 +111,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $this->assertArrayHasKey('a', $targetUrl->headers);
         $this->assertArrayHasKey('Accept-Encoding', $targetUrl->headers);
     }
+
 
 }

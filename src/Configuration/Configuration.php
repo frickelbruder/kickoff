@@ -1,6 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
+use Frickelbruder\KickOff\Configuration\Exceptions\UnknownRuleException;
 use Frickelbruder\KickOff\Rules\RequiresHeaderInterface;
 use Frickelbruder\KickOff\Rules\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
@@ -32,15 +33,16 @@ class Configuration {
     }
 
     public function build($filename) {
-        $config = $this->buildConfig( $filename );
+        $config = $this->readConfigs( $filename );
         $this->prepareConfiguredItems( $config );
         $this->buildSections( $config );
     }
 
-    private function buildConfig($filename) {
+    private function readConfigs($filename) {
         $config = $this->yaml->fromFile( $filename );
         $defaultRulesConfig = $this->yaml->fromFile( __DIR__ . '/../config/Rules.yml' );
         $config = $this->mergeUserConfigWithDefaults( $config, $defaultRulesConfig );
+
         return $config;
     }
 
@@ -78,9 +80,9 @@ class Configuration {
                 $targetUrl->$key = $config[ $key ];
             }
         }
-        if(isset($config['headers'])) {
-            foreach($config['headers'] as $header) {
-                $targetUrl->addHeader($header[0], $header[1]);
+        if( isset( $config['headers'] ) ) {
+            foreach( $config['headers'] as $header ) {
+                $targetUrl->addHeader( $header[0], $header[1] );
             }
         }
     }
@@ -92,6 +94,7 @@ class Configuration {
      */
     private function generateRules($config) {
         $ruleBuilder = new RuleBuilder();
+
         return $ruleBuilder->buildRules( $config );
     }
 
@@ -116,17 +119,39 @@ class Configuration {
         $result = array();
         foreach( $sectionConfig['rules'] as $name ) {
             $plainName = $name;
+            $configuration = array();
             if( is_array( $name ) ) {
                 list( $plainName, $configData ) = each( $name );
-                foreach( $configData as $variableBlock ) {
-                    $rule['configuration'][] = array( 'set', $variableBlock );
-                }
+                $configuration = $this->addConfigurationToRuleConfig( $configData );
             }
-            $rule = $mainConfig['Rules'][ $plainName ];
+            $rule = $this->fetchRuleBase( $plainName, $mainConfig );
+            $rule['configuration'] = $configuration;
             $result[ $plainName ] = $rule;
         }
 
         return $this->generateRules( $result );
+    }
+
+    private function fetchRuleBase($name, $config) {
+        if( !isset( $config['Rules'][ $name ] ) ) {
+            throw new UnknownRuleException( 'Rule "' . $name . "' not known.'" );
+        }
+
+        return $config['Rules'][ $name ];
+    }
+
+    /**
+     * @param $configData
+     *
+     * @return array
+     */
+    private function addConfigurationToRuleConfig($configData) {
+        $configuration = array();
+        foreach( $configData as $variableBlock ) {
+            $configuration[] = array( 'set', $variableBlock );
+        }
+
+        return $configuration;
     }
 
     private function getSectionTargetUrl($config, $rules) {
@@ -153,15 +178,38 @@ class Configuration {
                 continue;
             }
             $headers = $rule->getRequiredHeaders();
-            foreach( $headers as $header ) {
-                if( empty( $config['config'] ) ) {
-                    $config['config'] = array();
-                }
-                if( empty( $config['config']['headers'] ) ) {
-                    $config['config']['headers'] = array();
-                }
-                $config['config']['headers'][] = $header;
-            }
+            $config = $this->addRequiredHeadersToConfig( $config, $headers );
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    private function ensureConfigHeader($config) {
+        if( empty( $config['config'] ) ) {
+            $config['config'] = array();
+        }
+        if( empty( $config['config']['headers'] ) ) {
+            $config['config']['headers'] = array();
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param array $config
+     * @param array $headers
+     *
+     * @return array
+     */
+    private function addRequiredHeadersToConfig($config, $headers) {
+        foreach( $headers as $header ) {
+            $config = $this->ensureConfigHeader( $config );
+            $config['config']['headers'][] = $header;
         }
 
         return $config;
