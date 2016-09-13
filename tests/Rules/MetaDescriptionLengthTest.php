@@ -37,6 +37,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="REALY LONG"></head></html>');
 
         $rule = new MetaDescriptionLength();
+        $rule->set('minlength', 1);
         $rule->set('maxlength', 3);
         $rule->setHttpResponse($response);
 
@@ -47,6 +48,17 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
     public function testValidateWithMissingTitle() {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head></head></html>');
+
+        $rule = new MetaDescriptionLength();
+        $rule->setHttpResponse($response);
+
+        $result = $rule->validate();
+        $this->assertFalse($result);
+    }
+
+    public function testValidateWithBrokenHtml() {
+        $response = new HttpResponse();
+        $response->setBody('<!DOCTYPE html><html><hehead></html>');
 
         $rule = new MetaDescriptionLength();
         $rule->setHttpResponse($response);
