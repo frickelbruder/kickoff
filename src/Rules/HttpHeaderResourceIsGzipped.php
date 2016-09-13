@@ -7,6 +7,8 @@ class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInte
 
     public $name = 'HttpHeaderResourceIsGzipped';
 
+    protected $errorMessage =  'The "Content-Encoding" HTTP header was found but had an unexpected value';
+
     public function getRequiredHeaders() {
         return array(array('Accept-Encoding', 'gzip, deflate'));
     }
@@ -14,11 +16,7 @@ class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInte
     public function validate() {
         try {
             $contentEncoding = $this->findHeader( 'Content-Encoding' );
-            if( $contentEncoding != 'gzip' ) {
-                $this->errorMessage = 'The "Content-Encoding" HTTP header was found but had an unexpected value';
-                return false;
-            }
-            return true;
+            return $contentEncoding == 'gzip';
         } catch(HeaderNotFoundException $e) {
             $this->errorMessage = 'The "Content-Encoding" HTTP header was not found.';
         }
