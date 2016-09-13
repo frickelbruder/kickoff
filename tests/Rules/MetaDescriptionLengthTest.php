@@ -4,7 +4,6 @@ namespace Frickelbruder\KickOff\Tests\Rules;
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\MetaDescriptionLength;
 
-
 class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidate() {

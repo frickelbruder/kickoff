@@ -14,6 +14,7 @@ class Logger {
     private $listeners = array();
 
     /**
+     * @param $name
      * @param Listener $listener
      */
     public function addListener($name, Listener $listener) {
@@ -33,12 +34,13 @@ class Logger {
      * @param string $name
      *
      * @return Listener
+     * @throws ListenerNotFoundException
      */
     public function getListener($name) {
         if(empty($this->listeners[$name])) {
             throw new ListenerNotFoundException('Listener ' . $name . ' not found');
         }
-        return ($this->listeners[$name]);
+        return $this->listeners[$name];
     }
 
     /**
