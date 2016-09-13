@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-class TitleTagLength extends ConfigurableRuleBase  {
+class TitleTagLength extends ConfigurableRuleBase {
 
     public $name = 'TitleTagLength';
 
@@ -9,36 +9,36 @@ class TitleTagLength extends ConfigurableRuleBase  {
 
     protected $maxlength = 80;
 
-    protected $configurableField = array('minlength', 'maxlength');
+    protected $configurableField = array( 'minlength', 'maxlength' );
 
     protected $errorMessage = 'The title tag on this page does not have the required length.';
 
     public function validate() {
-        try {
-            $body = $this->httpResponse->getBody();
-            $xml = $this->getResponseBodyAsXml( $body );
+        $body = $this->httpResponse->getBody();
+        $xml = $this->getResponseBodyAsXml( $body );
 
-            $titleTagValue = $xml->head->title;
+        $titleTagValue = $xml->head->title;
 
-            if(empty($titleTagValue)) {
-                $this->errorMessage = 'The title tag was not found.';
-                return false;
-            }
-            ($length = mb_strlen( $titleTagValue, 'UTF-8' ));
+        if( empty( $titleTagValue ) ) {
+            $this->errorMessage = 'The title tag was not found.';
 
-            if($length < $this->minlength) {
-                $this->errorMessage = 'The title tag is too short.';
-                return false;
-            }
-            if( $length > $this->maxlength) {
-                $this->errorMessage = 'The title tag is too long.';
-                return false;
-            }
-            return true;
-        } catch(\Exception $e) {
-            $this->errorMessage = $e->getMessage();
             return false;
         }
+        ( $length = mb_strlen( $titleTagValue, 'UTF-8' ) );
+
+        if( $length < $this->minlength ) {
+            $this->errorMessage = 'The title tag is too short.';
+
+            return false;
+        }
+        if( $length > $this->maxlength ) {
+            $this->errorMessage = 'The title tag is too long.';
+
+            return false;
+        }
+
+        return true;
+
     }
 
 }

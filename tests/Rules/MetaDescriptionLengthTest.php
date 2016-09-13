@@ -58,7 +58,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithBrokenHtml() {
         $response = new HttpResponse();
-        $response->setBody('<!DOCTYPE html><html><hehead></html>');
+        $response->setBody('<!Dml><html><hehead></html>');
 
         $rule = new MetaDescriptionLength();
         $rule->setHttpResponse($response);

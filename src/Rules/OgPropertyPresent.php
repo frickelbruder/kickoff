@@ -1,27 +1,21 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-class OgPropertyPresent extends ConfigurableRuleBase  {
+class OgPropertyPresent extends ConfigurableRuleBase {
 
     public $name = 'OgPropertyPresent';
 
     protected $errorMessage = 'The required open graph property is not present.';
 
-    protected $requiredProperties = array('title', 'type', 'url', 'image');
+    protected $requiredProperties = array( 'title', 'type', 'url', 'image' );
 
-    protected $configurableField = array('requiredProperties');
+    protected $configurableField = array( 'requiredProperties' );
 
     public function validate() {
-        try {
-            $body = $this->httpResponse->getBody();
-            $xml = $this->getResponseBodyAsXml( $body );
+        $body = $this->httpResponse->getBody();
+        $xml = $this->getResponseBodyAsXml( $body );
 
-            return $this->checkRequiredProperties( $xml );
-
-        } catch(\Exception $e) {
-            $this->errorMessage = $e->getMessage();
-        }
-        return false;
+        return $this->checkRequiredProperties( $xml );
     }
 
     /**
@@ -45,6 +39,7 @@ class OgPropertyPresent extends ConfigurableRuleBase  {
                 return false;
             }
         }
+
         return true;
     }
 }

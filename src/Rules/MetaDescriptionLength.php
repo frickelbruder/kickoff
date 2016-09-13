@@ -14,30 +14,26 @@ class MetaDescriptionLength extends ConfigurableRuleBase {
     protected $errorMessage = 'The meta description on this page does not have the required length.';
 
     public function validate() {
-        try {
-            $body = $this->httpResponse->getBody();
-            $xml = $this->getResponseBodyAsXml( $body );
+        $body = $this->httpResponse->getBody();
+        $xml = $this->getResponseBodyAsXml( $body );
 
-            $metaDescriptionValue = $xml->xpath('/html/head/meta[@name="description"]/ @content');
-            if(!is_array($metaDescriptionValue) || empty($metaDescriptionValue)) {
-                $this->errorMessage = 'No meta description found';
-                return false;
-            }
-            $length = mb_strlen( $metaDescriptionValue[0]['content'], 'UTF-8' );
-
-            if($length < $this->minlength) {
-                $this->errorMessage = 'The meta description is too short.';
-                return false;
-            }
-            if( $length > $this->maxlength) {
-                $this->errorMessage = 'The meta description is too long.';
-                return false;
-            }
-            return true;
-        } catch(\Exception $e) {
-            $this->errorMessage = $e->getMessage();
+        $metaDescriptionValue = $xml->xpath('/html/head/meta[@name="description"]/ @content');
+        if(!is_array($metaDescriptionValue) || empty($metaDescriptionValue)) {
+            $this->errorMessage = 'No meta description found';
+            return false;
         }
-        return false;
+        $length = mb_strlen( $metaDescriptionValue[0]['content'], 'UTF-8' );
+
+        if($length < $this->minlength) {
+            $this->errorMessage = 'The meta description is too short.';
+            return false;
+        }
+        if( $length > $this->maxlength) {
+            $this->errorMessage = 'The meta description is too long.';
+            return false;
+        }
+        return true;
+
     }
 
 
