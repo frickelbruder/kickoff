@@ -10,7 +10,7 @@ Those could be:
 - Your title tag should only be 70 characters long
 - [...]
 
-This tool aims to automate the process of checking all your requirements short before or on launch day, so you can just click on deliver in your CI and sit back and see your websites become popular.
+This tool aims to automate the process of checking all your requirements short before launch or after an deployment, so you can just click on deliver in your CI and sit back and see your websites become popular.
 Kickoff can be integrated into your standard delivery process (such as with jenkins, travis or any other) to keep those requirements even after the launch day, so that your requirements won't get accidentally dissatisfied.
 
 ##Installation
@@ -21,7 +21,7 @@ php composer.phar require frickelbruder/kickoff:dev-master
 ```
 
 ###Phar
-For a simple quick you can download a precompiled phar-archive. 
+For a quick check you can download a precompiled phar-archive. 
 Simply download the latest release at https://github.com/frickelbruder/kickoff/releases
 
 ##Simple usage
