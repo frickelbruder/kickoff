@@ -14,7 +14,7 @@ class LinkRelCanonicalRule extends RuleBase {
         try {
             $linkHeader = $this->findHeader( 'Link', false );
             foreach($linkHeader as $header) {
-                if( strpos( $header, 'rel=canonical' ) !== false ) {
+                if( strpos( $header, 'rel=canonical' ) !== false || strpos( $header, 'rel="canonical"' ) !== false ) {
                     $canonicals['header'][] = $header;
                 }
             }
