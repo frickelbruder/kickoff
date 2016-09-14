@@ -99,3 +99,6 @@ Rules:
 
     OGPropertyPresent:
         class: \Frickelbruder\KickOff\Rules\OgPropertyPresent
+
+    LinkRelCanonical:
+        class: \Frickelbruder\KickOff\Rules\LinkRelCanonicalRule

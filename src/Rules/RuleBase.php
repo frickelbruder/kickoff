@@ -57,6 +57,9 @@ abstract class RuleBase implements RuleInterface {
 
     protected function getDomElementFromBodyByXpath($xpath) {
         $body = $this->httpResponse->getBody();
+        if(empty($body)) {
+            return '';
+        }
         $xml = $this->getResponseBodyAsXml( $body );
         return $xml->xpath($xpath);
     }
