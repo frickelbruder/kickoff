@@ -55,6 +55,12 @@ abstract class RuleBase implements RuleInterface {
         return $xml;
     }
 
+    protected function getDomElementFromBodyByXpath($xpath) {
+        $body = $this->httpResponse->getBody();
+        $xml = $this->getResponseBodyAsXml( $body );
+        return $xml->xpath($xpath);
+    }
+
     protected function findHeader($headerName, $normalize = true) {
         $loweredHeaderName = strtolower($headerName);
         $headers = $this->httpResponse->getHeaders();
