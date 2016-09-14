@@ -1,12 +1,19 @@
 <?php
 namespace Frickelbruder\KickOff\Http;
 
+use Frickelbruder\KickOff\Configuration\TargetUrl;
+
 class HttpResponse {
 
     /**
      * @var array
      */
     private $headers = array();
+
+    /**
+     * @var TargetUrl
+     */
+    private $targetUrl = null;
 
     /**
      * @var string
@@ -79,4 +86,17 @@ class HttpResponse {
         $this->transferTime = $transferTime;
     }
 
+    /**
+     * @param TargetUrl $targetUrl
+     */
+    public function setRequest(TargetUrl $targetUrl) {
+        $this->targetUrl = $targetUrl;
+    }
+
+    /**
+     * @return TargetUrl
+     */
+    public function getRequest() {
+        return $this->targetUrl;
+    }
 }

@@ -102,3 +102,6 @@ Rules:
 
     LinkRelCanonical:
         class: \Frickelbruder\KickOff\Rules\LinkRelCanonicalRule
+
+    LinkHrefLang:
+            class: \Frickelbruder\KickOff\Rules\LinkHrefLangRule

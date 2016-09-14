@@ -8,6 +8,8 @@ Sections:
             - HttpHeaderResourceFound
             - TitleTagLength
             - MetaDescriptionLength
+            - LinkHrefLang
+            - LinkRelCanonical
             - HttpRequestTime:
                 - ["maxTransferTime", 1500]
 
@@ -30,7 +32,7 @@ Sections:
         rules:
             - HttpHeaderResourceFound
             - HttpHeaderHasFarFutureExpiresHeader:
-                - ["thresholdInSeconds", 604800]
+                - ["threshold", 604800]
 
     javascript:
         config:

@@ -51,6 +51,7 @@ class HttpRequester {
         }
         $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
         $response->setHeaders( $headers );
+        $response->setRequest($targetUrl);
         $response->setBody( $httpResponseFromWebsite->getBody() );
         $response->setStatus( $httpResponseFromWebsite->getStatusCode() );
 

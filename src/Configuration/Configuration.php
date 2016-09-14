@@ -94,7 +94,6 @@ class Configuration {
      */
     private function generateRules($config) {
         $ruleBuilder = new RuleBuilder();
-
         return $ruleBuilder->buildRules( $config );
     }
 
@@ -116,6 +115,17 @@ class Configuration {
         if( empty( $sectionConfig['rules'] ) ) {
             return array();
         }
+        $result = $this->buildRulesConfiguration( $sectionConfig, $mainConfig );
+        return $this->generateRules( $result );
+    }
+
+    /**
+     * @param $sectionConfig
+     * @param $mainConfig
+     *
+     * @return array
+     */
+    private function buildRulesConfiguration($sectionConfig, $mainConfig) {
         $result = array();
         foreach( $sectionConfig['rules'] as $name ) {
             $plainName = $name;
@@ -129,7 +139,7 @@ class Configuration {
             $result[ $plainName ] = $rule;
         }
 
-        return $this->generateRules( $result );
+        return $result;
     }
 
     private function fetchRuleBase($name, $config) {
@@ -214,6 +224,8 @@ class Configuration {
 
         return $config;
     }
+
+
 
 
 }
