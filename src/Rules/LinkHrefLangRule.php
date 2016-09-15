@@ -11,23 +11,10 @@ class LinkHrefLangRule extends RuleBase {
 
     public function validate() {
 
-        $hrefLangItems = array('header' => '');
-        try {
-            $linkHeader = $this->findHeader( 'Link' );
-            if( preg_match( '~rel=["\']?alternate["\']?~', $linkHeader ) > 0 && strpos( $linkHeader, 'hreflang=' ) !== false
-            ) {
-                $headerItems = explode(',', $linkHeader);
-                $normalizedItems = $this->normalizeHeaderItems($headerItems);
-                if($normalizedItems === false) {
-                    return false;
-                }
-                $hrefLangItems['header'] = $normalizedItems;
-            }
-
-        } catch(HeaderNotFoundException $e) {}
-
-        $bodyItems = $this->getDomElementFromBodyByXpath('/html/head/link[@rel="alternate"][@hreflang]');
-        $hrefLangItems['body'] = $this->normalizeBodyItems($bodyItems);
+        $hrefLangItems = array(
+                        'header' => $this->getNormalizedHeaderItems(),
+                        'body' => $this->getNormalizedBodyItems()
+        );
 
         return $this->validateHrefLang($hrefLangItems);
 
@@ -39,6 +26,10 @@ class LinkHrefLangRule extends RuleBase {
      * @return bool
      */
     private function validateHrefLang($hrefLangItems) {
+
+        if($hrefLangItems['header'] === false || $hrefLangItems['body'] === false) {
+            return false;
+        }
 
         if(empty($hrefLangItems['header']) && empty($hrefLangItems['body'])) {
             return false;
@@ -57,43 +48,7 @@ class LinkHrefLangRule extends RuleBase {
         return $this->validateHrefLangItems($itemsToTest);
     }
 
-    private function normalizeHeaderItems($hrefLangItems) {
-        $normalizedItems = array();
-        foreach($hrefLangItems as $hrefLangItem) {
-            if(!preg_match( '~<(.*)>~', $hrefLangItem, $hrefLangResult)) {
-                $this->errorMessage = 'The hreflang header is set, but seems to be broken:' . $hrefLangItem;
-                return false;
-            }
-            $hrefLangHref = $hrefLangResult[1];
-            if(!preg_match( '~hreflang=[\'"]?([a-z]{2}|x-default)[\'"]?~', $hrefLangItem, $hrefLangValueResult)) {
-                $this->errorMessage = 'The hreflang header is set, but seems to be broken:' . $hrefLangItem;
-                return false;
-            }
-            $hrefLangValue = $hrefLangValueResult[1];
-            $normalizedItems[] = array(
-                'hreflang' => (string) $hrefLangValue,
-                'href' => (string) $hrefLangHref
-            );
-        }
-        return $normalizedItems;
-    }
-
-    private function normalizeBodyItems($hrefLangItems) {
-        if(!is_array($hrefLangItems)) {
-            return array();
-        }
-        $normalizedItems = array();
-        foreach($hrefLangItems as $hrefLangItem) {
-            $normalizedItems[] = array(
-                'hreflang' => (string) $hrefLangItem['hreflang'],
-                'href' => (string) $hrefLangItem['href']
-            );
-        }
-        return $normalizedItems;
-    }
-
     private function validateHrefLangItems($hrefLangItems) {
-
 
         $currentUri = $this->httpResponse->getRequest()->getUrl();
         $currentUriReferenced = false;
@@ -107,9 +62,7 @@ class LinkHrefLangRule extends RuleBase {
             if(!$this->validateUniqueHrefLang( $foundHrefLangs, $hrefLangValue )) {
                 return false;
             }
-
             $currentUriReferenced = $currentUriReferenced || ($hrefLangHref == $currentUri);
-
         }
 
         if($currentUriReferenced == false) {
@@ -151,5 +104,63 @@ class LinkHrefLangRule extends RuleBase {
 
     }
 
+    /**
+     *
+     * @return mixed
+     */
+    private function getNormalizedHeaderItems() {
+        try {
+            $linkHeader = $this->findHeader( 'Link' );
+
+            if( preg_match( '~rel=["\']?alternate["\']?~', $linkHeader ) > 0 && strpos( $linkHeader, 'hreflang=' ) !== false ) {
+                $normalizedItems = $this->getNormalizedHeaderItem( $linkHeader );
+
+                if( $normalizedItems === false ) {
+                    return false;
+                }
+                return $normalizedItems;
+
+            }
+        } catch( HeaderNotFoundException $e ) {}
+
+        return array();
+    }
+
+    private function getNormalizedHeaderItem($hrefLangItem) {
+        $hrefLangItems = explode(',', $hrefLangItem);
+        $normalizedItems = array();
+        foreach($hrefLangItems as $hrefLangItem) {
+            if(!preg_match( '~<(.*)>~', $hrefLangItem, $hrefLangResult)) {
+                $this->errorMessage = 'The hreflang header is set, but seems to be broken:' . $hrefLangItem;
+                return false;
+            }
+            $hrefLangHref = $hrefLangResult[1];
+            if(!preg_match( '~hreflang=[\'"]?([a-zA-Z-]+)[\'"]?~', $hrefLangItem, $hrefLangValueResult)) {
+                $this->errorMessage = 'The hreflang header is set, but seems to be broken:' . $hrefLangItem;
+                return false;
+            }
+            $hrefLangValue = $hrefLangValueResult[1];
+            $normalizedItems[] = array(
+                'hreflang' => (string) $hrefLangValue,
+                'href' => (string) $hrefLangHref
+            );
+        }
+        return $normalizedItems;
+    }
+
+    private function getNormalizedBodyItems() {
+        $hrefLangItems = $this->getDomElementFromBodyByXpath('/html/head/link[@rel="alternate"][@hreflang]');
+        if(!is_array($hrefLangItems)) {
+            return array();
+        }
+        $normalizedItems = array();
+        foreach($hrefLangItems as $hrefLangItem) {
+            $normalizedItems[] = array(
+                'hreflang' => (string) $hrefLangItem['hreflang'],
+                'href' => (string) $hrefLangItem['href']
+            );
+        }
+        return $normalizedItems;
+    }
 
 }

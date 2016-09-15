@@ -59,6 +59,43 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($result, $rule->getErrorMessage());
     }
 
+    public function testValidateWithMultipleItemsWithLanguageCode() {
+        $targetUrl = new TargetUrl();
+        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->host = 'test.de';
+        $response = new HttpResponse();
+        $response->setRequest($targetUrl);
+        $response->setBody('<!DOCTYPE html><html><head>
+<link rel="alternate" href="http://test.de/somewhere-de" hreflang="de-DE">
+<link rel="alternate" href="http://test.de/somewhere-en" hreflang="en-GB">
+</head></html>');
+
+        $rule = new LinkHrefLangRule();
+        $rule->setHttpResponse($response);
+
+        $result = $rule->validate();
+        $this->assertTrue($result, $rule->getErrorMessage());
+    }
+
+    public function testValidateWithMultipleItemsWithLanguageCodeAndDuplicateHrefLang() {
+        $targetUrl = new TargetUrl();
+        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->host = 'test.de';
+        $response = new HttpResponse();
+        $response->setRequest($targetUrl);
+        $response->setBody('<!DOCTYPE html><html><head>
+<link rel="alternate" href="http://test.de/somewhere-other" hreflang="de-DE">
+<link rel="alternate" href="http://test.de/somewhere-de" hreflang="de-DE">
+<link rel="alternate" href="http://test.de/somewhere-en" hreflang="en-GB">
+</head></html>');
+
+        $rule = new LinkHrefLangRule();
+        $rule->setHttpResponse($response);
+
+        $result = $rule->validate();
+        $this->assertFalse($result, $rule->getErrorMessage());
+    }
+
     public function testValidateWithMultipleItemsOfSame() {
         $targetUrl = new TargetUrl();
         $targetUrl->uri = '/somewhere-de';
@@ -140,6 +177,36 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 
         $result = $rule->validate();
         $this->assertTrue($result, $rule->getErrorMessage());
+    }
+
+    public function testValidateHeadersWithMultipleItemsAndLangCode() {
+        $targetUrl = new TargetUrl();
+        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->host = 'test.de';
+        $response = new HttpResponse();
+        $response->setRequest($targetUrl);
+        $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
+
+        $rule = new LinkHrefLangRule();
+        $rule->setHttpResponse($response);
+
+        $result = $rule->validate();
+        $this->assertTrue($result, $rule->getErrorMessage());
+    }
+
+    public function testValidateHeadersWithMultipleItemsAndLangCodeAndDuplicateCode() {
+        $targetUrl = new TargetUrl();
+        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->host = 'test.de';
+        $response = new HttpResponse();
+        $response->setRequest($targetUrl);
+        $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-somehwere-else>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
+
+        $rule = new LinkHrefLangRule();
+        $rule->setHttpResponse($response);
+
+        $result = $rule->validate();
+        $this->assertFalse($result, $rule->getErrorMessage());
     }
 
     public function testValidateHeaderWithMultipleItemsOfSame() {
