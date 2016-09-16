@@ -23,7 +23,7 @@ class HttpHeaderHasValue extends ConfigurableRuleBase {
             if( empty( $this->headerToSearchFor ) ) {
                 throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
             }
-            $value = $this->findHeader($this->headerToSearchFor);
+            $value = $this->findNormalizedHeader($this->headerToSearchFor);
             if($this->exactMatch == true) {
                 return $value == $this->value;
             }

@@ -64,19 +64,24 @@ abstract class RuleBase implements RuleInterface {
         return $xml->xpath($xpath);
     }
 
-    protected function findHeader($headerName, $normalize = true) {
+    protected function findHeader($headerName) {
         $loweredHeaderName = strtolower($headerName);
         $headers = $this->httpResponse->getHeaders();
         foreach($headers as $key => $header) {
             if(strtolower($key) == $loweredHeaderName) {
-                return $this->getNormalizedHeaderItem($header, $normalize);
+                return $header;
             }
         }
         throw new HeaderNotFoundException('The HTTP header "' . $headerName. '" is missing.');
     }
 
-    private function getNormalizedHeaderItem($header, $normalize = true) {
-        if($normalize && is_array($header) ) {
+    protected function findNormalizedHeader($headerName) {
+        $header = $this->findHeader($headerName);
+        return $this->getNormalizedHeaderItem($header);
+    }
+
+    private function getNormalizedHeaderItem($header) {
+        if(is_array($header) ) {
             return implode("\n", $header);
         }
         return $header;

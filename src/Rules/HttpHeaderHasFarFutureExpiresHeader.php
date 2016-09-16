@@ -20,7 +20,7 @@ class HttpHeaderHasFarFutureExpiresHeader extends ConfigurableRuleBase {
 
     public function validate() {
         try {
-            $expiresHeader = $this->findHeader( 'Expires' );
+            $expiresHeader = $this->findNormalizedHeader( 'Expires' );
             return strtotime( $expiresHeader ) >= time() + $this->threshold;
 
         } catch( HeaderNotFoundException $e ) {

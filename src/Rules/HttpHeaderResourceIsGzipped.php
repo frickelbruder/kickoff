@@ -15,7 +15,7 @@ class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInte
 
     public function validate() {
         try {
-            $contentEncoding = $this->findHeader( 'Content-Encoding' );
+            $contentEncoding = $this->findNormalizedHeader( 'Content-Encoding' );
             return $contentEncoding == 'gzip';
         } catch(HeaderNotFoundException $e) {
             $this->errorMessage = 'The "Content-Encoding" HTTP header was not found.';
