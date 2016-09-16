@@ -26,7 +26,7 @@ Simply download the latest release at https://github.com/frickelbruder/kickoff/r
 
 ##Simple usage
 ```
-./bin/kickoff.php example/security.yml
+./bin/kickoff.php run example/security.yml
 ```
 For an easy start, just edit one of the provided files in example and change your host where appropriate.
 This is, how your tests could look like on the console:
@@ -35,9 +35,10 @@ This is, how your tests could look like on the console:
 
 ## Integration into CD
 ```
-./bin/kickoff.php -j build/logs/kickoff.xml example/security.yml
+./bin/kickoff.php run -j build/logs/kickoff.xml example/security.yml
 ```
 This generates a Junit compatible log file, which you can inject into your CD workflow as for example phpunit.
+The command itself will return the number of errors as result. So any errors should result in a failing build target.
 
 ## Issues and Bugs
 If you find any issues, I'd be happy, if you file an issue on the [issue board](https://github.com/frickelbruder/kickoff/issues/new).
