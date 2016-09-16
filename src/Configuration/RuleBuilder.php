@@ -3,6 +3,7 @@ namespace Frickelbruder\KickOff\Configuration;
 
 use Frickelbruder\KickOff\Rules\ConfigurableRuleInterface;
 use Frickelbruder\KickOff\Rules\Exceptions\RuleNotConfigurableException;
+use Frickelbruder\KickOff\Rules\RuleInterface;
 
 class RuleBuilder {
 
@@ -19,10 +20,10 @@ class RuleBuilder {
     }
 
     /**
-     * @param $values
-     * @param $class
+     * @param array $config
+     * @param RuleInterface $class
      */
-    private function addMethodCalls($config, $class) {
+    private function addMethodCalls($config, RuleInterface $class) {
         if( isset( $config['calls'] ) && is_array( $config['calls'] ) ) {
             foreach( $config['calls'] as $calls ) {
                 $method = $calls[0];

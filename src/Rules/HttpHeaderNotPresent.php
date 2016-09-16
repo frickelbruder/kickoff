@@ -35,7 +35,7 @@ class HttpHeaderNotPresent extends RuleBase {
     }
 
     public function getErrorMessage() {
-        return 'The "' . $this->headerToSearchFor . '" HTTP-header was found, but shouldn\'t be there.';
+        return 'The "' . $this->headerToSearchFor . '" HTTP-header was found, but should not be there.';
     }
 
 

@@ -9,7 +9,8 @@
     "guzzlehttp/guzzle": "~6"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4"
+    "phpunit/phpunit": "~4",
+    "phpmd/phpmd" : "@stable"
   },
   "autoload": {
     "psr-4": {

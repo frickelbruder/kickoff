@@ -27,6 +27,7 @@ class LinkRelCanonicalRule extends RuleBase {
     }
 
     /**
+     * @param array $canonicals
      * @return bool
      */
     private function validateCanonicals($canonicals) {
@@ -64,6 +65,7 @@ class LinkRelCanonicalRule extends RuleBase {
     }
 
     /**
+     * @param array $canonical
      * @return bool
      */
     private function validateHeader($canonical) {

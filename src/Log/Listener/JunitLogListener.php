@@ -29,23 +29,31 @@ class JunitLogListener implements Listener {
             $testsuite->addAttribute('name', $section);
             $testsuite->addAttribute('tests', count($sectionData));
             $testsuite->addAttribute('assertions', count($sectionData));
-            $failures = 0;
-            foreach($sectionData as $ruleName => $successInfo) {
-                $testcase = $testsuite->addChild('testcase');
-                $testcase->addAttribute('name', $ruleName);
-                $testcase->addAttribute('assertions', 1);
-                if(!$successInfo) {
-                    $failure = $testcase->addChild('failure');
-                    $failure->addAttribute('type', 'Kickoff\Rule\Fail\Exception');
-                    $failures++;
-                }
-            }
-            $testsuite->addAttribute('failures', $failures);
+            $this->addTestCasesToSuite($sectionData, $testsuite);
         }
 
         $document->saveXML($this->logFileName);
 
 
+    }
+
+    /**
+     * @param array $sectionData
+     * @param \SimpleXMLElement $testsuite
+     */
+    private function addTestCasesToSuite(array $sectionData, \SimpleXMLElement$testsuite) {
+        $failures = 0;
+        foreach ($sectionData as $ruleName => $successInfo) {
+            $testcase = $testsuite->addChild('testcase');
+            $testcase->addAttribute('name', $ruleName);
+            $testcase->addAttribute('assertions', 1);
+            if (!$successInfo) {
+                $failure = $testcase->addChild('failure');
+                $failure->addAttribute('type', 'Kickoff\Rule\Fail\Exception');
+                $failures++;
+            }
+        }
+        $testsuite->addAttribute('failures', $failures);
     }
 
 }

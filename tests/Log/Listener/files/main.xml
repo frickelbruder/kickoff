@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<testsuites>
+    <testsuite name="Section1" tests="2" assertions="2" failures="1">
+        <testcase name="Testcase1" assertions="1"/>
+        <testcase name="Testcase2" assertions="1">
+            <failure type="Kickoff\Rule\Fail\Exception"/>
+        </testcase>
+    </testsuite>
+    <testsuite name="Section2" tests="1" assertions="1" failures="0">
+        <testcase name="Testcase3" assertions="1"/>
+    </testsuite>
+</testsuites>
