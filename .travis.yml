@@ -10,8 +10,8 @@ install:
 - travis_retry composer install --no-interaction
 script: phpunit
 before_deploy:
-- composer.phar update --no-dev
-- composer.phar dump-autoload -a
+- composer update --no-dev
+- composer dump-autoload -a
 - echo "phar.readonly = Off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - curl -LSs https://box-project.github.io/box2/installer.php | php
 - php box.phar build
