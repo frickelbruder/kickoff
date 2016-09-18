@@ -70,7 +70,7 @@ class DefaultCommand extends Command {
         $this->handleJunitOption( $input->getOption('junit-file') );
         $this->buildConfiguration($input->getArgument('config-file'));
 
-        foreach($this->configuration->getSections() as $sectionName => $section) {
+        foreach($this->configuration->getSections() as $section) {
             $this->handleSection($section);
         }
         $this->logger->finish();

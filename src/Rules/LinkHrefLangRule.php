@@ -110,7 +110,7 @@ class LinkHrefLangRule extends RuleBase {
      */
     private function getNormalizedHeaderItems() {
         try {
-            $linkHeader = $this->findHeader( 'Link' );
+            $linkHeader = $this->findNormalizedHeader( 'Link' );
 
             if( preg_match( '~rel=["\']?alternate["\']?~', $linkHeader ) > 0 && strpos( $linkHeader, 'hreflang=' ) !== false ) {
                 $normalizedItems = $this->getNormalizedHeaderItem( $linkHeader );

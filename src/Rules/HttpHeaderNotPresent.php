@@ -21,7 +21,7 @@ class HttpHeaderNotPresent extends RuleBase {
             throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
         }
         try {
-            $this->findHeader($this->headerToSearchFor);
+            $this->findNormalizedHeader($this->headerToSearchFor);
             return false;
         } catch(HeaderNotFoundException $e) {}
         return true;

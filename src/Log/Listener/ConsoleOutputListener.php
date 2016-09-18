@@ -22,13 +22,13 @@ class ConsoleOutputListener implements Listener {
 
     public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         $output = '.';
+        $counterToUpdate = 'success';
         if(!$success) {
             $this->messages[] =  $rule->getErrorMessage() . '(' . $sectionName. ':' . $rule->getName() . ')';
             $output = '<error>F</error>';
-            $this->counter['errors']++;
-        } else {
-            $this->counter['success']++;
+            $counterToUpdate = 'errors';
         }
+        $this->counter[$counterToUpdate]++;
         $this->consoleOutput->write($output);
     }
 
@@ -40,11 +40,12 @@ class ConsoleOutputListener implements Listener {
         $this->consoleOutput->writeln("");
 
         $totalTests = $this->counter['success'] + $this->counter['errors'];
-        if($this->counter['errors'] == 0) {
-            $this->consoleOutput->writeln("Ok ($totalTests Tests without errors)");
-        } else {
-            $this->consoleOutput->writeln("Fail ($totalTests Tests " . $this->counter['success'] . ' passed, ' . $this->counter['errors'] . ' failed)');
+
+        $message = "Ok ($totalTests Tests without errors)";
+        if($this->counter['errors'] > 0) {
+            $message = "Fail ($totalTests Tests " . $this->counter['success'] . ' passed, ' . $this->counter['errors'] . ' failed)';
         }
+        $this->consoleOutput->writeln($message);
     }
 
 }

@@ -38,22 +38,22 @@ class HttpRequester {
 
         $client = $this->getClient();
         try {
-            $httpResponseFromWebsite = $client->request( $targetUrl->method,
+            $websiteResponse = $client->request( $targetUrl->method,
                 $targetUrl->getUrl(),
                 $this->getOptionsArray( $targetUrl, $response )
             );
-            $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
+            $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
             $response->setHeaders( $headers );
-            $response->setBody( $httpResponseFromWebsite->getBody() );
-            $response->setStatus( $httpResponseFromWebsite->getStatusCode() );
+            $response->setBody( $websiteResponse->getBody() );
+            $response->setStatus( $websiteResponse->getStatusCode() );
         } catch(ClientException $e) {
-            $httpResponseFromWebsite = $e->getResponse();
+            $websiteResponse = $e->getResponse();
         }
-        $headers = $this->prepareResponseHeaders( $httpResponseFromWebsite->getHeaders() );
+        $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
         $response->setHeaders( $headers );
         $response->setRequest($targetUrl);
-        $response->setBody( $httpResponseFromWebsite->getBody() );
-        $response->setStatus( $httpResponseFromWebsite->getStatusCode() );
+        $response->setBody( $websiteResponse->getBody() );
+        $response->setStatus( $websiteResponse->getStatusCode() );
 
         return $response;
     }

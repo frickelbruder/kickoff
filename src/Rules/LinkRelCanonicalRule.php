@@ -12,7 +12,7 @@ class LinkRelCanonicalRule extends RuleBase {
     public function validate() {
         $canonicals = array('header' => '');
         try {
-            $linkHeader = $this->findHeader( 'Link', false );
+            $linkHeader = $this->findHeader( 'Link' );
             foreach($linkHeader as $header) {
                 if( strpos( $header, 'rel=canonical' ) !== false || strpos( $header, 'rel="canonical"' ) !== false ) {
                     $canonicals['header'][] = $header;
