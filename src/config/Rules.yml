@@ -107,4 +107,7 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\LinkRelCanonical
 
     LinkHrefLang:
-            class: \Frickelbruder\KickOff\Rules\LinkHrefLang
+        class: \Frickelbruder\KickOff\Rules\LinkHrefLang
+
+    MetaGeneratorNotPresent:
+        class: \Frickelbruder\KickOff\Rules\MetaGeneratorNotPresent
