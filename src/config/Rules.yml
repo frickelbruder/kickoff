@@ -109,5 +109,8 @@ Rules:
     LinkHrefLang:
         class: \Frickelbruder\KickOff\Rules\LinkHrefLang
 
+    AppleTouchIcon:
+        class: \Frickelbruder\KickOff\Rules\AppleTouchIcon
+
     MetaGeneratorNotPresent:
         class: \Frickelbruder\KickOff\Rules\MetaGeneratorNotPresent
