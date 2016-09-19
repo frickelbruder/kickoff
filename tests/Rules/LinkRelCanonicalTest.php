@@ -2,16 +2,16 @@
 namespace Frickelbruder\KickOff\Tests\Rules;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
-use Frickelbruder\KickOff\Rules\LinkRelCanonicalRule;
+use Frickelbruder\KickOff\Rules\LinkRelCanonical;
 
-class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
+class LinkRelCanonicalTest extends \PHPUnit_Framework_TestCase {
 
 
     public function testValidate() {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head><link rel="canonical" href="/somewhere"></head></html>');
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -22,7 +22,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head><link rel="canonical" href=""></head></html>');
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -33,7 +33,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head><link rel="canonical" href="/somewhere"><link rel="canonical" href="/somewhere-else"></head></html>');
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -44,7 +44,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head></head></html>');
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -55,7 +55,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setHeaders(array('Link' => array('</some-cool-url>; rel=canonical')));
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -66,7 +66,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setHeaders(array('Link' => array('<>; rel=canonical')));
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -77,7 +77,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setHeaders(array('Link' => array('</some-cool-url>; rel=canonical', '</an-even-cooler-url>; rel=canonical')));
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -88,7 +88,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response = new HttpResponse();
         $response->setHeaders(array());
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -100,7 +100,7 @@ class LinkRelCanonicalRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setBody('<!DOCTYPE html><html><head><link rel="canonical" href="/somewhere"></head></html>');
         $response->setHeaders(array('Link' => array('</some-cool-url>; rel=canonical')));
 
-        $rule = new LinkRelCanonicalRule();
+        $rule = new LinkRelCanonical();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
