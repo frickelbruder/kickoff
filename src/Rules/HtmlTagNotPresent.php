@@ -8,10 +8,8 @@ class HtmlTagNotPresent extends ConfigurableRuleBase {
     protected $configurableField = array('xpath');
 
     public function validate() {
-        $body = $this->httpResponse->getBody();
-        $xml = $this->getResponseBodyAsXml( $body );
+        $result = $this->getDomElementFromBodyByXpath($this->xpath);
 
-        $result = $xml->xpath( $this->xpath );
         return empty($result);
     }
 

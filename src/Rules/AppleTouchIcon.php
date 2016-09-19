@@ -7,10 +7,7 @@ class AppleTouchIcon extends RuleBase {
 
     public function validate() {
 
-        $body = $this->httpResponse->getBody();
-        $xml = $this->getResponseBodyAsXml( $body );
-
-        $icons = $xml->xpath( $this->xpath );
+        $icons = $this->getDomElementFromBodyByXpath($this->xpath);
 
         $foundItems = array();
         foreach($icons as $icon) {
