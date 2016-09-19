@@ -8,7 +8,13 @@ use Frickelbruder\KickOff\Log\Logger;
 use Frickelbruder\KickOff\Yaml\Yaml;
 use Symfony\Component\Console\Application;
 
-require __DIR__.'/../vendor/autoload.php';
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+    if (file_exists($file)) {
+        require $file;
+    }
+}
+
+
 
 $yaml = new Yaml();
 $config = new Configuration($yaml);
