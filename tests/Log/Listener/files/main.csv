@@ -1,0 +1,3 @@
+Section1,http://www.test1.com,Testcase1,Ok
+Section1,http://www.test1.com,Testcase2,FAILED
+Section2,http://www.test2.com,Testcase3,Ok

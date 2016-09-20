@@ -1,5 +1,7 @@
 #!/usr/bin/env php
 <?php
+
+use Frickelbruder\KickOff\App\KickOff;
 use Frickelbruder\KickOff\Cli\Commands\DefaultCommand;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Http\HttpRequester;
@@ -10,12 +12,19 @@ use Symfony\Component\Console\Application;
 
 require __DIR__.'/../vendor/autoload.php';
 
+
 $yaml = new Yaml();
 $config = new Configuration($yaml);
 $requester = new HttpRequester();
 $logger = new Logger();
 $logger->addListener('console', new ConsoleOutputListener());
-$command = new DefaultCommand('run', $requester, $config, $logger);
+$kickoff = new KickOff();
+$kickoff->setConfiguration($config);
+$kickoff->setLogger($logger);
+$kickoff->setHttpRequester($requester);
+$command = new DefaultCommand('run');
+$command->setMainApplication($kickoff);
+$command->setLogger($logger);
 $app = new Application("KickOff", "1.0.0");
 $app->add($command);
 $app->run();

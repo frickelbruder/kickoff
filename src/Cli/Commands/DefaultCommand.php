@@ -1,10 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Cli\Commands;
 
-use Frickelbruder\KickOff\Configuration\Configuration;
-use Frickelbruder\KickOff\Configuration\Section;
-use Frickelbruder\KickOff\Http\HttpRequester;
+use Frickelbruder\KickOff\App\Application;
+use Frickelbruder\KickOff\App\KickOff;
 use Frickelbruder\KickOff\Log\Listener\JunitLogListener;
+use Frickelbruder\KickOff\Log\Listener\ListenerFactory;
 use Frickelbruder\KickOff\Log\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,35 +15,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DefaultCommand extends Command {
 
     /**
-     * @var Configuration
-     */
-    protected $configuration = null;
-
-    /**
-     * @var HttpRequester
-     */
-    protected $httpRequester = null;
-
-    /**
      * @var Logger
      */
     protected $logger = null;
 
-    protected $errorCount = 0;
-
-    public function __construct($name = null, $httpRequester, $configuration, $logger) {
-        parent::__construct( $name );
-        $this->configuration = $configuration;
-        $this->httpRequester = $httpRequester;
-        $this->logger = $logger;
-    }
-
     /**
-     * @param HttpRequester $httpRequester
+     * @var KickOff
      */
-    public function setHttpRequester($httpRequester) {
-        $this->httpRequester = $httpRequester;
-    }
+    private $mainApplication;
+
+
+    private $logs = array(
+        array('name' => 'junit-file', 'shortcut' => 'j', 'mode' => InputOption::VALUE_OPTIONAL, 'description' => 'path to a junit compatible log file'),
+        array('name' => 'csv-file', 'shortcut' => 'c', 'mode' => InputOption::VALUE_OPTIONAL, 'description' => 'path to a csv log file'),
+    );
 
     protected function configure()
     {
@@ -54,12 +39,15 @@ class DefaultCommand extends Command {
                 'config-file',
                 InputArgument::REQUIRED,
                 'the config file to use'
-            )->addOption(
-                'junit-file',
-                'j',
-                InputOption::VALUE_OPTIONAL,
-                'path to a junit compatible log file'
             );
+        foreach($this->logs as $log) {
+            $this->addOption(
+                $log['name'],
+                $log['shortcut'],
+                $log['mode'],
+                $log['description']
+            );
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -67,52 +55,40 @@ class DefaultCommand extends Command {
         $output->writeln("Kickoff Test");
         $output->writeln("");
 
-        $this->handleJunitOption( $input->getOption('junit-file') );
-        $this->buildConfiguration($input->getArgument('config-file'));
+        $this->handleLogOptions($input);
 
-        foreach($this->configuration->getSections() as $section) {
-            $this->handleSection($section);
-        }
-        $this->logger->finish();
+        return $this->mainApplication->index( $input->getArgument( 'config-file' ));
 
-        return $this->errorCount;
     }
 
-    protected function buildConfiguration($configFile) {
-        $this->configuration->build($configFile);
-    }
+    private function handleLogOptions(InputInterface $input) {
 
-    protected function handleSection(Section $section) {
-        $url = $section->getTargetUrl();
-        $page = $this->fetchPage($url);
-        $rules = $section->getRules();
+        $listenerFactory = new ListenerFactory();
 
-        foreach($rules as $rule) {
-            $rule->setHttpResponse($page);
-            $result = $rule->validate();
-            if(!$result) {
-                $this->errorCount++;
+        foreach($this->logs as $log) {
+
+            $logPath = $input->getOption($log['name']);
+            if(empty($logPath)) {
+                continue;
             }
 
-            $this->logger->log($section->getName(), $section->getTargetUrl()->getUrl(), $rule, $result);
+            $logListener = $listenerFactory->get($log['name']);
+            $logListener->logFileName = $logPath;
+            $this->logger->addListener($log['name'], $logListener);
+
         }
+
     }
 
-    protected function fetchPage($url) {
-        return $this->httpRequester->request($url);
+    public function setMainApplication(KickOff $mainApplication) {
+        $this->mainApplication = $mainApplication;
     }
 
     /**
-     * @param string
+     * @param Logger $logger
      */
-    protected function handleJunitOption($option) {
-        if( !empty( $option ) ) {
-
-            $junitLogListener = new JunitLogListener();
-            $junitLogListener->logFileName = $option;
-            $this->logger->addListener( 'junit', $junitLogListener );
-
-        }
+    public function setLogger(Logger $logger) {
+        $this->logger = $logger;
     }
 
 }

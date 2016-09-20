@@ -1,10 +1,10 @@
 <?php
-namespace Frickelbruder\KickOff\Tests\Cli\ConfiguredRules;
+namespace Frickelbruder\KickOff\Tests\Rules\ConfiguredRules;
 
+use Frickelbruder\KickOff\App\KickOff;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Http\HttpRequester;
 use Frickelbruder\KickOff\Log\Logger;
-use Frickelbruder\KickOff\Tests\Cli\DefaultCommandProxy;
 use Frickelbruder\KickOff\Yaml\Yaml;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
@@ -14,9 +14,9 @@ use GuzzleHttp\Psr7\Response;
 
 class DefaultConfiguredRuleTestBase extends \PHPUnit_Framework_TestCase {
     /**
-     * @var DefaultCommandProxy
+     * @var KickOffProxy
      */
-    protected $defaultCommand;
+    protected $kickOff;
 
     /**
      * @var HttpRequester
@@ -42,7 +42,10 @@ class DefaultConfiguredRuleTestBase extends \PHPUnit_Framework_TestCase {
         $this->requester = new HttpRequester();
 
         $this->logger = new Logger();
-        $this->defaultCommand = new DefaultCommandProxy('test', $this->requester, $config, $this->logger);
+        $this->kickOff = new KickOffProxy();
+        $this->kickOff->setConfiguration($config);
+        $this->kickOff->setHttpRequester($this->requester);
+        $this->kickOff->setLogger($this->logger);
 
         $this->defaultHeaders = array(
             'X-XSS-Protection' => '1; mode=block',
@@ -70,7 +73,7 @@ class DefaultConfiguredRuleTestBase extends \PHPUnit_Framework_TestCase {
         $responses[] = new Response( $this->happyHttpCode, $this->defaultHeaders, 'test123' );
         $this->requester->setClient($this->setupClient($responses));
 
-        $errorCount = $this->defaultCommand->executeProxy(__DIR__ . '/../files/configuredRules.yml', $testName);
+        $errorCount = $this->kickOff->indexProxy( __DIR__ . '/files/configuredRules.yml', $testName);
 
         $this->assertTrue($errorCount == 0);
     }
@@ -82,7 +85,7 @@ class DefaultConfiguredRuleTestBase extends \PHPUnit_Framework_TestCase {
         $responses[] = new Response( $this->unhappyHttpCode, $this->defaultHeadersUnhappyPath, 'test123' );
         $this->requester->setClient($this->setupClient($responses));
 
-        $errorCount = $this->defaultCommand->executeProxy(__DIR__ . '/../files/configuredRules.yml', $testName);
+        $errorCount = $this->kickOff->indexProxy( __DIR__ . '/files/configuredRules.yml', $testName);
 
         $this->assertTrue($errorCount > 0);
     }
