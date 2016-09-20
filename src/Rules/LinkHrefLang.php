@@ -3,9 +3,9 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class LinkHrefLangRule extends RuleBase {
+class LinkHrefLang extends RuleBase {
 
-    public $name = 'LinkHrefLangRule';
+    public $name = 'LinkHrefLang';
 
     protected $errorMessage = 'The page is missing a <link rel="alternate" hreflang="..."> tag or header.';
 

@@ -100,8 +100,17 @@ Rules:
     OGPropertyPresent:
         class: \Frickelbruder\KickOff\Rules\OgPropertyPresent
 
+    TwitterProperty:
+        class: \Frickelbruder\KickOff\Rules\TwitterProperty
+
     LinkRelCanonical:
-        class: \Frickelbruder\KickOff\Rules\LinkRelCanonicalRule
+        class: \Frickelbruder\KickOff\Rules\LinkRelCanonical
 
     LinkHrefLang:
-            class: \Frickelbruder\KickOff\Rules\LinkHrefLangRule
+        class: \Frickelbruder\KickOff\Rules\LinkHrefLang
+
+    AppleTouchIcon:
+        class: \Frickelbruder\KickOff\Rules\AppleTouchIcon
+
+    MetaGeneratorNotPresent:
+        class: \Frickelbruder\KickOff\Rules\MetaGeneratorNotPresent

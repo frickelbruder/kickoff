@@ -3,9 +3,9 @@ namespace Frickelbruder\KickOff\Tests\Rules;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use Frickelbruder\KickOff\Http\HttpResponse;
-use Frickelbruder\KickOff\Rules\LinkHrefLangRule;
+use Frickelbruder\KickOff\Rules\LinkHrefLang;
 
-class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
+class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidate() {
         $targetUrl = new TargetUrl();
@@ -17,7 +17,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-de" hreflang="de">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -34,7 +34,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-de" hreflang="de">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -52,7 +52,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-en" hreflang="en">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -70,7 +70,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-en" hreflang="en-GB">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -89,7 +89,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-en" hreflang="en-GB">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -108,7 +108,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-en" hreflang="en">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -127,7 +127,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
 <link rel="alternate" href="http://test.de/somewhere-en" hreflang="en">
 </head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -142,7 +142,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -157,7 +157,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -172,7 +172,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -187,7 +187,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -202,7 +202,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-somehwere-else>; rel="alternate"; hreflang="de-DE", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -217,7 +217,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de", <http://test.de/somewhere-de?page=5>; rel="alternate"; hreflang="de", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -232,7 +232,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setHeaders(array('Link' => array('<http://test.de/somewhere-de>; rel="alternate"; hreflang="de", <http://test.de/somewhere-de>; rel="alternate"; hreflang="x-default", <http://test.de/somewhere-en>; rel="alternate"; hreflang="en"')));
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -247,7 +247,7 @@ class LinkHrefLangRuleTest extends \PHPUnit_Framework_TestCase {
         $response->setRequest($targetUrl);
         $response->setBody('<!DOCTYPE html><html><head></head></html>');
 
-        $rule = new LinkHrefLangRule();
+        $rule = new LinkHrefLang();
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();

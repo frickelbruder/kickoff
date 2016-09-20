@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class LinkRelCanonicalRule extends RuleBase {
+class LinkRelCanonical extends RuleBase {
 
     public $name = 'LinkRelCanonicalRule';
 
