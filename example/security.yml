@@ -1,7 +1,7 @@
 defaults:
     target:
         host: www.google.com
-        scheme: http://
+        scheme: https://
 
 Sections:
     website:
@@ -10,3 +10,8 @@ Sections:
             - HttpHeaderExposeLanguage
             - HttpHeaderContentTypeNoSniffing
             - HttpHeaderCookieWithHttpOnlyFlag
+            - HttpHeaderHSTSPresent
+            - HttpHeaderHSTSWithSubdomains
+            - HttpHeaderCookieWithHttpSecureFlag
+
+

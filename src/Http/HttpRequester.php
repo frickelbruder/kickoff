@@ -66,7 +66,7 @@ class HttpRequester {
             return $this->client;
         }
 
-        return new Client();
+        return new Client(array('verify'=>false));
     }
 
     /**
