@@ -1,5 +1,5 @@
 <?php
-namespace Frickelbruder\KickOff\Tests\Cli\ConfiguredRules;
+namespace Frickelbruder\KickOff\Tests\Rules\ConfiguredRules;
 
 
 class HttpHeaderFrameOptionsSameOriginTest extends DefaultConfiguredRuleTestBase {

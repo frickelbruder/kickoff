@@ -13,7 +13,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->configuration = new Configuration( new Yaml());
-        $this->configuration->build(__DIR__ . '/files/config.yml');
+        $this->configuration->build( __DIR__ . '/files/config.yml' );
     }
 
     public function testBase() {

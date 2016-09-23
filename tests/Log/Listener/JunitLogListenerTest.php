@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maggus
- * Date: 16.09.2016
- * Time: 23:22
- */
-
 namespace Frickelbruder\KickOff\Test\Log\Listener;
-
 
 use Frickelbruder\KickOff\Log\Listener\JunitLogListener;
 use Frickelbruder\KickOff\Tests\Log\RuleStub;

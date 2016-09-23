@@ -6,5 +6,5 @@ defaults:
 Sections:
     website:
         rules:
-            - HttpHeaderXSSProtection
+            - HttpHeaderXSSProtectionSecure
             - HttpHeaderExposeLanguage

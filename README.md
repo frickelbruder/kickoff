@@ -19,7 +19,7 @@ As such, you can call KickOff a continous website monitoring tool.
 
 ###Composer
 ```
-php composer.phar require frickelbruder/kickoff:dev-master
+php composer.phar require frickelbruder/kickoff
 ```
 
 ###Phar
