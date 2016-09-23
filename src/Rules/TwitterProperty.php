@@ -34,7 +34,6 @@ class TwitterProperty extends ConfigurableRuleBase {
                 return false;
             }
 
-
             if(!$this->validateProperty($propertyName, $propertyItemValue[0]['content'])) {
                 return false;
             }

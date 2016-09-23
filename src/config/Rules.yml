@@ -114,3 +114,8 @@ Rules:
 
     MetaGeneratorNotPresent:
         class: \Frickelbruder\KickOff\Rules\MetaGeneratorNotPresent
+
+    FindStringOnWebsite:
+        class: \Frickelbruder\KickOff\Rules\FindStringOnWebsite
+        calls:
+            - ["setName", ["HttpHeaderHSTSPresent"]]
