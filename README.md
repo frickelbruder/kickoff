@@ -1,4 +1,5 @@
-# KickOff [![Build Status](https://travis-ci.org/frickelbruder/kickoff.svg?branch=master)](https://travis-ci.org/frickelbruder/kickoff) [![Current packagist](https://img.shields.io/packagist/v/frickelbruder/kickoff.svg?style=flat)](https://packagist.org/packages/frickelbruder/kickoff)
+# KickOff [![Build Status](https://travis-ci.org/frickelbruder/kickoff.svg?branch=master)](https://travis-ci.org/frickelbruder/kickoff) [![Current packagist](https://img.shields.io/packagist/v/frickelbruder/kickoff.svg?style=flat)](https://packagist.org/packages/frickelbruder/kickoff)  
+_A continous website monitoring tool._
 
 ## Why Kickoff
 You launch projects on a regular basis and have certain SEO, performance and security requirements which your websites should meet.
@@ -12,6 +13,7 @@ Those could be:
 
 This tool aims to automate the process of checking all your requirements short before launch or after an deployment, so you can just click on deliver in your CI and sit back and see your websites become popular.
 Kickoff can be integrated into your standard delivery process (such as with jenkins, travis or any other) to keep those requirements even after the launch day, so that your requirements won't get accidentally dissatisfied.
+As such, you can call KickOff a continous website monitoring tool.
 
 ##Installation
 
