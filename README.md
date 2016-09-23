@@ -17,7 +17,7 @@ Kickoff can be integrated into your standard delivery process (such as with jenk
 
 ###Composer
 ```
-php composer.phar require frickelbruder/kickoff:dev-master
+php composer.phar require frickelbruder/kickoff
 ```
 
 ###Phar
