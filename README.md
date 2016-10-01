@@ -13,7 +13,7 @@ While each project you launch may have a different feature set, they often share
 
 This tool aims to automate the process of checking your list of requirements shortly before launch or directly after a deployment. Deploy, sit back and leave the rest of the work to KickOff.
 
-KickOff can be integrated into your standard delivery process (such as with Jenkins, Travis CI, etc.) to help maintain your list of requirements after each deployment, not just on launch day. That is why we call KickOff a truly continuous website monitoring tool.
+KickOff can be integrated into your standard delivery process (such as with Jenkins, Travis CI, etc.) to help maintain your list of requirements after each deployment, not just on launch day. That is why KickOff can be called a continuous website monitoring tool.
 
 ##Installation
 
