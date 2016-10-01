@@ -4,7 +4,7 @@ _A continuous website monitoring tool._
 ## Why Use KickOff?
 While each project you launch may have a different feature set, they often share many of the same performance, SEO and security requirements. Let's look at an example set:
 
-- Provide an X-XSS-Protection header on all POST requests.
+- Provide an X-XSS-Protection header.
 - Deliver all HTML documents in less than 1 second.
 - All redirects should contain a 301 header.
 - Cookies should be accessible via HttpOnly.
@@ -32,7 +32,7 @@ To get started, edit one of the provided files in the `example` directory and ch
 ```
 Once your test is complete you will see the results:
 
-![Example console outputfor SEO or security tests](https://frickelbruder.github.io/kickoff/images/example-output.png)
+![Example console output for SEO or security tests](https://frickelbruder.github.io/kickoff/images/example-output.png)
 
 ## Integration into CD
 ```
