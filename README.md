@@ -2,7 +2,7 @@
 _A continuous website monitoring tool._
 
 ## Why Use KickOff?
-While each project you launch may have a different feature set, they often share many of the same performance, SEO and security requirements. Let's look at an example set:
+While each project you launch may have a different feature set, they often share many of the same performance, SEO and security requirements. Let's look at a typical example set of requirements:
 
 - Provide an X-XSS-Protection header.
 - Deliver all HTML documents in less than 1 second.
