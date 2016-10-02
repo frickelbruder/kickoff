@@ -40,3 +40,6 @@ Sections:
     HttpHeaderHSTSWithSubdomains:
         rules:
             - HttpHeaderHSTSWithSubdomains
+    HttpHeaderUXCompatible:
+        rules:
+            - HttpHeaderUXCompatible
