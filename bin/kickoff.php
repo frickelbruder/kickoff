@@ -3,6 +3,7 @@
 
 use Frickelbruder\KickOff\App\KickOff;
 use Frickelbruder\KickOff\Cli\Commands\DefaultCommand;
+use Frickelbruder\KickOff\Cli\Commands\SeoCheckCommand;
 use Frickelbruder\KickOff\Configuration\Configuration;
 use Frickelbruder\KickOff\Http\HttpRequester;
 use Frickelbruder\KickOff\Log\Listener\ConsoleOutputListener;
@@ -29,9 +30,17 @@ $kickoff = new KickOff();
 $kickoff->setConfiguration($config);
 $kickoff->setLogger($logger);
 $kickoff->setHttpRequester($requester);
+
+$app = new Application("KickOff", "1.0.0");
+
 $command = new DefaultCommand('run');
 $command->setMainApplication($kickoff);
 $command->setLogger($logger);
-$app = new Application("KickOff", "1.0.0");
 $app->add($command);
+
+$command = new SeoCheckCommand('seocheck');
+$command->setMainApplication($kickoff);
+$command->setLogger($logger);
+$app->add($command);
+
 $app->run();

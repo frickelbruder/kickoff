@@ -48,6 +48,20 @@ class KickOff {
         return $this->errorCount;
     }
 
+    public function seocheck($wepbage)
+    {
+        $configFile = __DIR__ . '/../config/Seo.yml';
+
+        $this->buildConfiguration($configFile);
+
+        foreach( $this->getSections() as $section ) {
+            $this->handleSection( $section, $wepbage );
+        }
+
+        $this->logger->finish();
+
+        return $this->errorCount;
+    }
 
     protected function buildConfiguration($configFile) {
         $this->configuration->build($configFile);
@@ -60,8 +74,9 @@ class KickOff {
     /**
      * @param Section $section
      */
-    protected function handleSection(Section $section) {
-        $url = $section->getTargetUrl();
+    protected function handleSection(Section $section, $targetUrl = null) {
+        $url = $targetUrl ? TargetUrl::fromString($targetUrl) : $section->getTargetUrl();
+
         $response = $this->fetchPage($url);
         $rules = $section->getRules();
 
