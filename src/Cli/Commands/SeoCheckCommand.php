@@ -1,15 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Cli\Commands;
 
-use Frickelbruder\KickOff\App\Application;
 use Frickelbruder\KickOff\App\KickOff;
-use Frickelbruder\KickOff\Log\Listener\JunitLogListener;
-use Frickelbruder\KickOff\Log\Listener\ListenerFactory;
-use Frickelbruder\KickOff\Log\Logger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SeoCheckCommand extends Command {
