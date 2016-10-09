@@ -33,21 +33,21 @@ class KickOff {
 
     /**
      * @param string $configFile
+     * @param string $webpage
      *
      * @return int
      */
-    public function index($configFile) {
+    public function index($configFile, $webpage = null) {
         $this->buildConfiguration( $configFile );
 
         foreach( $this->getSections() as $section ) {
-            $this->handleSection( $section );
+            $this->handleSection( $section, $webpage );
         }
 
         $this->logger->finish();
 
         return $this->errorCount;
     }
-
 
     protected function buildConfiguration($configFile) {
         $this->configuration->build($configFile);
@@ -60,8 +60,9 @@ class KickOff {
     /**
      * @param Section $section
      */
-    protected function handleSection(Section $section) {
-        $url = $section->getTargetUrl();
+    protected function handleSection(Section $section, $targetUrl = null) {
+        $url = $targetUrl ? TargetUrl::fromString($targetUrl) : $section->getTargetUrl();
+
         $response = $this->fetchPage($url);
         $rules = $section->getRules();
 

@@ -64,5 +64,23 @@ class TargetUrlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $targetUrl->getUrl());
     }
 
+    public function wellformedUrlProvider() {
+        return [
+            ['google.com', 'http://google.com'],
+            ['www.google.com', 'http://www.google.com'],
+            ['http://www.google.com', 'http://www.google.com/']
+        ];
+    }
+
+    /**
+     * @dataProvider wellformedUrlProvider
+     */
+    public function testFromString($input, $output) {
+        $targetUrl = TargetUrl::fromString($input);
+
+        $this->assertEquals($output, $targetUrl->getUrl());
+
+    }
+
 
 }

@@ -32,4 +32,17 @@ class TargetUrl {
         return $this->headers;
     }
 
+    public static function fromString($url) {
+
+        $urlParts = parse_url($url);
+
+        $targetUrl = new self;
+        $targetUrl->host = isset($urlParts['host']) ? $urlParts['host'] : '' ;
+        $targetUrl->scheme = isset($urlParts['scheme']) ?  $urlParts['scheme'] . '://' : 'http:/';
+        $targetUrl->port = isset($urlParts['port']) ? $urlParts['port'] : '';
+        $targetUrl->uri = isset($urlParts['path']) ? $urlParts['path'] : '';
+
+        return $targetUrl;
+    }
+
 }
