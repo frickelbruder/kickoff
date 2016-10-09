@@ -7,7 +7,7 @@ class TwitterProperty extends ConfigurableRuleBase {
 
     protected $errorMessage = 'The required twitter property is not present.';
 
-    protected $requiredProperties = array( 'card', 'title', 'description', 'image' );
+    protected $requiredProperties = array( 'card', 'title', 'description', 'image:src' );
 
     private $cardValues = array('summary', 'summary_large_image', 'player', 'product', 'photo', 'gallery', 'app');
 

@@ -7,7 +7,7 @@ class OgPropertyPresent extends ConfigurableRuleBase {
 
     protected $errorMessage = 'The required open graph property is not present.';
 
-    protected $requiredProperties = array( 'title', 'type', 'url', 'image' );
+    protected $requiredProperties = array( 'title', 'description', 'url', 'image' );
 
     protected $configurableField = array( 'requiredProperties' );
 
