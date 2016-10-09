@@ -3,9 +3,11 @@ namespace Frickelbruder\KickOff\Rules;
 
 class AppleTouchIcon extends RuleBase {
 
+    public $name = 'AppleTouchIcon';
+
     protected $xpath = '/html/head/link[@rel="apple-touch-icon"]';
 
-    protected $errorMessage = 'No apple touch icon meta header was not.';
+    protected $errorMessage = 'No apple touch icon meta header was found.';
 
     public function validate() {
 
