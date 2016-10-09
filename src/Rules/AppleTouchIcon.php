@@ -5,6 +5,8 @@ class AppleTouchIcon extends RuleBase {
 
     protected $xpath = '/html/head/link[@rel="apple-touch-icon"]';
 
+    protected $errorMessage = 'No apple touch icon meta header was not.';
+
     public function validate() {
 
         $icons = $this->getDomElementFromBodyByXpath($this->xpath);
