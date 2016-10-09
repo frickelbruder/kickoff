@@ -21,106 +21,129 @@
 </section>
 
 <section class="main-content">
-            <h1>
-                <a id="rules" class="anchor" href="#rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rules</h1>
+    <h1>
+        <a id="rules" class="anchor" href="#rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rules</h1>
 
-            <h2>Seo and other Rules</h2>
-            <h3>HttpHeaderResourceFound</h3>
-            <table>
+    <h2>Seo and other Rules</h2>
+    <h3>HttpHeaderResourceFound</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td>HTTP status code <strong>200</strong> is present on requested resource</td>
+        </tr>
+    </table>
+    <h3>HttpHeaderResourceIsMissing</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td>HTTP status code <strong>404</strong> is present on requested and missing resource</td>
+        </tr>
+    </table>
+    <h3>TitleTagLength</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td><strong>title-Tag</strong> length is in specified boundaries</td>
+        </tr>
+        <tr>
+            <td>Parameters</td>
+            <td><table>
+                <thead>
                 <tr>
-                    <td>What does it test?</td>
-                    <td>HTTP status code <strong>200</strong> is present on requested resource</td>
+                    <th>Config value</th>
+                    <th>Default</th>
                 </tr>
-            </table>
-            <h3>HttpHeaderResourceIsMissing</h3>
-            <table>
+                </thead>
                 <tr>
-                    <td>What does it test?</td>
-                    <td>HTTP status code <strong>404</strong> is present on requested and missing resource</td>
-                </tr>
-            </table>
-            <h3>TitleTagLength</h3>
-            <table>
-                <tr>
-                    <td>What does it test?</td>
-                    <td><strong>title-Tag</strong> length is in specified boundaries</td>
-                </tr>
-                <tr>
-                    <td>Parameters</td>
-                    <td><table>
-                        <thead>
-                        <tr>
-                            <th>Config value</th>
-                            <th>Default</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td>minlength</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>maxlength</td>
-                            <td>80</td>
-                        </tr>
-                    </table></td>
-                </tr>
-            </table>
-            <h3>MetaDescriptionLength</h3>
-            <table>
-                <tr>
-                    <td>What does it test?</td>
-                    <td><strong>"description" meta Tag</strong> length is in specified boundaries</td>
+                    <td>minlength</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>Parameters</td>
-                    <td><table>
-                        <thead>
-                        <tr>
-                            <th>Config value</th>
-                            <th>Default</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td>minlength</td>
-                            <td>70</td>
-                        </tr>
-                        <tr>
-                            <td>maxlength</td>
-                            <td>160</td>
-                        </tr>
-                    </table></td>
+                    <td>maxlength</td>
+                    <td>80</td>
                 </tr>
-            </table>
-            <h3>OGPropertyPresent</h3>
-            <table>
+            </table></td>
+        </tr>
+    </table>
+    <h3>MetaDescriptionLength</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td><strong>"description" meta Tag</strong> length is in specified boundaries</td>
+        </tr>
+        <tr>
+            <td>Parameters</td>
+            <td><table>
+                <thead>
                 <tr>
-                    <td>What does it test?</td>
-                    <td><strong>Open Graph</strong> meta information is present</td>
+                    <th>Config value</th>
+                    <th>Default</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>minlength</td>
+                    <td>70</td>
                 </tr>
                 <tr>
-                    <td>Parameters</td>
-                    <td><table>
-                        <thead>
-                        <tr>
-                            <th>Config value</th>
-                            <th>Default</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td>requiredProperties</td>
-                            <td>['title', 'type', 'url', 'image']</td>
-                        </tr>
-                    </table></td>
+                    <td>maxlength</td>
+                    <td>160</td>
                 </tr>
-            </table>
-            <h3>LinkRelCanonical</h3>
-            <table>
+            </table></td>
+        </tr>
+    </table>
+    <h3>OGPropertyPresent</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td><strong>Open Graph</strong> meta information is present</td>
+        </tr>
+        <tr>
+            <td>Parameters</td>
+            <td><table>
+                <thead>
                 <tr>
-                    <td>What does it test?</td>
-                    <td>Existence of either the <strong>&lt;link rel="canonical"&gt;</strong>-tag in the pages head-section or an appropriate HTTP '<strong>Link: rel="canonical"...</strong>' header.</td>
+                    <th>Config value</th>
+                    <th>Default</th>
                 </tr>
+                </thead>
+                <tr>
+                    <td>requiredProperties</td>
+                    <td>['title', 'description', 'url', 'image']</td>
+                </tr>
+            </table></td>
+        </tr>
+    </table>
+    <h3>TwitterProperty</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td><strong>Twitter</strong> meta information is present</td>
+        </tr>
+        <tr>
+            <td>Parameters</td>
+            <td><table>
+                <thead>
+                <tr>
+                    <th>Config value</th>
+                    <th>Default</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>requiredProperties</td>
+                    <td>['card', 'title', 'card', 'description', 'image:src']</td>
+                </tr>
+            </table></td>
+        </tr>
+    </table>
+    <h3>LinkRelCanonical</h3>
+    <table>
+        <tr>
+            <td>What does it test?</td>
+            <td>Existence of either the <strong>&lt;link rel="canonical"&gt;</strong>-tag in the pages head-section or an appropriate HTTP '<strong>Link: rel="canonical"...</strong>' header.</td>
+        </tr>
 
-            </table>
+    </table>
+
     <h3>LinkHrefLang</h3>
     <table>
         <tr>
