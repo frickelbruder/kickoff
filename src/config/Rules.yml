@@ -118,6 +118,6 @@ Rules:
     FindStringOnWebsite:
         class: \Frickelbruder\KickOff\Rules\FindStringOnWebsite
         calls:
-            - ["setName", ["HttpHeaderHSTSPresent"]]
+            - ["setName", ["FindStringOnWebsite"]]
 
 
