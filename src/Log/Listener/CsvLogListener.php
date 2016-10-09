@@ -15,11 +15,11 @@ class CsvLogListener implements Listener {
 
 
     public function finish() {
-        $fp = fopen($this->logFileName, 'w');
+        $handle = fopen($this->logFileName, 'w');
         foreach($this->logs as $log) {
-            fputcsv( $fp, $log);
+            fputcsv($handle, $log);
         }
-        fclose($fp);
+        fclose($handle);
 
     }
 
