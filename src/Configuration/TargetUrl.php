@@ -5,7 +5,7 @@ class TargetUrl {
 
     public $host = '';
 
-    public $scheme = 'http://';
+    public $scheme = 'http';
 
     public $port = '';
 
@@ -15,8 +15,14 @@ class TargetUrl {
 
     public $headers = array();
 
+    public function __construct($url = null) {
+        if(!empty($url)) {
+            $this->parseString($url);
+        }
+    }
+
     public function getUrl() {
-        $url = $this->scheme . $this->host;
+        $url = $this->scheme . '://' . $this->host;
         if(!empty($this->port) && is_numeric($this->port)) {
             $url .= ':'.$this->port;
         }
@@ -32,17 +38,29 @@ class TargetUrl {
         return $this->headers;
     }
 
-    public static function fromString($url) {
+    /**
+     * @param string $url
+     */
+    private function parseString($url) {
 
         $urlParts = parse_url($url);
 
-        $targetUrl = new self;
-        $targetUrl->host = isset($urlParts['host']) ? $urlParts['host'] : '' ;
-        $targetUrl->scheme = isset($urlParts['scheme']) ?  $urlParts['scheme'] . '://' : 'http:/';
-        $targetUrl->port = isset($urlParts['port']) ? $urlParts['port'] : '';
-        $targetUrl->uri = isset($urlParts['path']) ? $urlParts['path'] : '';
+        $fields = array('scheme' => 'scheme', 'host' => 'host', 'port' => 'port', 'uri' => 'path');
 
-        return $targetUrl;
+        foreach($fields as $field => $component) {
+            if(isset($urlParts[$component])) {
+                $this->$field = $urlParts[$component];
+            }
+        }
+
+        if(empty($this->host) && !empty($this->uri)) {
+            $this->host = $this->uri;
+            $this->uri = '';
+            if(strpos($this->host, '/') !== false) {
+                list( $this->host, $this->uri ) = explode( '/', $this->host, 2 );
+            }
+        }
+
     }
 
 }

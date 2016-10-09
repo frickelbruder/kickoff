@@ -61,7 +61,7 @@ class KickOff {
      * @param Section $section
      */
     protected function handleSection(Section $section, $targetUrl = null) {
-        $url = $targetUrl ? TargetUrl::fromString($targetUrl) : $section->getTargetUrl();
+        $url = $targetUrl ? new TargetUrl($targetUrl) : $section->getTargetUrl();
 
         $response = $this->fetchPage($url);
         $rules = $section->getRules();

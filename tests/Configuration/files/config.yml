@@ -1,7 +1,7 @@
 defaults:
     target:
         host: test.host
-        scheme: https://
+        scheme: https
         headers:
             - ["a","b"]
 
