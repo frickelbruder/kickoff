@@ -34,13 +34,13 @@ class TargetUrl {
 
     public static function fromString($url) {
 
-        $components = parse_url($url);
+        $urlParts = parse_url($url);
 
         $targetUrl = new self;
-        $targetUrl->host = $components['host'];
-        $targetUrl->scheme = $components['scheme'] . '://';
-        $targetUrl->port = $components['port'];
-        $targetUrl->uri = $components['path'];
+        $targetUrl->host = isset($urlParts['host']) ? $urlParts['host'] : '' ;
+        $targetUrl->scheme = isset($urlParts['scheme']) ?  $urlParts['scheme'] . '://' : 'http:/';
+        $targetUrl->port = isset($urlParts['port']) ? $urlParts['port'] : '';
+        $targetUrl->uri = isset($urlParts['path']) ? $urlParts['path'] : '';
 
         return $targetUrl;
     }

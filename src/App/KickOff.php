@@ -33,29 +33,15 @@ class KickOff {
 
     /**
      * @param string $configFile
+     * @param string $webpage
      *
      * @return int
      */
-    public function index($configFile) {
+    public function index($configFile, $webpage = null) {
         $this->buildConfiguration( $configFile );
 
         foreach( $this->getSections() as $section ) {
-            $this->handleSection( $section );
-        }
-
-        $this->logger->finish();
-
-        return $this->errorCount;
-    }
-
-    public function seocheck($wepbage)
-    {
-        $configFile = __DIR__ . '/../config/Seo.yml';
-
-        $this->buildConfiguration($configFile);
-
-        foreach( $this->getSections() as $section ) {
-            $this->handleSection( $section, $wepbage );
+            $this->handleSection( $section, $webpage );
         }
 
         $this->logger->finish();

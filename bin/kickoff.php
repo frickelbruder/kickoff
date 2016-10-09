@@ -40,7 +40,6 @@ $app->add($command);
 
 $command = new SeoCheckCommand('seocheck');
 $command->setMainApplication($kickoff);
-$command->setLogger($logger);
 $app->add($command);
 
 $app->run();

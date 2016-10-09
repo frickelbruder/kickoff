@@ -15,20 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SeoCheckCommand extends Command {
 
     /**
-     * @var Logger
-     */
-    protected $logger = null;
-
-    /**
      * @var KickOff
      */
     private $mainApplication;
-
-
-    private $logs = array(
-        array('name' => 'junit-file', 'shortcut' => 'j', 'mode' => InputOption::VALUE_OPTIONAL, 'description' => 'path to a junit compatible log file'),
-        array('name' => 'csv-file', 'shortcut' => 'c', 'mode' => InputOption::VALUE_OPTIONAL, 'description' => 'path to a csv log file'),
-    );
 
     protected function configure()
     {
@@ -40,14 +29,6 @@ class SeoCheckCommand extends Command {
                 InputArgument::REQUIRED,
                 'the webpage to check'
             );
-        foreach($this->logs as $log) {
-            $this->addOption(
-                $log['name'],
-                $log['shortcut'],
-                $log['mode'],
-                $log['description']
-            );
-        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,41 +36,15 @@ class SeoCheckCommand extends Command {
         $output->writeln("Kickoff SEO Test");
         $output->writeln("");
 
-        $this->handleLogOptions($input);
+        $configFile = __DIR__ . '/../../config/Seo.yml';
+        $webpage = $input->getArgument('webpage');
 
-        return $this->mainApplication
-                    ->seocheck($input->getArgument('webpage'));
-
-    }
-
-    private function handleLogOptions(InputInterface $input) {
-
-        $listenerFactory = new ListenerFactory();
-
-        foreach($this->logs as $log) {
-
-            $logPath = $input->getOption($log['name']);
-            if(empty($logPath)) {
-                continue;
-            }
-
-            $logListener = $listenerFactory->get($log['name']);
-            $logListener->logFileName = $logPath;
-            $this->logger->addListener($log['name'], $logListener);
-
-        }
+        return $this->mainApplication->index($configFile, $webpage);
 
     }
 
     public function setMainApplication(KickOff $mainApplication) {
         $this->mainApplication = $mainApplication;
-    }
-
-    /**
-     * @param Logger $logger
-     */
-    public function setLogger(Logger $logger) {
-        $this->logger = $logger;
     }
 
 }
