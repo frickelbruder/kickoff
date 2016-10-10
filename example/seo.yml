@@ -10,6 +10,7 @@ Sections:
             - MetaDescriptionLength
             - LinkHrefLang
             - LinkRelCanonical
+            - H1TagPresent
             - HttpRequestTime:
                 - ["maxTransferTime", 1500]
 

@@ -120,4 +120,13 @@ Rules:
         calls:
             - ["setName", ["FindStringOnWebsite"]]
 
+    H1TagPresent:
+        class: \Frickelbruder\KickOff\Rules\H1TagPresent
+        calls:
+            - ["setName", ["H1TagPresent"]]
 
+    ExactlyOneH1TagPresent:
+        class: \Frickelbruder\KickOff\Rules\H1TagPresent
+        calls:
+            - ["setName", ["ExactlyOneH1TagPresent"]]
+            - ["allowMultipleTags", [false]]
