@@ -1,9 +1,11 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
+use Frickelbruder\KickOff\Rules\Contracts\RequiresHeaderInterface;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInterface {
+class HttpHeaderResourceIsGzipped extends HttpHeaderConfigurableRule implements RequiresHeaderInterface {
 
     public $name = 'HttpHeaderResourceIsGzipped';
 

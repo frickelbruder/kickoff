@@ -1,7 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
-class HttpHeaderRespondsToIfModifiedSince extends RuleBase implements RequiresHeaderInterface {
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
+use Frickelbruder\KickOff\Rules\Contracts\RequiresHeaderInterface;
+
+class HttpHeaderRespondsToIfModifiedSince extends HttpHeaderConfigurableRule implements RequiresHeaderInterface {
 
     public function getRequiredHeaders() {
         return array(array('If-Modified-Since', gmdate('D, d M Y H:i:s T', time())));
@@ -19,6 +22,5 @@ class HttpHeaderRespondsToIfModifiedSince extends RuleBase implements RequiresHe
         }
         return true;
     }
-
 
 }

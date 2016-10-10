@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 
 class Section {
 

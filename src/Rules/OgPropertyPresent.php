@@ -1,6 +1,8 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\ConfigurableRuleBase;
+
 class OgPropertyPresent extends ConfigurableRuleBase {
 
     public $name = 'OgPropertyPresent';

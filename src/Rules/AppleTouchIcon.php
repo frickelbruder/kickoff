@@ -1,6 +1,8 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\RuleBase;
+
 class AppleTouchIcon extends RuleBase {
 
     public $name = 'AppleTouchIcon';

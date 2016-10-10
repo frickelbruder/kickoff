@@ -47,7 +47,7 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderResourceIsGzipped
 
     HttpHeaderContentTypeNoSniffing:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderIsPresentWithValue
         calls:
             - ["setName", ["HttpHeaderContentTypeNoSniffing"]]
             - ["setHeaderToSearchFor", ["X-Content-Type-Options"]]
@@ -119,5 +119,3 @@ Rules:
         class: \Frickelbruder\KickOff\Rules\FindStringOnWebsite
         calls:
             - ["setName", ["FindStringOnWebsite"]]
-
-

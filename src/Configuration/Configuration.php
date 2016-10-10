@@ -2,8 +2,8 @@
 namespace Frickelbruder\KickOff\Configuration;
 
 use Frickelbruder\KickOff\Configuration\Exceptions\UnknownRuleException;
-use Frickelbruder\KickOff\Rules\RequiresHeaderInterface;
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RequiresHeaderInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
 
 class Configuration {

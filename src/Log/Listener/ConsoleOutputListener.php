@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ConsoleOutputListener implements Listener {

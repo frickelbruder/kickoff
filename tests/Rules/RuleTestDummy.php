@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Tests\Rules;
 
-use Frickelbruder\KickOff\Rules\ConfigurableRuleBase;
+use Frickelbruder\KickOff\Rules\Contracts\ConfigurableRuleBase;
 
 class RuleTestDummy extends ConfigurableRuleBase {
 

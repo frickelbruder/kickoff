@@ -1,6 +1,7 @@
 <?php
-namespace Frickelbruder\KickOff\Rules;
+namespace Frickelbruder\KickOff\Rules\Contracts;
 
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 

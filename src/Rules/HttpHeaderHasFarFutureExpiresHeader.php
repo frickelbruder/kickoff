@@ -1,9 +1,10 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
-class HttpHeaderHasFarFutureExpiresHeader extends ConfigurableRuleBase {
+class HttpHeaderHasFarFutureExpiresHeader extends HttpHeaderConfigurableRule {
 
     public $name = 'Far future "Expires" header';
 

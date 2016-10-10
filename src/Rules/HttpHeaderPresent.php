@@ -1,20 +1,13 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
-use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderPresent extends RuleBase   {
-
-    /**
-     * @var string
-     */
-    protected $headerToSearchFor = '';
+class HttpHeaderPresent extends HttpHeaderConfigurableRule {
 
     public function validate() {
-        if(empty($this->headerToSearchFor)) {
-            throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
-        }
+        parent::validate();
         try {
             $this->findNormalizedHeader($this->headerToSearchFor);
             return true;
@@ -23,12 +16,4 @@ class HttpHeaderPresent extends RuleBase   {
         }
         return false;
     }
-
-    /**
-     * @param string $headerToSearchFor
-     */
-    public function setHeaderToSearchFor($headerToSearchFor) {
-        $this->headerToSearchFor = strtolower($headerToSearchFor);
-    }
-
 }

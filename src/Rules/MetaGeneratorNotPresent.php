@@ -1,6 +1,8 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\HtmlTagNotPresent;
+
 class MetaGeneratorNotPresent extends HtmlTagNotPresent {
 
     public $name = 'MetaGeneratorNotPresent';
