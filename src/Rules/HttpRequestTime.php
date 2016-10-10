@@ -1,8 +1,9 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
 
-class HttpRequestTime extends ConfigurableRuleBase  {
+class HttpRequestTime extends HttpHeaderConfigurableRule  {
 
     public $name = "HttpRequestTime";
 

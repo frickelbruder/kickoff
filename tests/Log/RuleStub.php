@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Tests\Log;
 
-use Frickelbruder\KickOff\Rules\RuleBase;
+use Frickelbruder\KickOff\Rules\Contracts\RuleBase;
 
 class RuleStub extends RuleBase {
 

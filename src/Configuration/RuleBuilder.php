@@ -1,9 +1,9 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration;
 
-use Frickelbruder\KickOff\Rules\ConfigurableRuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\ConfigurableRuleInterface;
 use Frickelbruder\KickOff\Rules\Exceptions\RuleNotConfigurableException;
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 
 class RuleBuilder {
 

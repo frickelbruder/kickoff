@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Log;
 
 use Frickelbruder\KickOff\Log\Exceptions\ListenerNotFoundException;
 use Frickelbruder\KickOff\Log\Listener\Listener;
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 
 
 class Logger {

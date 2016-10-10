@@ -1,28 +1,14 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
-use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
-class HttpHeaderHasValue extends ConfigurableRuleBase {
-
-    /**
-     * @var string
-     */
-    protected $headerToSearchFor = '';
-
-    protected $value = '';
-
-    protected $exactMatch = true;
-
-    protected $configurableField = array("value");
-
+class HttpHeaderHasValue extends HttpHeaderConfigurableRule {
 
     public function validate() {
         try {
-            if( empty( $this->headerToSearchFor ) ) {
-                throw new InsufficientConfigurationException('"headerToSearchFor" not set for ' . $this->getName());
-            }
+            parent::validate();
             $value = $this->findNormalizedHeader($this->headerToSearchFor);
             if($this->exactMatch == true) {
                 return $value == $this->value;
@@ -35,32 +21,7 @@ class HttpHeaderHasValue extends ConfigurableRuleBase {
         return false;
     }
 
-    /**
-     * @param string $headerToSearchFor
-     */
-    public function setHeaderToSearchFor($headerToSearchFor) {
-        $this->headerToSearchFor = strtolower($headerToSearchFor);
-    }
-
     public function getErrorMessage() {
         return 'The "' . $this->headerToSearchFor . '" HTTP-header does not have value "' . $this->value. '".';
     }
-
-    /**
-     * @param boolean $exactMatch
-     */
-    public function setExactMatch($exactMatch) {
-        $this->exactMatch = $exactMatch;
-    }
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value) {
-        $this->value = $value;
-    }
-
-
-
-
 }

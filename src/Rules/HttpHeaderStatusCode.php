@@ -1,8 +1,9 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\HttpHeaderConfigurableRule;
 
-class HttpHeaderStatusCode extends RuleBase {
+class HttpHeaderStatusCode extends HttpHeaderConfigurableRule {
 
     public $name = "HttpHeaderStatusCode";
 
@@ -18,12 +19,4 @@ class HttpHeaderStatusCode extends RuleBase {
         }
         return true;
     }
-
-    /**
-     * @param int $value
-     */
-    public function setValue($value) {
-        $this->value = $value;
-    }
-
 }

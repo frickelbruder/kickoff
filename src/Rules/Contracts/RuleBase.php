@@ -1,6 +1,7 @@
 <?php
-namespace Frickelbruder\KickOff\Rules;
+namespace Frickelbruder\KickOff\Rules\Contracts;
 
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
@@ -27,6 +28,17 @@ abstract class RuleBase implements RuleInterface {
 
     public function getName() {
         return $this->name;
+    }
+
+    public function getReadableName() {
+        $regex = '/(?#! splitCamelCase Rev:20140412)
+            # Split camelCase "words". Two global alternatives. Either g1of2:
+              (?<=[a-z])      # Position is after a lowercase,
+              (?=[A-Z])       # and before an uppercase letter.
+            | (?<=[A-Z])      # Or g2of2; Position is after uppercase,
+              (?=[A-Z][a-z])  # and before upper-then-lower case.
+            /x';
+        return implode(' ',preg_split($regex, ucfirst($this->name)));
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\RuleBase;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
 class LinkRelCanonical extends RuleBase {

@@ -1,6 +1,8 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\ConfigurableRuleBase;
+
 class MetaDescriptionLength extends ConfigurableRuleBase {
 
     public $name = 'MetaDescriptionLength';
@@ -32,8 +34,5 @@ class MetaDescriptionLength extends ConfigurableRuleBase {
         return true;
 
     }
-
-
-
 
 }

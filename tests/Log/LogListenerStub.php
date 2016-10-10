@@ -2,7 +2,7 @@
 namespace Frickelbruder\KickOff\Tests\Log;
 
 use Frickelbruder\KickOff\Log\Listener\Listener;
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Contracts\RuleInterface;
 
 class LogListenerStub implements Listener {
 

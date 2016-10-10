@@ -1,11 +1,15 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Contracts\RuleBase;
+
 class AppleTouchIcon extends RuleBase {
+
+    public $name = 'AppleTouchIcon';
 
     protected $xpath = '/html/head/link[@rel="apple-touch-icon"]';
 
-    protected $errorMessage = 'No apple touch icon meta header was not.';
+    protected $errorMessage = 'No apple touch icon meta header was found.';
 
     public function validate() {
 
