@@ -130,3 +130,8 @@ Rules:
         calls:
             - ["setName", ["ExactlyOneH1TagPresent"]]
             - ["allowMultipleTags", [false]]
+
+    SSLCertificateValid:
+        class: \Frickelbruder\KickOff\Rules\SSLCertificateValid
+        calls: 
+            - ["setName", ["SSLCertificateValid"]]
