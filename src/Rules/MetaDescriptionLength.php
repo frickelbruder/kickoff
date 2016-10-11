@@ -14,12 +14,12 @@ class MetaDescriptionLength extends ConfigurableRuleBase {
     protected $errorMessage = 'The meta description on this page does not have the required length.';
 
     public function validate() {
-        $metaDescriptionValue = $this->getDomElementFromBodyByXpath('/html/head/meta[@name="description"]/ @content');
-        if(!is_array($metaDescriptionValue) || empty($metaDescriptionValue)) {
+        $metaDescriptionElement = $this->getCrawler()->filterXPath('./html/head/meta[@name="description"]');
+        if (!count($metaDescriptionElement)) {
             $this->errorMessage = 'No meta description found';
             return false;
         }
-        $length = mb_strlen( $metaDescriptionValue[0]['content'], 'UTF-8' );
+        $length = mb_strlen( $metaDescriptionElement->eq(0)->attr('content'), 'UTF-8' );
 
         if($length < $this->minlength) {
             $this->errorMessage = 'The meta description is too short.';

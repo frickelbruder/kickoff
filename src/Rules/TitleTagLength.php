@@ -14,17 +14,14 @@ class TitleTagLength extends ConfigurableRuleBase {
     protected $errorMessage = 'The title tag on this page does not have the required length.';
 
     public function validate() {
-        $body = $this->httpResponse->getBody();
-        $xml = $this->getResponseBodyAsXml( $body );
+        $titleTag = $this->getCrawler()->filterXPath('./html/head/title');
 
-        $titleTagValue = $xml->head->title;
-
-        if( empty( $titleTagValue ) ) {
+        if (!count($titleTag)) {
             $this->errorMessage = 'The title tag was not found.';
 
             return false;
         }
-        ( $length = mb_strlen( $titleTagValue, 'UTF-8' ) );
+        ( $length = mb_strlen( $titleTag->text(), 'UTF-8' ) );
 
         if( $length < $this->minlength ) {
             $this->errorMessage = 'The title tag is too short.';

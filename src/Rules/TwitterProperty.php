@@ -14,27 +14,17 @@ class TwitterProperty extends ConfigurableRuleBase {
     protected $configurableField = array( 'requiredProperties' );
 
     public function validate() {
-        $body = $this->httpResponse->getBody();
-        $xml = $this->getResponseBodyAsXml( $body );
+        $crawler = $this->getCrawler();
 
-        return $this->checkRequiredProperties( $xml );
-    }
-
-    /**
-     * @param \SimpleXMLElement $body
-     *
-     * @return bool
-     */
-    private function checkRequiredProperties($body) {
         foreach( $this->requiredProperties as $propertyName ) {
-            $propertyItemValue = $body->xpath( '/html/head/meta[@name="twitter:' . $propertyName . '"]/ @content' );
-            if( !is_array( $propertyItemValue ) || empty( $propertyItemValue ) ) {
+            $propertyElement = $crawler->filterXPath( './html/head/meta[@name="twitter:' . $propertyName . '"]' );
+            if (!count($propertyElement)) {
                 $this->errorMessage = 'The twitter property "' . $propertyName . '" was not found on the site.';
 
                 return false;
             }
 
-            if(!$this->validateProperty($propertyName, $propertyItemValue[0]['content'])) {
+            if(!$this->validateProperty($propertyName, $propertyElement->attr('content'))) {
                 return false;
             }
         }

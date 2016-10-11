@@ -81,6 +81,7 @@ class MetaDescriptionLengthTest extends \PHPUnit_Framework_TestCase {
     public function testValidateAsUtf8() {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head><meta name="description" content="äöü"></head></html>');
+        $response->setHeaders(['Content-Type' => ['text/html; charset=UTF-8']]);
 
         $rule = new MetaDescriptionLength();
         $rule->set('minlength', 2);

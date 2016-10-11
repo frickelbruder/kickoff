@@ -67,6 +67,7 @@ class TitleTagLengthTest extends \PHPUnit_Framework_TestCase {
     public function testValidateAsUtf8() {
         $response = new HttpResponse();
         $response->setBody('<!DOCTYPE html><html><head><title>öäü</title></head></html>');
+        $response->setHeaders(['Content-Type' => ['text/html; charset=UTF-8']]);
 
         $rule = new TitleTagLength();
         $rule->set('minlength', 2);

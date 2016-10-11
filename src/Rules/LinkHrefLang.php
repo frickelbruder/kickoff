@@ -149,17 +149,16 @@ class LinkHrefLang extends RuleBase {
     }
 
     private function getNormalizedBodyItems() {
-        $hrefLangItems = $this->getDomElementFromBodyByXpath('/html/head/link[@rel="alternate"][@hreflang]');
-        if(!is_array($hrefLangItems)) {
-            return array();
-        }
         $normalizedItems = array();
-        foreach($hrefLangItems as $hrefLangItem) {
+        $hrefLangItems = $this->getCrawler()->filterXPath('./html/head/link[@rel="alternate"][@hreflang]');
+
+        foreach ($hrefLangItems->extract(['hreflang', 'href']) as $values) {
             $normalizedItems[] = array(
-                'hreflang' => (string) $hrefLangItem['hreflang'],
-                'href' => (string) $hrefLangItem['href']
+                'hreflang' => $values[0],
+                'href' => $values[1]
             );
         }
+
         return $normalizedItems;
     }
 
