@@ -1,0 +1,40 @@
+defaults:
+  target:
+    host: ~
+
+Sections:
+  html:
+    rules:
+      - HttpHeaderResourceFound
+      - HttpHeaderResourceIsGzipped
+      - HttpRequestTime:
+        - ["maxTransferTime", 1500]
+      - TitleTagLength
+      - MetaDescriptionLength
+      - OGPropertyPresent
+      - TwitterProperty
+      - LinkRelCanonical
+      - LinkHrefLang
+      - AppleTouchIcon
+      - MetaGeneratorNotPresent
+
+  image:
+    rules:
+      - HttpHeaderResourceFound
+      - HttpHeaderResourceIsGzipped
+      - HttpRequestTime:
+        - ["maxTransferTime", 1500]
+
+  script:
+    rules:
+      - HttpHeaderResourceFound
+      - HttpHeaderResourceIsGzipped
+      - HttpRequestTime:
+        - ["maxTransferTime", 1500]
+
+  stylesheet:
+    rules:
+      - HttpHeaderResourceFound
+      - HttpHeaderResourceIsGzipped
+      - HttpRequestTime:
+        - ["maxTransferTime", 1500]
