@@ -3,6 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Symfony\Component\DomCrawler\Crawler;
 
 abstract class RuleBase implements RuleInterface {
 
@@ -51,28 +52,22 @@ abstract class RuleBase implements RuleInterface {
         return $this->errorMessage;
     }
 
-    /**
-     * @param string $body
-     *
-     * @return \SimpleXMLElement
-     */
-    protected function getResponseBodyAsXml($body) {
-        libxml_use_internal_errors( true );
-        $doc = new \DOMDocument();
-        $doc->strictErrorChecking = false;
-        $doc->loadHTML( '<?xml encoding="utf-8" ?>' . $body );
-        $xml = simplexml_import_dom( $doc );
-
-        return $xml;
-    }
-
-    protected function getDomElementFromBodyByXpath($xpath) {
+    protected function getCrawler()
+    {
         $body = $this->httpResponse->getBody();
-        if(empty($body)) {
-            return '';
+        $contentType = null;
+
+        foreach ($this->httpResponse->getHeaders() as $key => $value) {
+            if (strtolower($key) == 'content-type') {
+                $contentType = $value[0];
+                break;
+            }
         }
-        $xml = $this->getResponseBodyAsXml( $body );
-        return $xml->xpath($xpath);
+
+        $crawler = new Crawler();
+        $crawler->addContent($body, $contentType);
+
+        return $crawler;
     }
 
     protected function findHeader($headerName) {

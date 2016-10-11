@@ -8,9 +8,9 @@ class HtmlTagNotPresent extends ConfigurableRuleBase {
     protected $configurableField = array('xpath');
 
     public function validate() {
-        $result = $this->getDomElementFromBodyByXpath($this->xpath);
+        $tags = $this->getCrawler()->filterXPath($this->xpath);
 
-        return empty($result);
+        return !count($tags);
     }
 
 

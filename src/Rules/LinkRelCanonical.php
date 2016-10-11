@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Symfony\Component\DomCrawler\Crawler;
 
 class LinkRelCanonical extends RuleBase {
 
@@ -20,7 +21,7 @@ class LinkRelCanonical extends RuleBase {
             }
         } catch(HeaderNotFoundException $e) {}
 
-        $canonicals['body'] = $this->getDomElementFromBodyByXpath('/html/head/link[@rel="canonical"]/ @href');
+        $canonicals['body'] = $this->getCrawler()->filterXPath('./html/head/link[@rel="canonical"]');
 
         return $this->validateCanonicals($canonicals);
 
@@ -32,16 +33,16 @@ class LinkRelCanonical extends RuleBase {
      */
     private function validateCanonicals($canonicals) {
 
-        if(empty($canonicals['header']) && empty($canonicals['body'])) {
+        if(empty($canonicals['header']) && !count($canonicals['body'])) {
             return false;
         }
 
-        if(!empty($canonicals['header']) && !empty($canonicals['body'])) {
+        if(!empty($canonicals['header']) && count($canonicals['body'])) {
             $this->errorMessage = 'There are canonical HTTP-header tags as well as <link>-Tags in the page body.';
             return false;
         }
 
-        if(!empty($canonicals['body'])) {
+        if(count($canonicals['body'])) {
             return $this->validateBody($canonicals['body']);
         }
         if(!empty($canonicals['header'])) {
@@ -51,8 +52,8 @@ class LinkRelCanonical extends RuleBase {
         return true;
     }
 
-    private function validateBody($canonical) {
-        if( strlen( $canonical[0]['href'] ) == 0 ) {
+    private function validateBody(Crawler $canonical) {
+        if( strlen( $canonical->eq(0)->attr('href') ) == 0 ) {
             $this->errorMessage = 'The  rel-canonical tag is set, but points to an empty path';
 
             return false;

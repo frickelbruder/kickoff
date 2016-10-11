@@ -10,9 +10,7 @@ class H1TagPresent extends ConfigurableRuleBase {
 
     public function validate()
     {
-        $body   = $this->httpResponse->getBody();
-        $xml    = $this->getResponseBodyAsXml($body);
-        $amount = count($xml->xpath('//h1'));
+        $amount = count($this->getCrawler()->filter('h1'));
 
         if (!$this->allowMultipleTags && $amount > 1) {
             $this->errorMessage = 'More than one H1 tag exists on this page.';
