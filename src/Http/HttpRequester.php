@@ -3,6 +3,7 @@ namespace Frickelbruder\KickOff\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client;
 
@@ -48,12 +49,23 @@ class HttpRequester {
             $response->setStatus( $websiteResponse->getStatusCode() );
         } catch(ClientException $e) {
             $websiteResponse = $e->getResponse();
+        } catch(ConnectException $e) {
+            $websiteResponse = false;
+            $exceptionMessage = $e->getMessage();
         }
-        $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
-        $response->setHeaders( $headers );
+
+        if ($websiteResponse) {
+            $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
+            $response->setHeaders( $headers );
+            $response->setBody( $websiteResponse->getBody() );
+            $response->setStatus( $websiteResponse->getStatusCode() );
+        } else {
+//            $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
+//            $response->setHeaders( $headers );
+            $response->setBody( $exceptionMessage );
+            $response->setStatus( 404 );
+        }
         $response->setRequest($targetUrl);
-        $response->setBody( $websiteResponse->getBody() );
-        $response->setStatus( $websiteResponse->getStatusCode() );
 
         return $response;
     }
