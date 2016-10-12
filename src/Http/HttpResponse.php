@@ -31,6 +31,11 @@ class HttpResponse {
     private $transferTime = 0.0;
 
     /**
+     * @var string|null
+     */
+    private $sslCertificateError;
+
+    /**
      * @return array
      */
     public function getHeaders() {
@@ -98,5 +103,21 @@ class HttpResponse {
      */
     public function getRequest() {
         return $this->targetUrl;
+    }
+
+    /**
+     * @param string $sslCertificateError
+     */
+    public function setSslCertificateError($sslCertificateError)
+    {
+        $this->sslCertificateError = $sslCertificateError;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSslCertificateError()
+    {
+        return $this->sslCertificateError;
     }
 }
