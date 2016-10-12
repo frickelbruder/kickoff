@@ -7,7 +7,7 @@ use Frickelbruder\KickOff\Configuration\TargetUrl;
 use Frickelbruder\KickOff\Http\HttpRequester;
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Log\Logger;
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
 
 class KickOff {
 

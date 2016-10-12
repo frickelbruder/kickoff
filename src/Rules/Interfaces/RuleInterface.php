@@ -1,5 +1,5 @@
 <?php
-namespace Frickelbruder\KickOff\Rules;
+namespace Frickelbruder\KickOff\Rules\Interfaces;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
 

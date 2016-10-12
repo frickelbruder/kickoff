@@ -1,6 +1,8 @@
 <?php
 namespace Frickelbruder\KickOff\Rules;
 
+use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
+
 class HttpHeaderRespondsToIfModifiedSince extends RuleBase implements RequiresHeaderInterface {
 
     public function getRequiredHeaders() {

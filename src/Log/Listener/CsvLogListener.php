@@ -1,7 +1,7 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
-use Frickelbruder\KickOff\Rules\RuleInterface;
+use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
 
 class CsvLogListener implements Listener {
 

@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
 
 class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInterface {
 

@@ -3,6 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Http\HttpResponse;
 use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
+use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
 
 abstract class RuleBase implements RuleInterface {
 

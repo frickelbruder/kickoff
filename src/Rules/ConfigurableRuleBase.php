@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Rules;
 
 use Frickelbruder\KickOff\Rules\Exceptions\FieldNotConfigurableException;
+use Frickelbruder\KickOff\Rules\Interfaces\ConfigurableRuleInterface;
 
 abstract class ConfigurableRuleBase extends RuleBase implements ConfigurableRuleInterface {
 
