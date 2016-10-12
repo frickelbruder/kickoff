@@ -49,7 +49,6 @@ class DefaultConfiguredRuleTestBase extends \PHPUnit_Framework_TestCase {
 
         $this->defaultHeaders = array(
             'X-XSS-Protection' => '1; mode=block',
-            'X-UA-Compatible' => 'ie=edge',
             'X-Content-Type-Options' => 'nosniff',
             'X-Frame-Options' => 'SAMEORIGIN',
             'Set-Cookie' => 'PHPSESSID=SESSION; path=/; expires=WHENEVER; secure; HttpOnly',
