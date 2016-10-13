@@ -3,9 +3,9 @@
   "minimum-stability": "stable",
   "license": "MIT",
   "require": {
-    "php": ">=5.5.0",
-    "symfony/yaml": "~2",
-    "symfony/console": "~2",
+    "php": ">=5.5.9",
+    "symfony/yaml": "~2.7 || ~3.0",
+    "symfony/console": "~2.7 || ~3.0",
     "guzzlehttp/guzzle": "~6"
   },
   "require-dev": {
