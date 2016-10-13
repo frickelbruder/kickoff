@@ -4,9 +4,11 @@ namespace Frickelbruder\KickOff\Tests\Http;
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use Frickelbruder\KickOff\Http\HttpRequester;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
 class HttpRequesterTest extends \PHPUnit_Framework_TestCase {
@@ -108,6 +110,26 @@ class HttpRequesterTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals( array($targetUrl->headers['X-Test']), $firstRequest->getHeader('X-Test'));
         $this->assertEquals( array($targetUrl->headers['X-Test2']), $firstRequest->getHeader('X-Test2'));
 
+    }
+
+    public function testRepeatsRequestOnInvalidCertificate()
+    {
+        $exceptionMessage = 'cURL error 60: SSL certificate problem: self signed certificate (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)';
+        $expectedMessage = 'self signed certificate (see http://curl.haxx.se/libcurl/c/libcurl-errors.html)';
+
+        $client = $this->getMock(Client::class);
+        $client->method('request')
+               ->will($this->onConsecutiveCalls(
+                   $this->throwException(new RequestException($exceptionMessage, new Request('GET', 'foo'))),
+                   $this->returnValue(new Response())
+               ));
+
+        $requester = new HttpRequester();
+        $requester->setClient($client);
+        $response = $requester->request(new TargetUrl());
+
+        $this->assertNotNull($response->getSslCertificateError());
+        $this->assertEquals($expectedMessage, $response->getSslCertificateError());
     }
 
     /**

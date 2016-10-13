@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Http;
 
 use Frickelbruder\KickOff\Configuration\TargetUrl;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client;
 
@@ -34,14 +34,14 @@ class HttpRequester {
         return $this->cache[ $cacheKey ];
     }
 
-    private function call(TargetUrl $targetUrl) {
+    private function call(TargetUrl $targetUrl, $verifySsl = true) {
         $response = new HttpResponse();
 
         $client = $this->getClient();
         try {
             $websiteResponse = $client->request( $targetUrl->method,
                 $targetUrl->getUrl(),
-                $this->getOptionsArray( $targetUrl, $response )
+                array_merge(array('verify' => $verifySsl), $this->getOptionsArray( $targetUrl, $response ))
             );
             $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
             $response->setHeaders( $headers );
@@ -49,9 +49,23 @@ class HttpRequester {
             $response->setStatus( $websiteResponse->getStatusCode() );
         } catch(ClientException $e) {
             $websiteResponse = $e->getResponse();
-        } catch(ConnectException $e) {
+        } catch(RequestException $e) {
             $websiteResponse = false;
             $exceptionMessage = $e->getMessage();
+
+            // Check for invalid SSL certificate: If we encounter a certificate error, we will remember
+            // the error message and repeat the request with disabled certificate verification. That way,
+            // a website with an invalid certificate can still be checked.
+            $magicString = 'SSL certificate problem:';
+            $magicOffset = strpos($exceptionMessage, $magicString);
+            if ($magicOffset !== false && $verifySsl) {
+                $response = $this->call($targetUrl, false);
+
+                $certificateErrorMessage = trim(substr($exceptionMessage, $magicOffset + strlen($magicString)));
+                $response->setSslCertificateError($certificateErrorMessage);
+
+                return $response;
+            }
         }
 
         if ($websiteResponse) {
@@ -78,7 +92,7 @@ class HttpRequester {
             return $this->client;
         }
 
-        return new Client(array('verify'=>false));
+        return new Client();
     }
 
     /**
