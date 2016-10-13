@@ -1,20 +1,36 @@
 language: php
+
 php:
 - 7.0
 - 5.6
-- 5.5
+- 5.5.9
+
+matrix:
+  include:
+    - php: 7.0
+      env: dependencies=lowest
+    - php: 5.6
+      env: dependencies=lowest
+    - php: 5.5.9
+      env: dependencies=lowest
+
 before_install:
 - travis_retry composer self-update
 - phpenv config-rm xdebug.ini
+
 install:
-- travis_retry composer install --no-interaction
+- if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest --no-interaction; fi;
+- if [ "$dependencies" != "lowest" ]; then composer update --no-interaction; fi;
+
 script: phpunit
+
 before_deploy:
 - composer update --no-dev
 - composer dump-autoload -a
 - echo "phar.readonly = Off" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - curl -LSs https://box-project.github.io/box2/installer.php | php
 - php box.phar build
+
 deploy:
   provider: releases
   api_key:
@@ -24,4 +40,3 @@ deploy:
   on:
     tags: true
     php: 5.5
-
