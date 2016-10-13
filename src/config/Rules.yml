@@ -12,6 +12,13 @@ Rules:
             - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
             - ["setValue", ["1; mode=block"]]
 
+    HttpHeaderUXCompatible:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
+        calls:
+            - ["setName", ["HttpHeaderUXCompatible"]]
+            - ["setHeaderToSearchFor", ["X-UA-Compatible"]]
+            - ["setValue", ["ie=edge"]]
+
     HttpHeaderExposeLanguage:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
         calls:
