@@ -58,7 +58,7 @@ class HttpRequester {
             // a website with an invalid certificate can still be checked.
             $magicString = 'SSL certificate problem:';
             $magicOffset = strpos($exceptionMessage, $magicString);
-            if ($magicOffset !== false) {
+            if ($magicOffset !== false && $verifySsl) {
                 $response = $this->call($targetUrl, false);
 
                 $certificateErrorMessage = trim(substr($exceptionMessage, $magicOffset + strlen($magicString)));
