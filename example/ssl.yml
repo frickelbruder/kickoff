@@ -1,0 +1,10 @@
+defaults:
+    target:
+        host: google.com
+        scheme: https
+        port: 443
+
+Sections:
+    website:
+        rules:
+            - SSLCertificateValid

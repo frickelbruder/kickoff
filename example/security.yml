@@ -14,4 +14,3 @@ Sections:
             - HttpHeaderHSTSWithSubdomains
             - HttpHeaderCookieWithHttpSecureFlag
 
-
