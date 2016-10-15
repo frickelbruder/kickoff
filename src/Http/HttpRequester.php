@@ -7,7 +7,6 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client;
 
-
 class HttpRequester {
 
     /**
@@ -36,9 +35,10 @@ class HttpRequester {
 
     private function call(TargetUrl $targetUrl) {
         $response = new HttpResponse();
+        $websiteResponse = false;
 
-        $client = $this->getClient();
         try {
+            $client = $this->getClient();
             $websiteResponse = $client->request( $targetUrl->method,
                 $targetUrl->getUrl(),
                 $this->getOptionsArray( $targetUrl, $response )
@@ -50,8 +50,9 @@ class HttpRequester {
         } catch(ClientException $e) {
             $websiteResponse = $e->getResponse();
         } catch(ConnectException $e) {
-            $websiteResponse = false;
             $exceptionMessage = $e->getMessage();
+            $response->setBody( $exceptionMessage );
+            $response->setStatus( 404 );
         }
 
         if ($websiteResponse) {
@@ -59,11 +60,6 @@ class HttpRequester {
             $response->setHeaders( $headers );
             $response->setBody( $websiteResponse->getBody() );
             $response->setStatus( $websiteResponse->getStatusCode() );
-        } else {
-//            $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
-//            $response->setHeaders( $headers );
-            $response->setBody( $exceptionMessage );
-            $response->setStatus( 404 );
         }
         $response->setRequest($targetUrl);
 
