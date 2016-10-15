@@ -1,7 +1,8 @@
 defaults:
     target:
-        host: www.somehost.com
-        scheme: http
+        host: www.electronic-minds.de
+        uri: /
+        scheme: https
 
 Sections:
     website:

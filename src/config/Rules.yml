@@ -1,4 +1,4 @@
-Rules:
+Rule definitions:
     HttpHeaderXSSProtectionPresent:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:

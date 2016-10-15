@@ -53,10 +53,10 @@ class Configuration {
      * @return mixed
      */
     private function mergeUserConfigWithDefaults(array $config, array $defaultRulesConfig) {
-        $defaultRules = $defaultRulesConfig['Rules'];
-        $configRules = !empty( $config['Rules'] ) ? $config['Rules'] : array();
+        $defaultRules = $defaultRulesConfig['Rule definitions'];
+        $configRules = !empty( $config['Rule definitions'] ) ? $config['Rule definitions'] : array();
 
-        $config['Rules'] = array_merge( $defaultRules, $configRules );
+        $config['Rule definitions'] = array_merge( $defaultRules, $configRules );
 
         return $config;
     }
@@ -143,11 +143,11 @@ class Configuration {
     }
 
     private function fetchRuleBase($name, $config) {
-        if( !isset( $config['Rules'][ $name ] ) ) {
-            throw new UnknownRuleException( 'Rule "' . $name . "' not known.'" );
+        if( !isset( $config['Rule definitions'][ $name ] ) ) {
+            throw new UnknownRuleException( 'Rule definition "' . $name . "' not known.'" );
         }
 
-        return $config['Rules'][ $name ];
+        return $config['Rule definitions'][ $name ];
     }
 
     /**

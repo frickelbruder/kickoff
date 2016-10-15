@@ -20,7 +20,7 @@ Sections:
             - HttpHeaderExposeLanguage
             - HttpRequestTime
 
-Rules:
+Rule definitions:
     HttpHeaderXSSProtection:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
