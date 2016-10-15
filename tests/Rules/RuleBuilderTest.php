@@ -16,7 +16,7 @@ class RuleBuilderTest extends \PHPUnit_Framework_TestCase {
         ),
         'TestRule2' => array(
             'class' => '\Frickelbruder\KickOff\Rules\HttpRequestTime',
-            'configuration' => array(array('set', array('maxTransferTime', 3000)))
+            'configuration' => array(array('set', array('max', 3000)))
         ),
         'TestRule3' => array(
             'class' => '\Frickelbruder\KickOff\Tests\Rules\RuleTestDummy',
@@ -44,7 +44,7 @@ class RuleBuilderTest extends \PHPUnit_Framework_TestCase {
         $rule2 = $rules['TestRule2'];
         $rule3 = $rules['TestRule3'];
 
-        $this->assertEquals(3000, $rule2->maxTransferTime);
+        $this->assertEquals(3000, $rule2->max);
         $this->assertEquals(false, $rule3->field1);
         $this->assertEquals(3000, $rule3->field2);
 

@@ -8,14 +8,14 @@ class HttpRequestTime extends ConfigurableRuleBase  {
 
     protected $errorMessage = 'This resource took too long to respond.';
 
-    public $maxTransferTime = 1000;
+    public $max = 1000;
 
-    protected $configurableField = array("maxTransferTime");
+    protected $configurableField = array("max");
 
     public function validate() {
         $duration = $this->httpResponse->getTransferTime();
-        if($duration > $this->maxTransferTime) {
-            $this->errorMessage = 'The resources took ' . $duration . ' ms to download. The max. allowed time is ' . $this->maxTransferTime . 'ms.';
+        if($duration > $this->max) {
+            $this->errorMessage = 'The resources took ' . $duration . ' ms to download. The max. allowed time is ' . $this->max . 'ms.';
             return false;
         }
         return true;

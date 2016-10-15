@@ -68,6 +68,9 @@ class Configuration {
         if( isset( $config['defaults']['target'] ) ) {
             $this->buildDefaultTarget( $config['defaults']['target'] );
         }
+        if( isset( $config['defaults']['rules'] ) ) {
+            $this->buildDefaultTarget( $config['defaults']['rules'] );
+        }
     }
 
     private function buildDefaultTarget($config) {
@@ -75,7 +78,7 @@ class Configuration {
     }
 
     private function enrichTarget(TargetUrl $targetUrl, $config) {
-        foreach( array( 'host', 'port', 'uri', 'scheme' ) as $key ) {
+        foreach( TargetUrl::$components as $key ) {
             if( array_key_exists( $key, $config ) ) {
                 $targetUrl->$key = $config[ $key ];
             }
@@ -112,22 +115,35 @@ class Configuration {
     }
 
     private function getRulesForSection($sectionConfig, $mainConfig) {
-        if( empty( $sectionConfig['rules'] ) ) {
+        $rules = $this->getSectionRules($sectionConfig, $mainConfig);
+        if( empty( $rules ) ) {
             return array();
         }
-        $result = $this->buildRulesConfiguration( $sectionConfig, $mainConfig );
+        $result = $this->buildRulesConfiguration( $rules, $mainConfig );
         return $this->generateRules( $result );
     }
 
+    private function getSectionRules($sectionConfig, $mainConfig) {
+        $rules = array();
+        if(isset($mainConfig['defaults']['rules'])) {
+            $rules = $mainConfig['defaults']['rules'];
+        }
+
+        if(isset($sectionConfig['rules'])) {
+            $rules = array_merge($rules, $sectionConfig['rules']);
+        }
+        return $rules;
+    }
+
     /**
-     * @param $sectionConfig
+     * @param $sectionRules
      * @param $mainConfig
      *
      * @return array
      */
-    private function buildRulesConfiguration($sectionConfig, $mainConfig) {
+    private function buildRulesConfiguration($sectionRules, $mainConfig) {
         $result = array();
-        foreach( $sectionConfig['rules'] as $name ) {
+        foreach( $sectionRules as $name ) {
             $plainName = $name;
             $configuration = array();
             if( is_array( $name ) ) {
@@ -169,8 +185,8 @@ class Configuration {
 
         $config = $this->addRuleRequirementsToConfig( $config, $rules );
 
-        if( !empty( $config['config'] ) ) {
-            $this->enrichTarget( $target, $config['config'] );
+        if( !empty( $config['target'] ) ) {
+            $this->enrichTarget( $target, $config['target'] );
         }
 
         return $target;
@@ -188,7 +204,7 @@ class Configuration {
                 continue;
             }
             $headers = $rule->getRequiredHeaders();
-            $config = $this->addRequiredHeadersToConfig( $config, $headers );
+            $config = $this->addRequiredHeadersToTargetConfig( $config, $headers );
         }
 
         return $config;
@@ -199,12 +215,12 @@ class Configuration {
      *
      * @return array
      */
-    private function ensureConfigHeader($config) {
-        if( empty( $config['config'] ) ) {
-            $config['config'] = array();
+    private function ensureTargetHeader($config) {
+        if( empty( $config['target'] ) ) {
+            $config['target'] = array();
         }
-        if( empty( $config['config']['headers'] ) ) {
-            $config['config']['headers'] = array();
+        if( empty( $config['target']['headers'] ) ) {
+            $config['target']['headers'] = array();
         }
 
         return $config;
@@ -216,10 +232,10 @@ class Configuration {
      *
      * @return array
      */
-    private function addRequiredHeadersToConfig($config, $headers) {
+    private function addRequiredHeadersToTargetConfig($config, $headers) {
         foreach( $headers as $header ) {
-            $config = $this->ensureConfigHeader( $config );
-            $config['config']['headers'][] = $header;
+            $config = $this->ensureTargetHeader( $config );
+            $config['target']['headers'][] = $header;
         }
 
         return $config;

@@ -3,6 +3,8 @@ namespace Frickelbruder\KickOff\Configuration;
 
 class TargetUrl {
 
+    public static $components = array('host', 'port', 'path', 'scheme');
+
     public $host = '';
 
     public $scheme = 'http';
@@ -45,9 +47,7 @@ class TargetUrl {
 
         $urlParts = parse_url($url);
 
-        $components = array('scheme', 'host', 'port', 'path');
-
-        foreach($components as $component) {
+        foreach(self::$components as $component) {
             if(isset($urlParts[$component])) {
                 $this->$component = $urlParts[$component];
             }
