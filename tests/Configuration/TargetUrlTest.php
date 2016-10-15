@@ -15,7 +15,7 @@ class TargetUrlTest extends \PHPUnit_Framework_TestCase {
         $targetUrl = new TargetUrl();
         $targetUrl->host = $host;
         $targetUrl->port = $port;
-        $targetUrl->uri = $uri;
+        $targetUrl->path = $uri;
         $targetUrl->scheme = $scheme;
 
         $this->assertEquals($expected, $targetUrl->getUrl());
@@ -29,7 +29,7 @@ class TargetUrlTest extends \PHPUnit_Framework_TestCase {
 
         $targetUrl = new TargetUrl();
         $targetUrl->host = $host;
-        $targetUrl->uri = $uri;
+        $targetUrl->path = $uri;
         $targetUrl->scheme = $scheme;
 
         $this->assertEquals($expected, $targetUrl->getUrl());
@@ -45,7 +45,7 @@ class TargetUrlTest extends \PHPUnit_Framework_TestCase {
         $targetUrl = new TargetUrl();
         $targetUrl->host = $host;
         $targetUrl->port = $port;
-        $targetUrl->uri = $uri;
+        $targetUrl->path = $uri;
 
         $this->assertEquals($expected, $targetUrl->getUrl());
     }

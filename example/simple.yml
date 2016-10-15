@@ -1,7 +1,7 @@
 defaults:
     target:
         host: www.electronic-minds.de
-        uri: /
+        path: /
         scheme: https
 
 Sections:
