@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class TwitterProperty extends ConfigurableRuleBase {
 
-    public $name = 'TwitterProperty';
+    public $name = 'Twitter property';
 
     protected $errorMessage = 'The required twitter property is not present.';
 

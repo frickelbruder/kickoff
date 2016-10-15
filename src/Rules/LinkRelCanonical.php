@@ -5,7 +5,7 @@ use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
 class LinkRelCanonical extends RuleBase {
 
-    public $name = 'LinkRelCanonicalRule';
+    public $name = 'Link-rel-canonical';
 
     protected $errorMessage = 'The page is missing a <link rel="canonical"> tag or header.';
 

@@ -12,7 +12,7 @@ Sections:
             - LinkRelCanonical
             - H1TagPresent
             - HttpRequestTime:
-                - ["maxTransferTime", 1500]
+                max: 1500
 
     robots.txt:
         target:
@@ -33,7 +33,7 @@ Sections:
         rules:
             - HttpHeaderResourceFound
             - HttpHeaderHasFarFutureExpiresHeader:
-                - ["threshold", 604800]
+                threshold: 604800
 
     javascript:
         target:

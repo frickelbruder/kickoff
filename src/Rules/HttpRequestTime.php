@@ -4,9 +4,9 @@ namespace Frickelbruder\KickOff\Rules;
 
 class HttpRequestTime extends ConfigurableRuleBase  {
 
-    public $name = "HttpRequestTime";
+    public $name = "HTTP download time";
 
-    protected $errorMessage = 'This resource took too long to respond.';
+    protected $errorMessage = 'This resource took too long to download.';
 
     public $max = 1000;
 

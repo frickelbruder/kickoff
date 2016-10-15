@@ -29,7 +29,7 @@ class ConsoleOutputListener implements Listener {
         $output = '.';
         $counterToUpdate = 'success';
         if(!$success) {
-            $message = $rule->getReadableName() . ': ' . $rule->getErrorMessage();
+            $message = $rule->getName() . ': ' . $rule->getErrorMessage();
             $this->updatePadLength($message);
             $this->messages[ucwords($sectionName)][] = $message;
             $output = '<error>F</error>';
@@ -41,15 +41,10 @@ class ConsoleOutputListener implements Listener {
 
     public function finish() {
         $this->consoleOutput->writeln("");
-        foreach($this->messages as $section=>$messages) {
-            $this->consoleOutput->writeln('<error>'.str_pad('', $this->outputPadLength).'</error>');
-            $this->consoleOutput->writeln('<error>'.str_pad('  '.$section.'  ', $this->outputPadLength).'</error>');
-            foreach ($messages as $message) {
-                $this->consoleOutput->writeln('<error>'.str_pad('    '.$message.'  ', $this->outputPadLength).'</error>');
-            }
-        }
-        $this->consoleOutput->writeln('<error>'.str_pad('', $this->outputPadLength).'</error>');
-        $this->consoleOutput->writeln("");
+
+        $this->writeErrors();
+
+        $this->consoleOutput->writeln('');
 
         $totalTests = $this->counter['success'] + $this->counter['errors'];
 
@@ -65,4 +60,37 @@ class ConsoleOutputListener implements Listener {
             $this->outputPadLength = strlen($message)+6;
         }
     }
+
+    private function writeErrors() {
+        if(count($this->messages) == 0) {
+            return;
+        }
+        $this->consoleOutput->writeln("");
+        foreach( $this->messages as $section => $messages ) {
+            $this->writeErrorMessageLine('');
+            $this->writeErrorMessageLine( '  ' . $section . '  ');
+            $this->writeMessages( $messages );
+        }
+        $this->writeErrorMessageLine('');
+    }
+
+
+    /**
+     * @param $message
+     */
+    private function writeErrorMessageLine($message = '') {
+        $this->consoleOutput->writeln( '<error>' . str_pad($message , $this->outputPadLength ) . '</error>' );
+    }
+
+    /**
+     * @param $messages
+     */
+    private function writeMessages($messages) {
+        foreach( $messages as $message ) {
+            $this->writeErrorMessageLine( '    ' . $message . '  ' );
+        }
+    }
+
+
+
 }

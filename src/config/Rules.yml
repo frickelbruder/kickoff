@@ -2,20 +2,20 @@ Rule definitions:
     HttpHeaderXSSProtectionPresent:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ["setName", ["HttpHeaderXSSProtection"]]
+            - ["setName", ["HTTP Header: X-XSS-Protection present"]]
             - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
 
     HttpHeaderXSSProtectionSecure:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderXSSProtection"]]
+            - ["setName", ["HTTP Header: X-XSS-Protection present and has value 1;mode block"]]
             - ["setHeaderToSearchFor", ["X-XSS-Protection"]]
             - ["setValue", ["1; mode=block"]]
 
     HttpHeaderExposeLanguage:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderNotPresent
         calls:
-            - ["setName", ["HttpHeaderExposeLanguage"]]
+            - ["setName", ["HTTP Header: Exposes language not present"]]
             - ["setHeaderToSearchFor", ["X-Powered-By"]]
 
     HttpRequestTime:
@@ -27,7 +27,7 @@ Rule definitions:
     HttpHeaderHasEtag:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ["setName", ["HttpHeaderHasEtag"]]
+            - ["setName",  ["HTTP Header: Has Etag"]]
             - ["setHeaderToSearchFor", ["ETag"]]
 
     HttpHeaderResourceFound:
@@ -49,21 +49,21 @@ Rule definitions:
     HttpHeaderContentTypeNoSniffing:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderContentTypeNoSniffing"]]
+            - ["setName", ["HTTP Header: X-Content-Type-Options:nosniff present"]]
             - ["setHeaderToSearchFor", ["X-Content-Type-Options"]]
             - ["setValue", ["nosniff"]]
 
     HttpHeaderFrameOptionsSameOrigin:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderFrameOptionsSameOrigin"]]
+            - ["setName", ["HTTP Header: X-Frame-Options:SAMEORIGIN present"]]
             - ["setHeaderToSearchFor", ["X-Frame-Options"]]
             - ["setValue", ["SAMEORIGIN"]]
 
     HttpHeaderCookieWithHttpOnlyFlag:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderCookieWithHttpOnlyFlag"]]
+            - ["setName", ["HTTP Header: Cookie has HttpOnly-flag"]]
             - ["setHeaderToSearchFor", ["Set-Cookie"]]
             - ["setExactMatch", [false]]
             - ["setValue", ["; HttpOnly"]]
@@ -71,7 +71,7 @@ Rule definitions:
     HttpHeaderCookieWithHttpSecureFlag:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderCookieWithHttpSecureFlag"]]
+            - ["setName", ["HTTP Header: Cookie has Secure-flag"]]
             - ["setHeaderToSearchFor", ["Set-Cookie"]]
             - ["setExactMatch", [false]]
             - ["setValue", ["; Secure"]]
@@ -80,13 +80,13 @@ Rule definitions:
     HttpHeaderHSTSPresent:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ["setName", ["HttpHeaderHSTSPresent"]]
+            - ["setName", ["HTTP Header: Strict-Transport-Security si present"]]
             - ["setHeaderToSearchFor", ["Strict-Transport-Security"]]
 
     HttpHeaderHSTSWithSubdomains:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderHasValue
         calls:
-            - ["setName", ["HttpHeaderHSTSWithSubdomains"]]
+            - ["setName", ["HTTP Header: Strict-Transport-Security has includeSubDomains-Flag"]]
             - ["setHeaderToSearchFor", ["Strict-Transport-Security"]]
             - ["setExactMatch", [false]]
             - ["setValue", ["; includeSubDomains"]]
@@ -117,16 +117,12 @@ Rule definitions:
 
     FindStringOnWebsite:
         class: \Frickelbruder\KickOff\Rules\FindStringOnWebsite
-        calls:
-            - ["setName", ["FindStringOnWebsite"]]
 
     H1TagPresent:
         class: \Frickelbruder\KickOff\Rules\H1TagPresent
-        calls:
-            - ["setName", ["H1TagPresent"]]
 
     ExactlyOneH1TagPresent:
         class: \Frickelbruder\KickOff\Rules\H1TagPresent
         calls:
-            - ["setName", ["ExactlyOneH1TagPresent"]]
+            - ["setName", ["Exactly 1 H1-rag present"]]
             - ["allowMultipleTags", [false]]

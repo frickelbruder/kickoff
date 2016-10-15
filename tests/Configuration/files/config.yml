@@ -3,10 +3,9 @@ defaults:
         host: test.host
         scheme: https
         headers:
-            - ["a","b"]
+            a: "b"
     rules:
-        - HttpRequestTime:
-            - ["max", 22500]
+        - HttpRequestTime
 
 Sections:
     main:
@@ -21,7 +20,8 @@ Sections:
             port: 8080
         rules:
             - HttpHeaderExposeLanguage
-            - HttpRequestTime
+            - HttpRequestTime:
+                max: 22500
 
 Rule definitions:
     HttpHeaderTestsomeHeader:

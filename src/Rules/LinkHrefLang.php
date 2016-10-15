@@ -5,7 +5,7 @@ use Frickelbruder\KickOff\Rules\Exceptions\HeaderNotFoundException;
 
 class LinkHrefLang extends RuleBase {
 
-    public $name = 'LinkHrefLang';
+    public $name = 'Link-hreflang';
 
     protected $errorMessage = 'The page is missing a <link rel="alternate" hreflang="..."> tag or header.';
 

@@ -3,6 +3,8 @@ namespace Frickelbruder\KickOff\Rules;
 
 class HtmlTagNotPresent extends ConfigurableRuleBase {
 
+    public $name = 'HTML-tag not present';
+
     protected $xpath = 'body';
 
     protected $configurableField = array('xpath');

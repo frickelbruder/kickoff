@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class OgPropertyPresent extends ConfigurableRuleBase {
 
-    public $name = 'OgPropertyPresent';
+    public $name = 'Og property present';
 
     protected $errorMessage = 'The required open graph property is not present.';
 

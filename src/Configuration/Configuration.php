@@ -68,9 +68,6 @@ class Configuration {
         if( isset( $config['defaults']['target'] ) ) {
             $this->buildDefaultTarget( $config['defaults']['target'] );
         }
-        if( isset( $config['defaults']['rules'] ) ) {
-            $this->buildDefaultTarget( $config['defaults']['rules'] );
-        }
     }
 
     private function buildDefaultTarget($config) {
@@ -84,8 +81,8 @@ class Configuration {
             }
         }
         if( isset( $config['headers'] ) ) {
-            foreach( $config['headers'] as $header ) {
-                $targetUrl->addHeader( $header[0], $header[1] );
+            foreach( $config['headers'] as $name => $value ) {
+                $targetUrl->addHeader( $name, $value );
             }
         }
     }
@@ -148,7 +145,7 @@ class Configuration {
             $configuration = array();
             if( is_array( $name ) ) {
                 list( $plainName, $configData ) = each( $name );
-                $configuration = $this->addConfigurationToRuleConfig( $configData );
+                 $configuration = $this->addConfigurationToRuleConfig( $configData );
             }
             $rule = $this->fetchRuleBase( $plainName, $mainConfig );
             $rule['configuration'] = $configuration;
@@ -173,8 +170,8 @@ class Configuration {
      */
     private function addConfigurationToRuleConfig($configData) {
         $configuration = array();
-        foreach( $configData as $variableBlock ) {
-            $configuration[] = array( 'set', $variableBlock );
+        foreach( $configData as $variableName => $variableValue ) {
+            $configuration[] = array( 'set', array($variableName, $variableValue) );
         }
 
         return $configuration;
@@ -233,10 +230,11 @@ class Configuration {
      * @return array
      */
     private function addRequiredHeadersToTargetConfig($config, $headers) {
-        foreach( $headers as $header ) {
-            $config = $this->ensureTargetHeader( $config );
-            $config['target']['headers'][] = $header;
+        if(count($headers) == 0) {
+            return array();
         }
+        $config = $this->ensureTargetHeader( $config );
+        $config['target']['headers'] = array_merge($config['target']['headers'], $headers);
 
         return $config;
     }

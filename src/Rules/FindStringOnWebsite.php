@@ -3,6 +3,8 @@ namespace Frickelbruder\KickOff\Rules;
 
 class FindStringOnWebsite extends ConfigurableRuleBase {
 
+    public $name = 'Find string on website Rule';
+
     protected $configurableField = array('stringToSearchFor');
 
     protected $stringToSearchFor = '';

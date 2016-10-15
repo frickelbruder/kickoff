@@ -1,6 +1,6 @@
 defaults:
     target:
-        host: www.electronic-minds.de
+        host: www.somehost.com
         path: /
         scheme: https
 

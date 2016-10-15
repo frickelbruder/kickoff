@@ -18,8 +18,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testBase() {
-
-
         $sections = $this->configuration->getSections();
 
         $this->assertCount(2, $sections);
@@ -83,27 +81,27 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $rules = $mainSection->getRules();
 
         $requestTimeRule = $rules['HttpRequestTime'];
+        $defaultRule = new HttpRequestTime();
 
-        $this->assertEquals(22500, $requestTimeRule->max);
+        $this->assertEquals($defaultRule->max, $requestTimeRule->max);
+
 
         $subSection = $sections['second'];
         $rules = $subSection->getRules();
 
         $requestTimeRule = $rules['HttpRequestTime'];
-        $defaultRule = new HttpRequestTime();
 
-        $this->assertEquals($defaultRule->max, $requestTimeRule->max);
-
+        $this->assertEquals(22500, $requestTimeRule->max);
     }
 
     public function testConfigurationOfRule() {
         $sections = $this->configuration->getSections();
 
-        $mainSection = $sections['main'];
-        $rules = $mainSection->getRules();
+        $subSection = $sections['main'];
+        $rules = $subSection->getRules();
 
         $configuredRule = $rules['HttpRequestTime'];
-        $this->assertEquals(22500, $configuredRule->max);
+        $this->assertEquals(1000, $configuredRule->max);
     }
 
     public function testConfigurationOfRuleDoesNotAffectSameRuleInOtherSection() {
@@ -113,13 +111,13 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $rules = $mainSection->getRules();
 
         $configuredRule = $rules['HttpRequestTime'];
-        $this->assertEquals(22500, $configuredRule->max);
+        $this->assertEquals(1000, $configuredRule->max);
 
         $secondSection = $sections['second'];
         $rules = $secondSection->getRules();
 
         $configuredRule = $rules['HttpRequestTime'];
-        $this->assertEquals(1000, $configuredRule->max);
+        $this->assertEquals(22500, $configuredRule->max);
     }
 
     public function testConfigurationTargetUrlHasAddedHeaders() {

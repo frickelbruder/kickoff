@@ -16,7 +16,7 @@ class HttpHeaderRespondsToIfModifiedSinceTest extends \PHPUnit_Framework_TestCas
         $headers = $rule->getRequiredHeaders();
 
         $this->assertCount(1, $headers);
-        $this->assertTrue(strtolower($headers[0][0]) == 'if-modified-since');
+        $this->assertArrayHasKey('If-Modified-Since', $headers );
 
         $result = $rule->validate();
         $this->assertTrue( $result );

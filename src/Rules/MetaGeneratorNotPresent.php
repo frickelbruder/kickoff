@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class MetaGeneratorNotPresent extends HtmlTagNotPresent {
 
-    public $name = 'MetaGeneratorNotPresent';
+    public $name = '<meta name="generator"> not present';
 
     protected $errorMessage = 'The <meta name="generator" content="..."> tag must not be present.';
 
