@@ -1,6 +1,6 @@
 defaults:
     target:
-        host: http://x.de
+        host: www.somehost.com
 
 Sections:
     website:

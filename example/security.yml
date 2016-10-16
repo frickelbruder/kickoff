@@ -1,6 +1,6 @@
 defaults:
     target:
-        host: www.google.com
+        host: www.somehost.com
         scheme: https
 
 Sections:
