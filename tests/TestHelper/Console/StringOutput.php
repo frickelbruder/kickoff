@@ -2,6 +2,8 @@
 
 namespace Frickelbruder\KickOff\Tests\TestHelper\Console;
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 /**
  * Class StringOutput
  *
@@ -9,23 +11,19 @@ namespace Frickelbruder\KickOff\Tests\TestHelper\Console;
  *
  * @package Frickelbruder\KickOff\Tests\TestHelper\Console
  */
-class StringOutput {
+class StringOutput extends ConsoleOutput {
 
     /** @var string */
     private $output = '';
 
-    /**
-     * @param $content
-     */
-    public function write($content) {
-        $this->output .= $content;
+    public function writeln($messages, $options = self::OUTPUT_NORMAL)
+    {
+        $this->output .= $messages . PHP_EOL;
     }
 
-    /**
-     * @param $content
-     */
-    public function writeln($content) {
-        $this->output .= $content . PHP_EOL;
+    public function write($messages, $newline = false, $options = self::OUTPUT_NORMAL)
+    {
+        $this->output .= $messages;
     }
 
     /**

@@ -6,7 +6,6 @@ use Frickelbruder\KickOff\Log\Listener\ConsoleOutputListener;
 use Frickelbruder\KickOff\Tests\Log\RuleStub;
 use Frickelbruder\KickOff\Tests\TestHelper\Console\StringOutput;
 
-
 class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
 
     /**
@@ -18,15 +17,8 @@ class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
     private $consoleOutput;
 
     protected function setup() {
-
-        $this->listener = new ConsoleOutputListener;
         $this->consoleOutput = new StringOutput;
-
-        $consoleOutputReflection = new \ReflectionClass(ConsoleOutputListener::class);
-
-        $outputProperty = $consoleOutputReflection->getProperty('consoleOutput');
-        $outputProperty->setAccessible(true);
-        $outputProperty->setValue($this->listener, $this->consoleOutput);
+        $this->listener = new ConsoleOutputListener($this->consoleOutput);
     }
 
     public function testClass() {
@@ -44,6 +36,6 @@ class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
         $this->listener->finish();
 
         $expectedOutput = file_get_contents(__DIR__ . '/files/console.txt');
-        $this->assertSame($this->consoleOutput->getOutput(), $expectedOutput);
+        $this->assertSame($expectedOutput, $this->consoleOutput->getOutput());
     }
 }
