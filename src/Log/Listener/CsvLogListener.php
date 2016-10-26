@@ -13,16 +13,12 @@ class CsvLogListener implements Listener {
         $this->logs[] = array($sectionName, $targetUrl, $rule->getName(), $success ? 'Ok' : 'FAILED');
     }
 
-
     public function finish() {
         $handle = fopen($this->logFileName, 'w');
         foreach($this->logs as $log) {
-            fputcsv($handle, $log);
+            fwrite($handle, implode(',', $log) . PHP_EOL);
         }
         fclose($handle);
 
     }
-
-
-
 }
