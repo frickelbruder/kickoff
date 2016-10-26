@@ -2,28 +2,33 @@
 namespace Frickelbruder\KickOff\Log\Listener;
 
 use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 class ConsoleOutputListener implements Listener {
 
     /**
-     * @var ConsoleOutput
+     * @var ConsoleOutputInterface
      */
-    private $consoleOutput = null;
+    protected $consoleOutput;
+
+    protected $outputPadLength = 80;
 
     private $messages = array();
 
-    private $counter = array('success' => 0, 'errors' => 0);
+    private $counter = array(
+        'success' => 0,
+        'errors' => 0
+    );
 
-    private $outputPadLength = 0;
-    private $outputPadMinLength = 80;
     private $padOutputToLongestMessage = true;
 
-    public function __construct() {
-        $this->consoleOutput = new ConsoleOutput();
-        $this->outputPadLength = $this->outputPadMinLength;
+    /**
+     * ConsoleOutputListener constructor.
+     * @param ConsoleOutputInterface $consoleOutput
+     */
+    public function __construct(ConsoleOutputInterface $consoleOutput) {
+        $this->consoleOutput = $consoleOutput;
     }
-
 
     public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         $output = '.';
