@@ -42,7 +42,7 @@ class HttpRequester {
             $client = $this->getClient();
             $websiteResponse = $client->request( $targetUrl->method,
                 $targetUrl->getUrl(),
-                array_merge(array('verify' => $verifySsl), $this->getOptionsArray( $targetUrl, $response ))
+                $this->getOptionsArray( $targetUrl, $response, array('verify' => $verifySsl) )
             );
             $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
             $response->setHeaders( $headers );
@@ -55,12 +55,8 @@ class HttpRequester {
             $response->setBody( $exceptionMessage );
             $response->setStatus( 404 );
         } catch(RequestException $e) {
-            $websiteResponse = false;
             $exceptionMessage = $e->getMessage();
 
-            // Check for invalid SSL certificate: If we encounter a certificate error, we will remember
-            // the error message and repeat the request with disabled certificate verification. That way,
-            // a website with an invalid certificate can still be checked.
             $magicString = 'SSL certificate problem:';
             $magicOffset = strpos($exceptionMessage, $magicString);
             if ($magicOffset !== false && $verifySsl) {
@@ -133,16 +129,21 @@ class HttpRequester {
     /**
      * @param TargetUrl $targetUrl
      * @param HttpResponse $response
+     * @param array $options
      *
      * @return array
      */
-    private function getOptionsArray(TargetUrl $targetUrl, HttpResponse $response) {
-        return array(
-            'headers' => $targetUrl->getHeaders(),
-            'on_stats' => function(TransferStats $stats) use ($response) {
-                $response->setTransferTime( $stats->getTransferTime() );
-            }
-        );
+    private function getOptionsArray(TargetUrl $targetUrl, HttpResponse $response, array $options) {
+        return
+            array_merge(
+                array(
+                    'headers' => $targetUrl->getHeaders(),
+                    'on_stats' => function(TransferStats $stats) use ($response) {
+                        $response->setTransferTime( $stats->getTransferTime() );
+                    }
+                ),
+                $options
+            );
     }
 
 
