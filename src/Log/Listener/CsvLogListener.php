@@ -16,9 +16,8 @@ class CsvLogListener implements Listener {
     public function finish() {
         $handle = fopen($this->logFileName, 'w');
         foreach($this->logs as $log) {
-            fwrite($handle, implode(',', $log) . PHP_EOL);
+            fputcsv($handle, $log);
         }
         fclose($handle);
-
     }
 }

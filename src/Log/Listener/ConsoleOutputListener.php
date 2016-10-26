@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Log\Listener;
 
 use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 class ConsoleOutputListener implements Listener {
@@ -23,10 +24,12 @@ class ConsoleOutputListener implements Listener {
     private $padOutputToLongestMessage = true;
 
     /**
-     * ConsoleOutputListener constructor.
      * @param ConsoleOutputInterface $consoleOutput
      */
-    public function __construct(ConsoleOutputInterface $consoleOutput) {
+    public function __construct(ConsoleOutputInterface $consoleOutput = null) {
+        if(is_null($consoleOutput)) {
+            $consoleOutput = new ConsoleOutput();
+        }
         $this->consoleOutput = $consoleOutput;
     }
 
@@ -70,4 +73,6 @@ class ConsoleOutputListener implements Listener {
             $this->outputPadLength = strlen($message)+6;
         }
     }
+
+
 }

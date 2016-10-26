@@ -10,7 +10,6 @@ use Frickelbruder\KickOff\Log\Listener\ConsoleOutputListener;
 use Frickelbruder\KickOff\Log\Logger;
 use Frickelbruder\KickOff\Yaml\Yaml;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 foreach (array(__DIR__ . '/../../../autoload.php', __DIR__ . '/../../autoload.php', __DIR__ . '/../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
     if (file_exists($file)) {
@@ -26,7 +25,7 @@ $yaml = new Yaml();
 $config = new Configuration($yaml);
 $requester = new HttpRequester();
 $logger = new Logger();
-$logger->addListener('console', new ConsoleOutputListener(new ConsoleOutput));
+$logger->addListener('console', new ConsoleOutputListener());
 $kickoff = new KickOff();
 $kickoff->setConfiguration($config);
 $kickoff->setLogger($logger);

@@ -17,7 +17,7 @@ class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
     private $consoleOutput;
 
     protected function setup() {
-        $this->consoleOutput = new StringOutput;
+        $this->consoleOutput = new StringOutput();
         $this->listener = new ConsoleOutputListener($this->consoleOutput);
     }
 
@@ -36,6 +36,6 @@ class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
         $this->listener->finish();
 
         $expectedOutput = file_get_contents(__DIR__ . '/files/console.txt');
-        $this->assertSame($expectedOutput, $this->consoleOutput->getOutput());
+        $this->assertEquals($expectedOutput, $this->consoleOutput->getOutput());
     }
 }

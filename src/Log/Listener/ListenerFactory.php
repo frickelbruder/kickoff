@@ -1,8 +1,6 @@
 <?php
 namespace Frickelbruder\KickOff\Log\Listener;
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-
 class ListenerFactory {
 
     /**
@@ -16,10 +14,11 @@ class ListenerFactory {
             case 'junit-file':
                 return new JunitLogListener();
             case 'console':
-                return new ConsoleOutputListener(new ConsoleOutput);
+                return new ConsoleOutputListener();
             case 'csv-file':
                 return new CsvLogListener();
         }
+
     }
 
 }
