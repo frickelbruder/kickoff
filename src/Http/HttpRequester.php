@@ -36,18 +36,18 @@ class HttpRequester {
 
     private function call(TargetUrl $targetUrl, $verifySsl = true) {
         $response = new HttpResponse();
+        $response->setRequest($targetUrl);
         $websiteResponse = false;
 
         try {
             $client = $this->getClient();
+
+            $options = $this->getOptionsArray( $targetUrl, $response, array('verify' => $verifySsl) );
             $websiteResponse = $client->request( $targetUrl->method,
                 $targetUrl->getUrl(),
-                $this->getOptionsArray( $targetUrl, $response, array('verify' => $verifySsl) )
+                $options
             );
-            $headers = $this->prepareResponseHeaders( $websiteResponse->getHeaders() );
-            $response->setHeaders( $headers );
-            $response->setBody( $websiteResponse->getBody() );
-            $response->setStatus( $websiteResponse->getStatusCode() );
+;
         } catch(ClientException $e) {
             $websiteResponse = $e->getResponse();
         } catch(ConnectException $e) {
@@ -75,7 +75,7 @@ class HttpRequester {
             $response->setBody( $websiteResponse->getBody() );
             $response->setStatus( $websiteResponse->getStatusCode() );
         }
-        $response->setRequest($targetUrl);
+
 
         return $response;
     }
