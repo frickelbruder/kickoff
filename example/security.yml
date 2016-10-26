@@ -1,11 +1,12 @@
 defaults:
     target:
-        host: www.somehost.com
+        host: expired.badssl.com
         scheme: https
 
 Sections:
     website:
         rules:
+            - ValidSslCertificate
             - HttpHeaderXSSProtectionSecure
             - HttpHeaderExposeLanguage
             - HttpHeaderContentTypeNoSniffing
@@ -13,5 +14,3 @@ Sections:
             - HttpHeaderHSTSPresent
             - HttpHeaderHSTSWithSubdomains
             - HttpHeaderCookieWithHttpSecureFlag
-
-

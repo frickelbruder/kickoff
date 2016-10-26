@@ -126,3 +126,6 @@ Rule definitions:
         calls:
             - ["setName", ["Exactly 1 H1-rag present"]]
             - ["allowMultipleTags", [false]]
+
+    ValidSslCertificate:
+        class: \Frickelbruder\KickOff\Rules\ValidSslCertificate
