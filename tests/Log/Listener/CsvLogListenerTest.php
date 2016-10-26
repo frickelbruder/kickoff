@@ -41,7 +41,11 @@ class CsvLogListenerTest extends \PHPUnit_Framework_TestCase {
         $generatedFile = file_get_contents($this->listener->logFileName);
         $exampleFile = file_get_contents( __DIR__ . '/files/main.csv');
 
-        $this->assertEquals(str_replace("\r\n", "\n", $generatedFile), str_replace("\r\n", "\n", $exampleFile));
+        $this->assertEquals($this->normalizeEOL($generatedFile), $this->normalizeEOL($exampleFile));
+    }
+
+    private function normalizeEOL($string) {
+        return str_replace("\r\n", "\n", $string);
     }
 
 }

@@ -36,6 +36,10 @@ class ConsoleOutputListenerTest extends \PHPUnit_Framework_TestCase {
         $this->listener->finish();
 
         $expectedOutput = file_get_contents(__DIR__ . '/files/console.txt');
-        $this->assertEquals($expectedOutput, $this->consoleOutput->getOutput());
+        $this->assertEquals($this->normalizeEOL($expectedOutput), $this->normalizeEOL($this->consoleOutput->getOutput()));
+    }
+
+    private function normalizeEOL($string) {
+        return str_replace("\r\n", "\n", $string);
     }
 }
