@@ -6,12 +6,12 @@ use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
 
 class HttpHeaderResourceIsGzipped extends RuleBase implements RequiresHeaderInterface {
 
-    public $name = 'HttpHeaderResourceIsGzipped';
+    public $name = 'HTTP header resource is flagged "gzipped"';
 
     protected $errorMessage =  'The "Content-Encoding" HTTP header was found but had an unexpected value';
 
     public function getRequiredHeaders() {
-        return array(array('Accept-Encoding', 'gzip, deflate'));
+        return array('Accept-Encoding' => 'gzip, deflate');
     }
 
     public function validate() {

@@ -22,7 +22,7 @@ class HttRequestTimeTest extends \PHPUnit_Framework_TestCase {
         $response->setTransferTime(200);
 
         $rule = new HttpRequestTime();
-        $rule->set("maxTransferTime", 2000);
+        $rule->set("max", 2000);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -34,7 +34,7 @@ class HttRequestTimeTest extends \PHPUnit_Framework_TestCase {
         $response->setTransferTime(200);
 
         $rule = new HttpRequestTime();
-        $rule->set("maxTransferTime", 200);
+        $rule->set("max", 200);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();
@@ -46,7 +46,7 @@ class HttRequestTimeTest extends \PHPUnit_Framework_TestCase {
         $response->setTransferTime(2000);
 
         $rule = new HttpRequestTime();
-        $rule->set("maxTransferTime", 200);
+        $rule->set("max", 200);
         $rule->setHttpResponse($response);
 
         $result = $rule->validate();

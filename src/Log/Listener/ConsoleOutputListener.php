@@ -10,18 +10,16 @@ class ConsoleOutputListener implements Listener {
     /**
      * @var ConsoleOutputInterface
      */
-    protected $consoleOutput;
-
-    protected $outputPadLength = 80;
+    private $consoleOutput = null;
 
     private $messages = array();
 
-    private $counter = array(
-        'success' => 0,
-        'errors' => 0
-    );
+    private $counter = array('success' => 0, 'errors' => 0);
 
     private $padOutputToLongestMessage = true;
+
+    private $outputPadLength = 0;
+    private $outputPadMinLength = 80;
 
     /**
      * @param ConsoleOutputInterface $consoleOutput
@@ -31,13 +29,14 @@ class ConsoleOutputListener implements Listener {
             $consoleOutput = new ConsoleOutput();
         }
         $this->consoleOutput = $consoleOutput;
+        $this->outputPadLength = $this->outputPadMinLength;
     }
 
     public function log($sectionName, $targetUrl, RuleInterface $rule, $success) {
         $output = '.';
         $counterToUpdate = 'success';
         if(!$success) {
-            $message = $rule->getReadableName() . ': ' . $rule->getErrorMessage();
+            $message = $rule->getName() . ': ' . $rule->getErrorMessage();
             $this->updatePadLength($message);
             $this->messages[ucwords($sectionName)][] = $message;
             $output = '<error>F</error>';
@@ -49,15 +48,10 @@ class ConsoleOutputListener implements Listener {
 
     public function finish() {
         $this->consoleOutput->writeln("");
-        foreach($this->messages as $section=>$messages) {
-            $this->consoleOutput->writeln('<error>'.str_pad('', $this->outputPadLength).'</error>');
-            $this->consoleOutput->writeln('<error>'.str_pad('  '.$section.'  ', $this->outputPadLength).'</error>');
-            foreach ($messages as $message) {
-                $this->consoleOutput->writeln('<error>'.str_pad('    '.$message.'  ', $this->outputPadLength).'</error>');
-            }
-        }
-        $this->consoleOutput->writeln('<error>'.str_pad('', $this->outputPadLength).'</error>');
-        $this->consoleOutput->writeln("");
+
+        $this->writeErrors();
+
+        $this->consoleOutput->writeln('');
 
         $totalTests = $this->counter['success'] + $this->counter['errors'];
 
@@ -73,6 +67,40 @@ class ConsoleOutputListener implements Listener {
             $this->outputPadLength = strlen($message)+6;
         }
     }
+
+    private function writeErrors() {
+        if(count($this->messages) == 0) {
+            return;
+        }
+        $this->consoleOutput->writeln("");
+        foreach( $this->messages as $section => $messages ) {
+            $this->writeErrorMessageLine('');
+            $this->writeErrorMessageLine( '  ' . $section . '  ');
+            $this->writeMessages( $messages );
+        }
+        $this->writeErrorMessageLine('');
+    }
+
+
+    /**
+     * @param $message
+     */
+    private function writeErrorMessageLine($message = '') {
+        $this->consoleOutput->writeln( '<error>' . str_pad($message , $this->outputPadLength ) . '</error>' );
+    }
+
+    /**
+     * @param $messages
+     */
+    private function writeMessages($messages) {
+        foreach( $messages as $message ) {
+            $this->writeErrorMessageLine( '    ' . $message . '  ' );
+        }
+    }
+
+
+
+}
 
 
 }

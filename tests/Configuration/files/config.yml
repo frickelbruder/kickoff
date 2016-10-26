@@ -3,25 +3,28 @@ defaults:
         host: test.host
         scheme: https
         headers:
-            - ["a","b"]
+            a: "b"
+    rules:
+        - HttpRequestTime
 
 Sections:
     main:
         rules:
-            - HttpHeaderXSSProtection
+            - HttpHeaderXSSProtectionSecure
             - HttpHeaderResourceIsGzipped
-            - HttpRequestTime:
-                - ["maxTransferTime", 22500]
+            - HttpHeaderTestsomeHeader
+
     second:
-        config:
+        target:
             host: test2.host
             port: 8080
         rules:
             - HttpHeaderExposeLanguage
-            - HttpRequestTime
+            - HttpRequestTime:
+                max: 22500
 
-Rules:
-    HttpHeaderXSSProtection:
+Rule definitions:
+    HttpHeaderTestsomeHeader:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ['setHeaderToSearchFor', ["X-XSS-Protection"]]
+            - ['setHeaderToSearchFor', ["HttpHeaderTestsomeHeader"]]

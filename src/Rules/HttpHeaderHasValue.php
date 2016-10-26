@@ -6,6 +6,8 @@ use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
 class HttpHeaderHasValue extends ConfigurableRuleBase {
 
+    public $name = 'HTTP header: Has value';
+
     /**
      * @var string
      */

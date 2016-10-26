@@ -9,7 +9,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidate() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -26,7 +26,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateNoSelfReferencing() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-en';
+        $targetUrl->path = '/somewhere-en';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -43,7 +43,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithMultipleItems() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -61,7 +61,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithMultipleItemsWithLanguageCode() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -79,7 +79,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithMultipleItemsWithLanguageCodeAndDuplicateHrefLang() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -98,7 +98,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithMultipleItemsOfSame() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -117,7 +117,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateWithDefaultVersion() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -136,7 +136,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeaders() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -151,7 +151,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeadersNoSelfReferencing() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-en';
+        $targetUrl->path = '/somewhere-en';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -166,7 +166,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeadersWithMultipleItems() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -181,7 +181,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeadersWithMultipleItemsAndLangCode() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -196,7 +196,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeadersWithMultipleItemsAndLangCodeAndDuplicateCode() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -211,7 +211,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeaderWithMultipleItemsOfSame() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -226,7 +226,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHeaderWithDefaultVersion() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
@@ -241,7 +241,7 @@ class LinkHrefLangTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidateHasNeitherHEaderNorBodyTags() {
         $targetUrl = new TargetUrl();
-        $targetUrl->uri = '/somewhere-de';
+        $targetUrl->path = '/somewhere-de';
         $targetUrl->host = 'test.de';
         $response = new HttpResponse();
         $response->setRequest($targetUrl);

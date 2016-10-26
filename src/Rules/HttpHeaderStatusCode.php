@@ -4,7 +4,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class HttpHeaderStatusCode extends RuleBase {
 
-    public $name = "HttpHeaderStatusCode";
+    public $name = "Http header: Status code";
 
     protected $errorMessage = 'The resources HTTP status code was unexpected.';
 

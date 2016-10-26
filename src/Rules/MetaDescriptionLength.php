@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class MetaDescriptionLength extends ConfigurableRuleBase {
 
-    public $name = 'MetaDescriptionLength';
+    public $name = 'Tag <meta name="description"> length';
 
     protected $minlength = 70;
 

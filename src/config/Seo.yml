@@ -6,7 +6,7 @@ Sections:
     website:
         rules:
             - HttpRequestTime:
-                - ["maxTransferTime", 1500]
+                max: 1500
             - TitleTagLength
             - MetaDescriptionLength
             - OGPropertyPresent

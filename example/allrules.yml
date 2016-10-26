@@ -1,0 +1,37 @@
+defaults:
+    target:
+        host: www.somehost.com
+
+Sections:
+    website:
+        rules:
+            - HttpRequestTime:
+                max: 1500
+            - TitleTagLength
+            - MetaDescriptionLength
+            - OGPropertyPresent
+            - TwitterProperty
+            - LinkRelCanonical
+            - LinkHrefLang
+            - AppleTouchIcon
+            - MetaGeneratorNotPresent
+            - H1TagPresent
+            - HttpHeaderXSSProtectionPresent
+            - HttpHeaderXSSProtectionSecure
+            - HttpHeaderExposeLanguage
+            - HttpHeaderHasFarFutureExpiresHeader
+            - HttpHeaderHasEtag
+            - HttpHeaderResourceFound
+            - HttpHeaderNotModifiedOnIfModifiedSince
+            - HttpHeaderResourceIsMissing
+            - HttpHeaderResourceIsGzipped
+            - HttpHeaderContentTypeNoSniffing
+            - HttpHeaderFrameOptionsSameOrigin
+            - HttpHeaderCookieWithHttpOnlyFlag
+            - HttpHeaderCookieWithHttpSecureFlag
+            - HttpHeaderHSTSPresent
+            - HttpHeaderHSTSWithSubdomains
+            - FindStringOnWebsite:
+                stringToSearchFor: "Database is up and running"
+            - H1TagPresent
+            - ExactlyOneH1TagPresent

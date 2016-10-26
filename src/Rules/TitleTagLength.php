@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class TitleTagLength extends ConfigurableRuleBase {
 
-    public $name = 'TitleTagLength';
+    public $name = 'Title tag length';
 
     protected $minlength = 10;
 
@@ -24,7 +24,7 @@ class TitleTagLength extends ConfigurableRuleBase {
 
             return false;
         }
-        ( $length = mb_strlen( $titleTagValue, 'UTF-8' ) );
+        $length = mb_strlen( $titleTagValue, 'UTF-8' );
 
         if( $length < $this->minlength ) {
             $this->errorMessage = 'The title tag is too short.';

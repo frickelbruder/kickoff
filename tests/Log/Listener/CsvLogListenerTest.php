@@ -38,7 +38,10 @@ class CsvLogListenerTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertFileExists($this->listener->logFileName);
 
-        $this->assertFileEquals($this->listener->logFileName, __DIR__ . '/files/main.csv');
+        $generatedFile = file_get_contents($this->listener->logFileName);
+        $exampleFile = file_get_contents( __DIR__ . '/files/main.csv');
+
+        $this->assertEquals(str_replace("\r\n", "\n", $generatedFile), str_replace("\r\n", "\n", $exampleFile));
     }
 
 }

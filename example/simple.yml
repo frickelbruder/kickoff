@@ -1,7 +1,8 @@
 defaults:
     target:
         host: www.somehost.com
-        scheme: http
+        path: /
+        scheme: https
 
 Sections:
     website:

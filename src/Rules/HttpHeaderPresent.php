@@ -6,6 +6,8 @@ use Frickelbruder\KickOff\Rules\Exceptions\InsufficientConfigurationException;
 
 class HttpHeaderPresent extends RuleBase   {
 
+    public $name = 'HTTP header: Is present';
+
     /**
      * @var string
      */

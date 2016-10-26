@@ -5,8 +5,10 @@ use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
 
 class HttpHeaderRespondsToIfModifiedSince extends RuleBase implements RequiresHeaderInterface {
 
+    public $name = 'HTTP header: Server respopnds to "If-Modified-Since"';
+
     public function getRequiredHeaders() {
-        return array(array('If-Modified-Since', gmdate('D, d M Y H:i:s T', time())));
+        return array('If-Modified-Since' => gmdate('D, d M Y H:i:s T', time()));
     }
 
     public function validate() {

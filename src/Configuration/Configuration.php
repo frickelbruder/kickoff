@@ -53,10 +53,10 @@ class Configuration {
      * @return mixed
      */
     private function mergeUserConfigWithDefaults(array $config, array $defaultRulesConfig) {
-        $defaultRules = $defaultRulesConfig['Rules'];
-        $configRules = !empty( $config['Rules'] ) ? $config['Rules'] : array();
+        $defaultRules = $defaultRulesConfig['Rule definitions'];
+        $configRules = !empty( $config['Rule definitions'] ) ? $config['Rule definitions'] : array();
 
-        $config['Rules'] = array_merge( $defaultRules, $configRules );
+        $config['Rule definitions'] = array_merge( $defaultRules, $configRules );
 
         return $config;
     }
@@ -75,14 +75,14 @@ class Configuration {
     }
 
     private function enrichTarget(TargetUrl $targetUrl, $config) {
-        foreach( array( 'host', 'port', 'uri', 'scheme' ) as $key ) {
+        foreach( TargetUrl::$components as $key ) {
             if( array_key_exists( $key, $config ) ) {
                 $targetUrl->$key = $config[ $key ];
             }
         }
         if( isset( $config['headers'] ) ) {
-            foreach( $config['headers'] as $header ) {
-                $targetUrl->addHeader( $header[0], $header[1] );
+            foreach( $config['headers'] as $name => $value ) {
+                $targetUrl->addHeader( $name, $value );
             }
         }
     }
@@ -112,27 +112,40 @@ class Configuration {
     }
 
     private function getRulesForSection($sectionConfig, $mainConfig) {
-        if( empty( $sectionConfig['rules'] ) ) {
+        $rules = $this->getSectionRules($sectionConfig, $mainConfig);
+        if( empty( $rules ) ) {
             return array();
         }
-        $result = $this->buildRulesConfiguration( $sectionConfig, $mainConfig );
+        $result = $this->buildRulesConfiguration( $rules, $mainConfig );
         return $this->generateRules( $result );
     }
 
+    private function getSectionRules($sectionConfig, $mainConfig) {
+        $rules = array();
+        if(isset($mainConfig['defaults']['rules'])) {
+            $rules = $mainConfig['defaults']['rules'];
+        }
+
+        if(isset($sectionConfig['rules'])) {
+            $rules = array_merge($rules, $sectionConfig['rules']);
+        }
+        return $rules;
+    }
+
     /**
-     * @param $sectionConfig
+     * @param $sectionRules
      * @param $mainConfig
      *
      * @return array
      */
-    private function buildRulesConfiguration($sectionConfig, $mainConfig) {
+    private function buildRulesConfiguration($sectionRules, $mainConfig) {
         $result = array();
-        foreach( $sectionConfig['rules'] as $name ) {
+        foreach( $sectionRules as $name ) {
             $plainName = $name;
             $configuration = array();
             if( is_array( $name ) ) {
                 list( $plainName, $configData ) = each( $name );
-                $configuration = $this->addConfigurationToRuleConfig( $configData );
+                 $configuration = $this->addConfigurationToRuleConfig( $configData );
             }
             $rule = $this->fetchRuleBase( $plainName, $mainConfig );
             $rule['configuration'] = $configuration;
@@ -143,11 +156,11 @@ class Configuration {
     }
 
     private function fetchRuleBase($name, $config) {
-        if( !isset( $config['Rules'][ $name ] ) ) {
-            throw new UnknownRuleException( 'Rule "' . $name . "' not known.'" );
+        if( !isset( $config['Rule definitions'][ $name ] ) ) {
+            throw new UnknownRuleException( 'Rule definition "' . $name . "' not known.'" );
         }
 
-        return $config['Rules'][ $name ];
+        return $config['Rule definitions'][ $name ];
     }
 
     /**
@@ -157,8 +170,8 @@ class Configuration {
      */
     private function addConfigurationToRuleConfig($configData) {
         $configuration = array();
-        foreach( $configData as $variableBlock ) {
-            $configuration[] = array( 'set', $variableBlock );
+        foreach( $configData as $variableName => $variableValue ) {
+            $configuration[] = array( 'set', array($variableName, $variableValue) );
         }
 
         return $configuration;
@@ -169,8 +182,8 @@ class Configuration {
 
         $config = $this->addRuleRequirementsToConfig( $config, $rules );
 
-        if( !empty( $config['config'] ) ) {
-            $this->enrichTarget( $target, $config['config'] );
+        if( !empty( $config['target'] ) ) {
+            $this->enrichTarget( $target, $config['target'] );
         }
 
         return $target;
@@ -188,7 +201,7 @@ class Configuration {
                 continue;
             }
             $headers = $rule->getRequiredHeaders();
-            $config = $this->addRequiredHeadersToConfig( $config, $headers );
+            $config = $this->addRequiredHeadersToTargetConfig( $config, $headers );
         }
 
         return $config;
@@ -199,12 +212,12 @@ class Configuration {
      *
      * @return array
      */
-    private function ensureConfigHeader($config) {
-        if( empty( $config['config'] ) ) {
-            $config['config'] = array();
+    private function ensureTargetHeader($config) {
+        if( empty( $config['target'] ) ) {
+            $config['target'] = array();
         }
-        if( empty( $config['config']['headers'] ) ) {
-            $config['config']['headers'] = array();
+        if( empty( $config['target']['headers'] ) ) {
+            $config['target']['headers'] = array();
         }
 
         return $config;
@@ -216,11 +229,12 @@ class Configuration {
      *
      * @return array
      */
-    private function addRequiredHeadersToConfig($config, $headers) {
-        foreach( $headers as $header ) {
-            $config = $this->ensureConfigHeader( $config );
-            $config['config']['headers'][] = $header;
+    private function addRequiredHeadersToTargetConfig($config, $headers) {
+        if(count($headers) == 0) {
+            return array();
         }
+        $config = $this->ensureTargetHeader( $config );
+        $config['target']['headers'] = array_merge($config['target']['headers'], $headers);
 
         return $config;
     }

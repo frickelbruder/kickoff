@@ -16,7 +16,8 @@ class HttpHeaderResourceIsGzippedTest extends \PHPUnit_Framework_TestCase {
         $headers = $rule->getRequiredHeaders();
 
         $this->assertCount(1, $headers);
-        $this->assertTrue(strtolower($headers[0][0]) == 'accept-encoding');
+
+        $this->assertArrayHasKey('Accept-Encoding', $headers);
 
         $result = $rule->validate();
         $this->assertTrue( $result );
