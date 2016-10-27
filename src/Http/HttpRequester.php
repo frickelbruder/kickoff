@@ -37,7 +37,7 @@ class HttpRequester {
     private function call(TargetUrl $targetUrl, $verifySsl = true) {
         $response = new HttpResponse();
         $response->setRequest($targetUrl);
-        $websiteResponse = false;
+        $websiteResponse = null;
 
         try {
             $client = $this->getClient();
@@ -47,7 +47,7 @@ class HttpRequester {
                 $targetUrl->getUrl(),
                 $options
             );
-;
+
         } catch(ClientException $e) {
             $websiteResponse = $e->getResponse();
         } catch(ConnectException $e) {
