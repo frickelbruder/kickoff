@@ -36,7 +36,7 @@ class ConsoleOutputListener implements Listener {
         $output = '.';
         $counterToUpdate = 'success';
         if(!$success) {
-            $message = $rule->getName() . ': ' . $rule->getErrorMessage();
+            $message = 'Rule "' . $rule->getName() . '": ' . $rule->getErrorMessage();
             $this->updatePadLength($message);
             $this->messages[ucwords($sectionName)][] = $message;
             $output = '<error>F</error>';

@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class FindStringOnWebsite extends ConfigurableRuleBase {
 
-    public $name = 'Find string on website Rule';
+    public $name = 'Find string on website';
 
     protected $configurableField = array('stringToSearchFor');
 
@@ -12,6 +12,5 @@ class FindStringOnWebsite extends ConfigurableRuleBase {
     public function validate() {
         return strstr($this->httpResponse->getBody(), $this->stringToSearchFor) !== false;
     }
-
 
 }

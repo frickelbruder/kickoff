@@ -1,5 +1,4 @@
 <?php
-
 namespace Frickelbruder\KickOff\Rules;
 
 class ValidSslCertificate extends RuleBase

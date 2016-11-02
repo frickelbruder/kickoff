@@ -4,7 +4,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class H1TagPresent extends ConfigurableRuleBase {
 
-    public $name = 'Tag <H1> present Rule';
+    public $name = 'Tag <H1> present';
 
     protected $allowMultipleTags = true;
 

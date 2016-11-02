@@ -3,7 +3,7 @@ namespace Frickelbruder\KickOff\Rules;
 
 class AppleTouchIcon extends RuleBase {
 
-    public $name = 'Apple-Touch-Icon Rule';
+    public $name = 'Apple-Touch-Icon';
 
     protected $xpath = '/html/head/link[@rel="apple-touch-icon"]';
 
