@@ -170,8 +170,7 @@ class Configuration {
         return $rulsets[$name];
     }
 
-    private function getRulesets($mainConfig)
-    {
+    private function getRulesets($mainConfig) {
         $rulesets = array();
         if (isset($mainConfig['Rulesets'])) {
             $rulesets = $mainConfig['Rulesets'];
