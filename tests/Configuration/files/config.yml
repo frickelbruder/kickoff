@@ -9,6 +9,8 @@ defaults:
             password: passwd
     rules:
         - HttpRequestTime
+    rulesets:
+        - ruleset2
 
 Sections:
     main:
@@ -25,6 +27,19 @@ Sections:
             - HttpHeaderExposeLanguage
             - HttpRequestTime:
                 max: 22500
+
+    withRulesets:
+        rules:
+            - HttpHeaderExposeLanguage
+        rulesets:
+            - ruleset1
+
+Rulesets:
+    ruleset1:
+        - HttpHeaderXSSProtectionSecure
+        - HttpHeaderResourceIsGzipped
+    ruleset2:
+        - HttpHeaderTestsomeHeader
 
 Rule definitions:
     HttpHeaderTestsomeHeader:

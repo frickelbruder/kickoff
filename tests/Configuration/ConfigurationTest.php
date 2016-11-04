@@ -20,9 +20,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
     public function testBase() {
         $sections = $this->configuration->getSections();
 
-        $this->assertCount(2, $sections);
+        $this->assertCount(3, $sections);
         $this->assertArrayHasKey('main', $sections);
         $this->assertArrayHasKey('second', $sections);
+        $this->assertArrayHasKey('withRulesets', $sections);
 
     }
 
@@ -75,13 +76,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
         $secondSection = $sections['second'];
         $rules = $secondSection->getRules();
 
-        $this->assertCount(2, $rules, 'Not matching rules count');
+        $this->assertCount(3, $rules, 'Not matching rules count');
 
         $this->assertArrayHasKey('HttpHeaderExposeLanguage', $rules);
         $this->assertArrayHasKey('HttpRequestTime', $rules);
+        $this->assertArrayHasKey('HttpHeaderTestsomeHeader', $rules);
 
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposeLanguage']);
         $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpRequestTime', $rules['HttpRequestTime']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderPresent', $rules['HttpHeaderTestsomeHeader']);
     }
 
     public function testSectionRuleOverridesDefaultRule() {
@@ -141,6 +144,29 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertArrayHasKey('a', $targetUrl->headers);
         $this->assertArrayHasKey('Accept-Encoding', $targetUrl->headers);
+    }
+
+    public function testRulesets()
+    {
+        $sections = $this->configuration->getSections();
+
+        $section = $sections['withRulesets'];
+
+        $rules = $section->getRules();
+
+        $this->assertCount(5, $rules);
+
+        $this->assertArrayHasKey('HttpRequestTime', $rules);
+        $this->assertArrayHasKey('HttpHeaderXSSProtectionSecure', $rules);
+        $this->assertArrayHasKey('HttpHeaderResourceIsGzipped', $rules);
+        $this->assertArrayHasKey('HttpHeaderTestsomeHeader', $rules);
+        $this->assertArrayHasKey('HttpHeaderExposeLanguage', $rules);
+
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpRequestTime', $rules['HttpRequestTime']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderHasValue', $rules['HttpHeaderXSSProtectionSecure']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderResourceIsGzipped', $rules['HttpHeaderResourceIsGzipped']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderNotPresent', $rules['HttpHeaderExposeLanguage']);
+        $this->assertInstanceOf('\Frickelbruder\KickOff\Rules\HttpHeaderPresent', $rules['HttpHeaderTestsomeHeader']);
     }
 
 

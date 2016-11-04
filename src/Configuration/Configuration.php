@@ -2,6 +2,7 @@
 namespace Frickelbruder\KickOff\Configuration;
 
 use Frickelbruder\KickOff\Configuration\Exceptions\UnknownRuleException;
+use Frickelbruder\KickOff\Configuration\Exceptions\UnnownRulesetException;
 use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
 use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
@@ -116,6 +117,10 @@ class Configuration {
 
     private function getRulesForSection($sectionConfig, $mainConfig) {
         $rules = $this->getSectionRules($sectionConfig, $mainConfig);
+        $rulesetRules = $this->getSectionRulesetRules($sectionConfig, $mainConfig);
+
+        $rules = array_merge($rules, $rulesetRules);
+
         if( empty( $rules ) ) {
             return array();
         }
@@ -133,6 +138,47 @@ class Configuration {
             $rules = array_merge($rules, $sectionConfig['rules']);
         }
         return $rules;
+    }
+
+    private function getSectionRulesetRules($sectionConfig, $mainConfig) {
+        $rules = array();
+        if(isset($mainConfig['defaults']['rulesets'])) {
+            $rules = array_merge($rules, $this->getRulesForRulesets($mainConfig['defaults']['rulesets'], $mainConfig));
+        }
+
+        if(!isset($sectionConfig['rulesets'])) {
+            return $rules;
+        }
+
+        $rules = array_merge($rules, $this->getRulesForRulesets($sectionConfig['rulesets'], $mainConfig));
+        return $rules;
+    }
+
+    private function getRulesForRulesets($rulesets, $mainConfig) {
+        $rules = array();
+        foreach($rulesets as $ruleset) {
+            $rulesetRules = $this->getRulesForRuleset($ruleset, $mainConfig);
+            $rules = array_merge($rules, $rulesetRules);
+        }
+        return $rules;
+    }
+
+    private function getRulesForRuleset($name, $mainConfig) {
+        $rulsets = $this->getRulesets($mainConfig);
+
+        if(!isset($rulsets[$name])) {
+            throw new UnnownRulesetException('Ruleset "' . $name . '" is not defined.');
+        }
+
+        return $rulsets[$name];
+    }
+
+    private function getRulesets($mainConfig) {
+        $rulesets = array();
+        if (isset($mainConfig['Rulesets'])) {
+            $rulesets = $mainConfig['Rulesets'];
+        }
+        return $rulesets;
     }
 
     /**
@@ -160,7 +206,7 @@ class Configuration {
 
     private function fetchRuleBase($name, $config) {
         if( !isset( $config['Rule definitions'][ $name ] ) ) {
-            throw new UnknownRuleException( 'Rule definition "' . $name . "' not known.'" );
+            throw new UnknownRuleException( 'Rule definition "' . $name . '" not known.' );
         }
 
         return $config['Rule definitions'][ $name ];
@@ -241,8 +287,5 @@ class Configuration {
 
         return $config;
     }
-
-
-
 
 }
