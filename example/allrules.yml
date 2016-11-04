@@ -24,6 +24,9 @@ Sections:
             - HttpHeaderResourceFound
             - HttpHeaderNotModifiedOnIfModifiedSince
             - HttpHeaderResourceIsMissing
+            - HttpHeaderResourceMovedPermanently
+            - HttpHeaderStatusCode:
+                value: 200
             - HttpHeaderResourceIsGzipped
             - HttpHeaderContentTypeNoSniffing
             - HttpHeaderFrameOptionsSameOrigin

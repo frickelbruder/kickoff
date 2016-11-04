@@ -36,7 +36,7 @@ Rule definitions:
             - ["setValue", ["200"]]
 
     HttpHeaderResourceMovedPermanently:
-        class: \Frickelbruder\KickOff\Rules\HttpHeaderResourceMovedPermanently
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderStatusCode
         calls:
             - ["setValue", ["301"]]
 
