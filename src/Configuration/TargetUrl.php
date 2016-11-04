@@ -17,6 +17,8 @@ class TargetUrl {
 
     public $headers = array();
 
+    public $auth = array();
+
     public function __construct($url = null) {
         if(!empty($url)) {
             $this->parseString($url);
@@ -61,6 +63,14 @@ class TargetUrl {
             }
         }
 
+    }
+
+    public function setCredentials($username, $password) {
+        $this->auth = array('username' => $username, 'password' => $password);
+    }
+
+    public function requiresAuth() {
+        return !empty($this->auth);
     }
 
 }

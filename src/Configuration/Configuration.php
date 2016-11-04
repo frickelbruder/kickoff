@@ -85,6 +85,9 @@ class Configuration {
                 $targetUrl->addHeader( $name, $value );
             }
         }
+        if( isset( $config['auth'] ) && !empty($config['auth']['username']) && !empty($config['auth']['password'])) {
+            $targetUrl->setCredentials( $config['auth']['username'], $config['auth']['password'] );
+        }
     }
 
     /**

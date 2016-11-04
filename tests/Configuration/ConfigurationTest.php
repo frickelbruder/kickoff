@@ -26,6 +26,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    public function testTargetAuth() {
+        $sections = $this->configuration->getSections();
+
+        $mainSection = $sections['main'];
+        $targetURL = $mainSection->getTargetUrl();
+
+        $this->assertTrue($targetURL->requiresAuth());
+        $this->assertEquals($targetURL->auth, array('username' => 'user', 'password' => 'passwd'));
+    }
+
     public function testBaseSectionTargetUrlOverride() {
         $sections = $this->configuration->getSections();
 

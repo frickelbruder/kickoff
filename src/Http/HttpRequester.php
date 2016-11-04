@@ -134,15 +134,20 @@ class HttpRequester {
      * @return array
      */
     private function getOptionsArray(TargetUrl $targetUrl, HttpResponse $response, array $options) {
+        $auth = array();
+        if($targetUrl->requiresAuth()) {
+            $auth = array('auth' => $targetUrl->auth);
+        }
         return
             array_merge(
                 array(
                     'headers' => $targetUrl->getHeaders(),
                     'on_stats' => function(TransferStats $stats) use ($response) {
                         $response->setTransferTime( $stats->getTransferTime() );
-                    }
+                    },
+                    'allow_redirects' => false
                 ),
-                array('allow_redirects' => false),
+                $auth,
                 $options
 
             );

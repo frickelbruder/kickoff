@@ -4,6 +4,9 @@ defaults:
         scheme: https
         headers:
             a: "b"
+        auth:
+            username: user
+            password: passwd
     rules:
         - HttpRequestTime
 

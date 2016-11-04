@@ -64,6 +64,13 @@ class TargetUrlTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $targetUrl->getUrl());
     }
 
+    public function testRequiresAuth() {
+        $targetUrl = new TargetUrl();
+        $targetUrl->setCredentials('username', 'password');
+
+        $this->assertTrue($targetUrl->requiresAuth());
+    }
+
     public function wellformedUrlProvider() {
         return [
             ['google.com', 'http://google.com/'],
