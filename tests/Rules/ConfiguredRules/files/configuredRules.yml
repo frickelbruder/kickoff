@@ -40,3 +40,6 @@ Sections:
     HttpHeaderHSTSWithSubdomains:
         rules:
             - HttpHeaderHSTSWithSubdomains
+    HttpHeaderResourceMovedPermanently:
+        rules:
+            - HttpHeaderResourceMovedPermanently
