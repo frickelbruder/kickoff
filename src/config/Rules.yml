@@ -35,6 +35,11 @@ Rule definitions:
         calls:
             - ["setValue", ["200"]]
 
+    HttpHeaderResourceMovedPermanently:
+        class: \Frickelbruder\KickOff\Rules\HttpHeaderResourceMovedPermanently
+        calls:
+            - ["setValue", ["301"]]
+
     HttpHeaderNotModifiedOnIfModifiedSince:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderRespondsToIfModifiedSince
 
