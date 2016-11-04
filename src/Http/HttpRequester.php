@@ -142,7 +142,9 @@ class HttpRequester {
                         $response->setTransferTime( $stats->getTransferTime() );
                     }
                 ),
+                array('allow_redirects' => false),
                 $options
+
             );
     }
 
