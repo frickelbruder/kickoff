@@ -1,6 +1,6 @@
 <?php
 namespace Frickelbruder\KickOff\Configuration\Exceptions;
 
-class UnnownRulesetException extends \Exception {
+class UnknownRulesetException extends \Exception {
 
 }

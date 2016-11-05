@@ -2,7 +2,7 @@
 namespace Frickelbruder\KickOff\Configuration;
 
 use Frickelbruder\KickOff\Configuration\Exceptions\UnknownRuleException;
-use Frickelbruder\KickOff\Configuration\Exceptions\UnnownRulesetException;
+use Frickelbruder\KickOff\Configuration\Exceptions\UnknownRulesetException;
 use Frickelbruder\KickOff\Rules\Interfaces\RequiresHeaderInterface;
 use Frickelbruder\KickOff\Rules\Interfaces\RuleInterface;
 use Frickelbruder\KickOff\Yaml\Yaml;
@@ -143,7 +143,7 @@ class Configuration {
     private function getSectionRulesetRules($sectionConfig, $mainConfig) {
         $rules = array();
         if(isset($mainConfig['defaults']['rulesets'])) {
-            $rules = array_merge($rules, $this->getRulesForRulesets($mainConfig['defaults']['rulesets'], $mainConfig));
+            $rules = $this->getRulesForRulesets($mainConfig['defaults']['rulesets'], $mainConfig);
         }
 
         if(!isset($sectionConfig['rulesets'])) {
@@ -164,13 +164,13 @@ class Configuration {
     }
 
     private function getRulesForRuleset($name, $mainConfig) {
-        $rulsets = $this->getRulesets($mainConfig);
+        $rulesets = $this->getRulesets($mainConfig);
 
-        if(!isset($rulsets[$name])) {
-            throw new UnnownRulesetException('Ruleset "' . $name . '" is not defined.');
+        if(!isset($rulesets[$name])) {
+            throw new UnknownRulesetException('Ruleset "' . $name . '" is not defined.');
         }
 
-        return $rulsets[$name];
+        return $rulesets[$name];
     }
 
     private function getRulesets($mainConfig) {
