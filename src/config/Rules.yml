@@ -134,3 +134,6 @@ Rule definitions:
 
     ValidSslCertificate:
         class: \Frickelbruder\KickOff\Rules\ValidSslCertificate
+
+    XuaCompatible:
+        class: \Frickelbruder\KickOff\Rules\XuaCompatible
