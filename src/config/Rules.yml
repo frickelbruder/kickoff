@@ -129,7 +129,7 @@ Rule definitions:
     ExactlyOneH1TagPresent:
         class: \Frickelbruder\KickOff\Rules\H1TagPresent
         calls:
-            - ["setName", ["Exactly 1 H1-rag present"]]
+            - ["setName", ["Exactly 1 H1-tag present"]]
             - ["allowMultipleTags", [false]]
 
     ValidSslCertificate:
