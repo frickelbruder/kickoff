@@ -43,6 +43,7 @@
         scheme: http
         path: en/home
 
+
 Sections:
     defaultwebsite:
         rules:
@@ -53,7 +54,8 @@ Sections:
             path: pics/image.png
         rules:
             - HttpHeaderHasFarFutureExpiresHeader:
-                threshold: 604800</code></pre>
+                threshold: 604800
+</code></pre>
     <p><small>More complex examples can be found in the example folder in the sources.</small></p>
 
     <h4>
@@ -69,8 +71,9 @@ Sections:
             - ["Accept-Encoding", "gzip"]
         auth:
             username: somename
-            password: somepassword</code></pre>
-    <p>Currently the target as well as default rules can be preconfigured for all sections.<br>
+            password: somepassword
+</code></pre>
+    <p>Currently the target as well as default rules and rulesets can be preconfigured for all sections.<br>
         Obviously, you configure the website, you want to test. Any configuration element you use here, will be used as default for any of the sections urls unless you overwrite them. For more information see the Sections paragraph.
     </p>
     <p>
