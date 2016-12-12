@@ -85,7 +85,7 @@ Rule definitions:
     HttpHeaderHSTSPresent:
         class: \Frickelbruder\KickOff\Rules\HttpHeaderPresent
         calls:
-            - ["setName", ["HTTP Header: Strict-Transport-Security si present"]]
+            - ["setName", ["HTTP Header: Strict-Transport-Security is present"]]
             - ["setHeaderToSearchFor", ["Strict-Transport-Security"]]
 
     HttpHeaderHSTSWithSubdomains:
