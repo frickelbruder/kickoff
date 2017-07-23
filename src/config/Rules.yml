@@ -137,3 +137,6 @@ Rule definitions:
 
     XuaCompatible:
         class: \Frickelbruder\KickOff\Rules\XuaCompatible
+
+    RobotsTxtDoesNotExcludeAll:
+        class: \Frickelbruder\KickOff\Rules\RobotsTxtDoesNotExcludeAll

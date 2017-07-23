@@ -19,6 +19,7 @@ Sections:
             path: robots.txt
         rules:
             - HttpHeaderResourceFound
+            - RobotsTxtDoesNotExcludeAll
 
     favicon.ico:
         target:

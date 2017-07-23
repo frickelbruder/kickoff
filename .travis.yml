@@ -40,3 +40,4 @@ deploy:
   on:
     tags: true
     php: 5.5.9
+    env: dependencies=lowest
