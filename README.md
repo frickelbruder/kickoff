@@ -15,17 +15,17 @@ This tool aims to automate the process of checking your list of requirements sho
 
 KickOff can be integrated into your standard delivery process (such as with Jenkins, Travis CI, etc.) to help maintain your list of requirements after each deployment, not just on launch day. That is why KickOff can be called a continuous website monitoring tool.
 
-##Installation
+## Installation
 
-###Composer
+### Composer
 ```
 php composer.phar require frickelbruder/kickoff
 ```
 
-###Phar
+### Phar
 If you would prefer a precompiled phar-archive, simply download the latest release at https://github.com/frickelbruder/kickoff/releases
 
-##Simple Example
+## Simple Example
 To get started, edit one of the provided files in the `example` directory and change your host where appropriate. Now run the test:
 ```
 ./bin/kickoff.php run example/security.yml
